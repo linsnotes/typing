@@ -416,23 +416,26 @@
     
     <div id="uploadSection">
       <h2>Import Exercise Data</h2>
+
+      <div class="upload-option">
+        <h3>Option 1: Import from Google Sheets</h3>
+        <p class="instruction">Paste your Google Sheets URL below. The default sample link is already pasted. You can click the button to try it out or copy the URL and paste it into your browser to see how to structure your Google Sheet data. Make sure the sheet is public or shared with anyone with the link.</p>
+
+        <input type="text" id="sheetsUrlInput" value="https://docs.google.com/spreadsheets/d/13U28NBgg5YvoYXho-JIWteiuogk8jnqvqKB1t_ODjk0/edit?gid=0#gid=0" placeholder="https://docs.google.com/spreadsheets/d/.../edit?gid=0#gid=0">
+        <div id="loadingIndicator" style="display: none;"><span class="loading"></span> Loading...</div>
+        <p class="instruction">Sheet should have columns for Title and Chinese text.</p>
+        <button id="loadSheetButton" class="btn btn-primary">Import from Google Sheets</button>
+      </div>
       
       <div class="upload-option">
-        <h3>Option 1: Upload CSV File</h3>
+        <h3>Option 2: Upload CSV File</h3>
         <p class="instruction">Upload a CSV file with two columns: Title and Chinese text.</p>
         <label id="file-upload-label" for="csvFileInput">Choose CSV File</label>
         <input type="file" id="csvFileInput" accept=".csv">
         <div id="fileName" class="file-name"></div>
       </div>
       
-      <div class="upload-option">
-        <h3>Option 2: Import from Google Sheets</h3>
-        <p class="instruction">Paste your Google Sheets URL below. Make sure the sheet is public or shared with anyone with the link.</p>
-        <input type="text" id="sheetsUrlInput" placeholder="https://docs.google.com/spreadsheets/d/.../edit?gid=0#gid=0">
-        <div id="loadingIndicator" style="display: none;"><span class="loading"></span> Loading...</div>
-        <p class="instruction">Sheet should have columns for Title and Chinese text.</p>
-        <button id="loadSheetButton" class="btn btn-primary">Import from Google Sheets</button>
-      </div>
+
     </div>
 
     <div id="exerciseSection">
