@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Added viewport meta tag for mobile responsiveness -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinese Typing Exercise</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    /* Section for file upload */
+    #uploadSection {
+      margin-top: 50px;
+      padding: 10px;
+    }
+    /* Exercise section (hidden until file is uploaded) */
+    #exerciseSection {
+      display: none;
+      margin-top: 20px;
+      position: relative;
+      overflow: hidden;
+      height: 150px;
+      padding: 10px;
+    }
+    /* Container that will be shifted left as user types */
+    #scrollContainer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      white-space: nowrap;
+      transition: transform 0.3s ease-out;
+    }
+    .pinyin-box, .char-box {
+      display: inline-block;
+      width: 50px;
+      margin: 0 5px;
+      font-size: 24px;
+    }
+    .char-box {
+      border-bottom: 2px solid #000;
+      height: 40px;
+      line-height: 40px;
+    }
+    #titleDisplay {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    /* Hidden input used to capture keystrokes */
+    #hiddenInput {
+      position: absolute;
+      opacity: 0;
+    }
+    #nextButton {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <div id="uploadSection">
+    <h2>Upload CSV File</h2>
+    <input type="file" id="csvFileInput" accept=".csv">
+  </div>
+
+  <div id="exerciseSection">
+    <div id="titleDisplay"></div>
+    <div id="scrollWrapper" style="position: relative; width: 100%; height: 100px; overflow: hidden;">
+      <div id="scrollContainer">
+        <div id="pinyinRow"></div>
+        <div id="charRow" style="margin-top: 20px;"></div>
+      </div>
+    </div>
+    <!-- A hidden text input that always keeps focus to capture the keystrokes -->
+    <input type="text" id="hiddenInput" autofocus>
+  </div>
+
+  <button id="nextButton" style="display:none;">Next Exercise</button>
+
+  <!-- Include the free pinyin-pro library -->
+  <script src="https://unpkg.com/pinyin-pro@2.9.2/dist/index.min.js"></script>
+  <script>
+    let exercises = [];
+    let currentExerciseIndex = 0;
+    let currentCharIndex = 0;
+    const letterWidth = 60; // approximate width (box + margin)
+    const csvFileInput = document.getElementById('csvFileInput');
+    const uploadSection = document.getElementById('uploadSection');
+    const exerciseSection = document.getElementById('exerciseSection');
+    const titleDisplay = document.getElementById('titleDisplay');
+    const pinyinRow = document.getElementById('pinyinRow');
+    const charRow = document.getElementById('charRow');
+    const scrollContainer = document.getElementById('scrollContainer');
+    const hiddenInput = document.getElementById('hiddenInput');
+    const nextButton = document.getElementById('nextButton');
+
+    // Handle file selection
+    csvFileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        parseCSV(text);
+      };
+      reader.readAsText(file);
+    });
+
+    // A simple CSV parser (assumes no commas in the text fields)
+    function parseCSV(text) {
+      const lines = text.split('\n').filter(line => line.trim() !== '');
+      for (let line of lines) {
+        const parts = line.split(',');
+        if (parts.length >= 2) {
+          exercises.push({
+            title: parts[0].trim(),
+            text: parts[1].trim()
+          });
+        }
+      }
+      if (exercises.length > 0) {
+        startExercise();
+      }
+    }
+
+    // Start the first exercise
+    function startExercise() {
+      uploadSection.style.display = 'none';
+      exerciseSection.style.display = 'block';
+      nextButton.style.display = 'none';
+      currentCharIndex = 0;
+      loadExercise(exercises[currentExerciseIndex]);
+      hiddenInput.focus();
+    }
+
+    // Load an exercise by displaying its title, pinyin, and empty boxes
+    function loadExercise(exercise) {
+      titleDisplay.textContent = exercise.title;
+      // Generate pinyin for the Chinese text
+      const pinyinText = pinyinPro.pinyin(exercise.text, { toneType: 'marks' });
+      // Clear any previous content
+      pinyinRow.innerHTML = '';
+      charRow.innerHTML = '';
+      // Split pinyin by spaces (assumes one syllable per character)
+      const pinyinArr = pinyinText.split(' ');
+      for (let i = 0; i < exercise.text.length; i++) {
+        // Create a span for the pinyin syllable
+        const pinyinSpan = document.createElement('span');
+        pinyinSpan.className = 'pinyin-box';
+        pinyinSpan.textContent = pinyinArr[i] || '';
+        pinyinRow.appendChild(pinyinSpan);
+
+        // Create a span for the Chinese character (empty initially)
+        const charSpan = document.createElement('span');
+        charSpan.className = 'char-box';
+        charSpan.dataset.expected = exercise.text[i];
+        charSpan.textContent = ''; 
+        charRow.appendChild(charSpan);
+      }
+      // Reset scrolling so that the first character is centered
+      updateScroll();
+    }
+
+    // Update the leftward translation so that the current letter is centered.
+    function updateScroll() {
+      const containerWidth = document.getElementById('scrollWrapper').offsetWidth;
+      const offset = containerWidth / 2 - letterWidth / 2;
+      const translateX = offset - currentCharIndex * letterWidth;
+      scrollContainer.style.transform = 'translateX(' + translateX + 'px)';
+    }
+
+    // Listen for user input (hidden input field)
+    hiddenInput.addEventListener('input', function(e) {
+      const inputVal = e.target.value;
+      if (!inputVal) return;
+      const charBoxes = document.querySelectorAll('.char-box');
+      if (currentCharIndex >= charBoxes.length) {
+        e.target.value = '';
+        return;
+      }
+      const expectedChar = charBoxes[currentCharIndex].dataset.expected;
+      // If the typed character matches the expected character…
+      if (inputVal === expectedChar) {
+        charBoxes[currentCharIndex].textContent = expectedChar;
+        currentCharIndex++;
+        updateScroll();
+        e.target.value = '';
+        // If finished, show the next button
+        if (currentCharIndex === charBoxes.length) {
+          nextButton.style.display = 'block';
+          hiddenInput.blur();
+        }
+      } else {
+        // On wrong input, simply clear the input.
+        e.target.value = '';
+      }
+    });
+
+    // Move to the next exercise (if available)
+    nextButton.addEventListener('click', function() {
+      if (currentExerciseIndex < exercises.length - 1) {
+        currentExerciseIndex++;
+        currentCharIndex = 0;
+        loadExercise(exercises[currentExerciseIndex]);
+        nextButton.style.display = 'none';
+        hiddenInput.focus();
+      } else {
+        alert('No more exercises.');
+      }
+    });
+
+    // Ensure the hidden input remains focused
+    document.addEventListener('click', function() {
+      hiddenInput.focus();
+    });
+  </script>
+</body>
+</html>
