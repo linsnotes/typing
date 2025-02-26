@@ -2,31 +2,52 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- Added viewport meta tag for mobile responsiveness -->
+  <!-- Mobile responsiveness -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chinese Typing Exercise</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      text-align: center;
+      background-color: #f4f4f4;
       margin: 0;
       padding: 0;
+      text-align: center;
     }
-    /* Section for file upload */
+    /* Upload section styling */
     #uploadSection {
       margin-top: 50px;
       padding: 10px;
     }
-    /* Exercise section (hidden until file is uploaded) */
+    /* Exercise section styling */
     #exerciseSection {
       display: none;
-      margin-top: 20px;
+      margin: 20px 10px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
       position: relative;
       overflow: hidden;
-      height: 150px;
-      padding: 10px;
     }
-    /* Container that will be shifted left as user types */
+    #progressDisplay {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #555;
+    }
+    #titleDisplay {
+      font-size: 24px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    /* Scroll wrapper styling */
+    #scrollWrapper {
+      position: relative;
+      width: 100%;
+      height: 100px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    /* Container that moves left as user types */
     #scrollContainer {
       position: absolute;
       left: 0;
@@ -45,19 +66,33 @@
       height: 40px;
       line-height: 40px;
     }
-    #titleDisplay {
-      font-size: 28px;
-      margin-bottom: 20px;
+    /* Highlight the current character */
+    .current-char {
+      border-bottom-color: #28a745;
     }
-    /* Hidden input used to capture keystrokes */
+    /* Hidden input to capture keystrokes */
     #hiddenInput {
       position: absolute;
       opacity: 0;
     }
+    #feedbackMessage {
+      font-size: 18px;
+      margin-top: 10px;
+      height: 24px;
+    }
+    /* Next button styling */
     #nextButton {
       margin-top: 20px;
       padding: 10px 20px;
       font-size: 18px;
+      border: none;
+      border-radius: 4px;
+      background-color: #28a745;
+      color: #fff;
+      cursor: pointer;
+    }
+    #nextButton:hover {
+      background-color: #218838;
     }
   </style>
 </head>
@@ -68,15 +103,17 @@
   </div>
 
   <div id="exerciseSection">
+    <div id="progressDisplay"></div>
     <div id="titleDisplay"></div>
-    <div id="scrollWrapper" style="position: relative; width: 100%; height: 100px; overflow: hidden;">
+    <div id="scrollWrapper">
       <div id="scrollContainer">
         <div id="pinyinRow"></div>
         <div id="charRow" style="margin-top: 20px;"></div>
       </div>
     </div>
-    <!-- A hidden text input that always keeps focus to capture the keystrokes -->
+    <!-- Hidden text input to capture keystrokes -->
     <input type="text" id="hiddenInput" autofocus>
+    <div id="feedbackMessage"></div>
   </div>
 
   <button id="nextButton" style="display:none;">Next Exercise</button>
@@ -88,17 +125,34 @@
     let currentExerciseIndex = 0;
     let currentCharIndex = 0;
     const letterWidth = 60; // approximate width (box + margin)
+
     const csvFileInput = document.getElementById('csvFileInput');
     const uploadSection = document.getElementById('uploadSection');
     const exerciseSection = document.getElementById('exerciseSection');
+    const progressDisplay = document.getElementById('progressDisplay');
     const titleDisplay = document.getElementById('titleDisplay');
     const pinyinRow = document.getElementById('pinyinRow');
     const charRow = document.getElementById('charRow');
     const scrollContainer = document.getElementById('scrollContainer');
     const hiddenInput = document.getElementById('hiddenInput');
+    const feedbackMessage = document.getElementById('feedbackMessage');
     const nextButton = document.getElementById('nextButton');
 
-    // Handle file selection
+    // Show feedback messages (for correct/wrong inputs)
+    function showFeedback(message, isError = false) {
+      feedbackMessage.textContent = message;
+      feedbackMessage.style.color = isError ? 'red' : 'green';
+      setTimeout(() => {
+        feedbackMessage.textContent = '';
+      }, 1500);
+    }
+
+    // Update progress indicator
+    function updateProgress() {
+      progressDisplay.textContent = `Exercise ${currentExerciseIndex + 1} of ${exercises.length}`;
+    }
+
+    // Handle CSV file selection and parsing
     csvFileInput.addEventListener('change', function(e) {
       const file = e.target.files[0];
       if (!file) return;
@@ -110,7 +164,7 @@
       reader.readAsText(file);
     });
 
-    // A simple CSV parser (assumes no commas in the text fields)
+    // Simple CSV parser (assumes no commas in fields)
     function parseCSV(text) {
       const lines = text.split('\n').filter(line => line.trim() !== '');
       for (let line of lines) {
@@ -124,48 +178,58 @@
       }
       if (exercises.length > 0) {
         startExercise();
+      } else {
+        alert('No valid exercises found in CSV.');
       }
     }
 
-    // Start the first exercise
+    // Begin the first exercise
     function startExercise() {
       uploadSection.style.display = 'none';
       exerciseSection.style.display = 'block';
       nextButton.style.display = 'none';
+      currentExerciseIndex = 0;
       currentCharIndex = 0;
+      updateProgress();
       loadExercise(exercises[currentExerciseIndex]);
       hiddenInput.focus();
     }
 
-    // Load an exercise by displaying its title, pinyin, and empty boxes
+    // Load an exercise: set title, generate pinyin and create empty boxes
     function loadExercise(exercise) {
       titleDisplay.textContent = exercise.title;
       // Generate pinyin for the Chinese text
       const pinyinText = pinyinPro.pinyin(exercise.text, { toneType: 'marks' });
-      // Clear any previous content
       pinyinRow.innerHTML = '';
       charRow.innerHTML = '';
-      // Split pinyin by spaces (assumes one syllable per character)
+      // Split pinyin assuming one syllable per character
       const pinyinArr = pinyinText.split(' ');
       for (let i = 0; i < exercise.text.length; i++) {
-        // Create a span for the pinyin syllable
         const pinyinSpan = document.createElement('span');
         pinyinSpan.className = 'pinyin-box';
         pinyinSpan.textContent = pinyinArr[i] || '';
         pinyinRow.appendChild(pinyinSpan);
 
-        // Create a span for the Chinese character (empty initially)
         const charSpan = document.createElement('span');
         charSpan.className = 'char-box';
         charSpan.dataset.expected = exercise.text[i];
-        charSpan.textContent = ''; 
+        charSpan.textContent = '';
         charRow.appendChild(charSpan);
       }
-      // Reset scrolling so that the first character is centered
+      highlightCurrentChar();
       updateScroll();
     }
 
-    // Update the leftward translation so that the current letter is centered.
+    // Highlight the current character box
+    function highlightCurrentChar() {
+      const charBoxes = document.querySelectorAll('.char-box');
+      charBoxes.forEach(box => box.classList.remove('current-char'));
+      if (charBoxes[currentCharIndex]) {
+        charBoxes[currentCharIndex].classList.add('current-char');
+      }
+    }
+
+    // Adjust the scrolling so that the current character stays centered
     function updateScroll() {
       const containerWidth = document.getElementById('scrollWrapper').offsetWidth;
       const offset = containerWidth / 2 - letterWidth / 2;
@@ -173,7 +237,7 @@
       scrollContainer.style.transform = 'translateX(' + translateX + 'px)';
     }
 
-    // Listen for user input (hidden input field)
+    // Listen for user input from the hidden input field
     hiddenInput.addEventListener('input', function(e) {
       const inputVal = e.target.value;
       if (!inputVal) return;
@@ -183,28 +247,30 @@
         return;
       }
       const expectedChar = charBoxes[currentCharIndex].dataset.expected;
-      // If the typed character matches the expected character…
       if (inputVal === expectedChar) {
         charBoxes[currentCharIndex].textContent = expectedChar;
+        showFeedback('Correct!');
         currentCharIndex++;
+        highlightCurrentChar();
         updateScroll();
         e.target.value = '';
-        // If finished, show the next button
         if (currentCharIndex === charBoxes.length) {
+          showFeedback('Exercise Completed!', false);
           nextButton.style.display = 'block';
           hiddenInput.blur();
         }
       } else {
-        // On wrong input, simply clear the input.
+        showFeedback('Incorrect, try again!', true);
         e.target.value = '';
       }
     });
 
-    // Move to the next exercise (if available)
+    // Handle moving to the next exercise
     nextButton.addEventListener('click', function() {
       if (currentExerciseIndex < exercises.length - 1) {
         currentExerciseIndex++;
         currentCharIndex = 0;
+        updateProgress();
         loadExercise(exercises[currentExerciseIndex]);
         nextButton.style.display = 'none';
         hiddenInput.focus();
@@ -213,7 +279,7 @@
       }
     });
 
-    // Ensure the hidden input remains focused
+    // Keep the hidden input focused for consistent typing
     document.addEventListener('click', function() {
       hiddenInput.focus();
     });
