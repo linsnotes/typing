@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <!-- Mobile responsiveness -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Chinese Typing Exercise</title>
   <style>
@@ -13,12 +12,10 @@
       padding: 0;
       text-align: center;
     }
-    /* Upload section styling */
     #uploadSection {
       margin-top: 50px;
       padding: 10px;
     }
-    /* Exercise section styling */
     #exerciseSection {
       display: none;
       margin: 20px 10px;
@@ -26,8 +23,6 @@
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      position: relative;
-      overflow: hidden;
     }
     #progressDisplay {
       font-size: 18px;
@@ -39,20 +34,13 @@
       margin-bottom: 10px;
       font-weight: bold;
     }
-    #instructionMessage {
-      font-size: 18px;
-      margin-bottom: 10px;
-      color: #333;
-    }
-    /* Scroll wrapper styling */
     #scrollWrapper {
       position: relative;
       width: 100%;
-      height: 100px;
+      height: 120px;
       overflow: hidden;
-      margin-bottom: 10px;
+      margin: 20px 0;
     }
-    /* Container that moves left as user types */
     #scrollContainer {
       position: absolute;
       left: 0;
@@ -62,49 +50,46 @@
     }
     .pinyin-box, .char-box {
       display: inline-block;
-      width: 50px;
+      width: 60px;
       margin: 0 5px;
       font-size: 24px;
+      transition: color 0.3s;
     }
     .char-box {
       border-bottom: 2px solid #000;
       height: 40px;
       line-height: 40px;
     }
-    /* Highlight the current character */
     .current-char {
       border-bottom-color: #28a745;
     }
-    /* Visible text input to capture keystrokes */
+    .correct-pinyin {
+      color: #28a745;
+      font-weight: bold;
+    }
     #hiddenInput {
       width: 80%;
       max-width: 300px;
       font-size: 24px;
-      text-align: center;
       margin: 20px auto;
       padding: 10px;
       border: 2px solid #28a745;
       border-radius: 4px;
-      display: block;
     }
     #feedbackMessage {
       font-size: 18px;
-      margin-top: 10px;
       height: 24px;
+      margin: 10px 0;
     }
-    /* Next button styling */
     #nextButton {
-      margin-top: 20px;
+      margin: 20px 0;
       padding: 10px 20px;
       font-size: 18px;
+      background-color: #28a745;
+      color: white;
       border: none;
       border-radius: 4px;
-      background-color: #28a745;
-      color: #fff;
       cursor: pointer;
-    }
-    #nextButton:hover {
-      background-color: #218838;
     }
   </style>
 </head>
@@ -117,186 +102,164 @@
   <div id="exerciseSection">
     <div id="progressDisplay"></div>
     <div id="titleDisplay"></div>
-    <div id="instructionMessage">Type the Chinese characters corresponding to the pinyin above</div>
     <div id="scrollWrapper">
       <div id="scrollContainer">
         <div id="pinyinRow"></div>
         <div id="charRow" style="margin-top: 20px;"></div>
       </div>
     </div>
-    <!-- Visible text input to capture keystrokes -->
     <input type="text" id="hiddenInput" placeholder="Type here..." autofocus>
     <div id="feedbackMessage"></div>
   </div>
 
   <button id="nextButton" style="display:none;">Next Exercise</button>
 
-  <!-- Include the free pinyin-pro library -->
   <script src="https://unpkg.com/pinyin-pro@2.9.2/dist/index.min.js"></script>
   <script>
     let exercises = [];
     let currentExerciseIndex = 0;
     let currentCharIndex = 0;
-    const letterWidth = 60; // approximate width (box + margin)
+    let isComposing = false;
 
-    const csvFileInput = document.getElementById('csvFileInput');
-    const uploadSection = document.getElementById('uploadSection');
-    const exerciseSection = document.getElementById('exerciseSection');
-    const progressDisplay = document.getElementById('progressDisplay');
-    const titleDisplay = document.getElementById('titleDisplay');
-    const instructionMessage = document.getElementById('instructionMessage');
-    const pinyinRow = document.getElementById('pinyinRow');
-    const charRow = document.getElementById('charRow');
-    const scrollContainer = document.getElementById('scrollContainer');
-    const hiddenInput = document.getElementById('hiddenInput');
-    const feedbackMessage = document.getElementById('feedbackMessage');
-    const nextButton = document.getElementById('nextButton');
+    const elements = {
+      csvFileInput: document.getElementById('csvFileInput'),
+      uploadSection: document.getElementById('uploadSection'),
+      exerciseSection: document.getElementById('exerciseSection'),
+      progressDisplay: document.getElementById('progressDisplay'),
+      titleDisplay: document.getElementById('titleDisplay'),
+      pinyinRow: document.getElementById('pinyinRow'),
+      charRow: document.getElementById('charRow'),
+      scrollContainer: document.getElementById('scrollContainer'),
+      hiddenInput: document.getElementById('hiddenInput'),
+      feedbackMessage: document.getElementById('feedbackMessage'),
+      nextButton: document.getElementById('nextButton')
+    };
 
-    // Show feedback messages (for correct/wrong inputs)
-    function showFeedback(message, isError = false) {
-      feedbackMessage.textContent = message;
-      feedbackMessage.style.color = isError ? 'red' : 'green';
-      setTimeout(() => {
-        feedbackMessage.textContent = '';
-      }, 1500);
-    }
-
-    // Update progress indicator
-    function updateProgress() {
-      progressDisplay.textContent = `Exercise ${currentExerciseIndex + 1} of ${exercises.length}`;
-    }
-
-    // Handle CSV file selection and parsing
-    csvFileInput.addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const text = e.target.result;
-        parseCSV(text);
-      };
-      reader.readAsText(file);
-    });
-
-    // Simple CSV parser (assumes no commas in fields)
+    // Improved CSV parser with quoted field support
     function parseCSV(text) {
       const lines = text.split('\n').filter(line => line.trim() !== '');
-      for (let line of lines) {
-        const parts = line.split(',');
-        if (parts.length >= 2) {
-          exercises.push({
-            title: parts[0].trim(),
-            text: parts[1].trim()
-          });
-        }
-      }
-      if (exercises.length > 0) {
-        startExercise();
-      } else {
-        alert('No valid exercises found in CSV.');
-      }
+      exercises = lines.map(line => {
+        const matches = line.match(/(?:,|\n|^)("(?:(?:"")*[^"]*)*"|[^",\n]*|(?!\n)|$)/g);
+        return matches.map(field => field.replace(/^"|"$/g, '').trim());
+      }).filter(fields => fields.length >= 2)
+        .map(fields => ({ title: fields[0], text: fields[1] }));
+      
+      if (exercises.length) startExercise();
+      else alert('Invalid CSV format');
     }
 
-    // Begin the first exercise
     function startExercise() {
-      uploadSection.style.display = 'none';
-      exerciseSection.style.display = 'block';
-      nextButton.style.display = 'none';
-      currentExerciseIndex = 0;
+      elements.uploadSection.style.display = 'none';
+      elements.exerciseSection.style.display = 'block';
+      elements.nextButton.style.display = 'none';
       currentCharIndex = 0;
-      updateProgress();
       loadExercise(exercises[currentExerciseIndex]);
-      hiddenInput.focus();
     }
 
-    // Load an exercise: set title, generate pinyin, and create empty boxes for each character
     function loadExercise(exercise) {
-      titleDisplay.textContent = exercise.title;
-      // Generate pinyin for the Chinese text
-      const pinyinText = pinyinPro.pinyin(exercise.text, { toneType: 'marks' });
-      pinyinRow.innerHTML = '';
-      charRow.innerHTML = '';
-      // Split pinyin assuming one syllable per character
-      const pinyinArr = pinyinText.split(' ');
-      for (let i = 0; i < exercise.text.length; i++) {
+      elements.titleDisplay.textContent = exercise.title;
+      elements.progressDisplay.textContent = `Exercise ${currentExerciseIndex + 1} of ${exercises.length}`;
+      
+      // Generate accurate pinyin array
+      const pinyinArr = pinyinPro.pinyin(exercise.text, { 
+        toneType: 'marks',
+        type: 'array'
+      });
+
+      elements.pinyinRow.innerHTML = '';
+      elements.charRow.innerHTML = '';
+
+      exercise.text.split('').forEach((char, i) => {
         const pinyinSpan = document.createElement('span');
         pinyinSpan.className = 'pinyin-box';
         pinyinSpan.textContent = pinyinArr[i] || '';
-        pinyinRow.appendChild(pinyinSpan);
+        elements.pinyinRow.appendChild(pinyinSpan);
 
         const charSpan = document.createElement('span');
         charSpan.className = 'char-box';
-        charSpan.dataset.expected = exercise.text[i];
-        charSpan.textContent = '';
-        charRow.appendChild(charSpan);
-      }
-      highlightCurrentChar();
-      updateScroll();
+        charSpan.dataset.expected = char;
+        elements.charRow.appendChild(charSpan);
+      });
+
+      updateInterface();
     }
 
-    // Highlight the current character box
-    function highlightCurrentChar() {
+    function updateInterface() {
+      document.querySelectorAll('.char-box').forEach(box => 
+        box.classList.remove('current-char'));
+      
       const charBoxes = document.querySelectorAll('.char-box');
-      charBoxes.forEach(box => box.classList.remove('current-char'));
       if (charBoxes[currentCharIndex]) {
         charBoxes[currentCharIndex].classList.add('current-char');
       }
+
+      // Calculate dynamic scroll position
+      const containerWidth = elements.scrollContainer.parentElement.offsetWidth;
+      const boxWidth = charBoxes[0]?.offsetWidth || 60;
+      const offset = containerWidth/2 - boxWidth/2;
+      elements.scrollContainer.style.transform = 
+        `translateX(${offset - currentCharIndex * (boxWidth + 10)}px)`;
     }
 
-    // Adjust the scrolling so that the current character stays centered
-    function updateScroll() {
-      const containerWidth = document.getElementById('scrollWrapper').offsetWidth;
-      const offset = containerWidth / 2 - letterWidth / 2;
-      const translateX = offset - currentCharIndex * letterWidth;
-      scrollContainer.style.transform = 'translateX(' + translateX + 'px)';
-    }
+    // Handle IME composition
+    elements.hiddenInput.addEventListener('compositionstart', () => isComposing = true);
+    elements.hiddenInput.addEventListener('compositionend', () => isComposing = false);
 
-    // Listen for user input from the visible input field
-    hiddenInput.addEventListener('input', function(e) {
-      const inputVal = e.target.value;
-      if (!inputVal) return;
+    elements.hiddenInput.addEventListener('input', function(e) {
+      if (isComposing) return;
+      
+      const inputChar = e.target.value;
+      if (!inputChar) return;
+
+      e.target.value = '';
       const charBoxes = document.querySelectorAll('.char-box');
-      if (currentCharIndex >= charBoxes.length) {
-        e.target.value = '';
-        return;
-      }
-      const expectedChar = charBoxes[currentCharIndex].dataset.expected;
-      if (inputVal === expectedChar) {
-        charBoxes[currentCharIndex].textContent = expectedChar;
-        showFeedback('Correct!');
+      if (currentCharIndex >= charBoxes.length) return;
+
+      const expected = charBoxes[currentCharIndex].dataset.expected;
+      if (inputChar === expected) {
+        charBoxes[currentCharIndex].textContent = expected;
+        document.querySelectorAll('.pinyin-box')[currentCharIndex].classList.add('correct-pinyin');
         currentCharIndex++;
-        highlightCurrentChar();
-        updateScroll();
-        e.target.value = '';
+        
         if (currentCharIndex === charBoxes.length) {
-          showFeedback('Exercise Completed!', false);
-          nextButton.style.display = 'block';
-          hiddenInput.blur();
+          elements.feedbackMessage.textContent = 'Completed!';
+          elements.nextButton.style.display = 'block';
+          this.blur();
+        } else {
+          elements.feedbackMessage.textContent = '✓ Correct';
+          elements.feedbackMessage.style.color = 'green';
         }
+        
+        updateInterface();
       } else {
-        showFeedback('Incorrect, try again!', true);
-        e.target.value = '';
+        elements.feedbackMessage.textContent = '✗ Try Again';
+        elements.feedbackMessage.style.color = 'red';
       }
+      
+      setTimeout(() => elements.feedbackMessage.textContent = '', 1000);
     });
 
-    // Handle moving to the next exercise
-    nextButton.addEventListener('click', function() {
+    elements.nextButton.addEventListener('click', () => {
       if (currentExerciseIndex < exercises.length - 1) {
         currentExerciseIndex++;
-        currentCharIndex = 0;
-        updateProgress();
-        loadExercise(exercises[currentExerciseIndex]);
-        nextButton.style.display = 'none';
-        hiddenInput.focus();
+        startExercise();
+        elements.nextButton.style.display = 'none';
+        elements.hiddenInput.focus();
       } else {
-        alert('No more exercises.');
+        alert('All exercises completed!');
       }
     });
 
-    // Ensure the input remains focused when clicking anywhere on the document
-    document.addEventListener('click', function() {
-      hiddenInput.focus();
+    elements.csvFileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      
+      const reader = new FileReader();
+      reader.onload = e => parseCSV(e.target.result);
+      reader.readAsText(file);
     });
+
+    document.addEventListener('click', () => elements.hiddenInput.focus());
   </script>
 </body>
 </html>
