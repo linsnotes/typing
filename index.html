@@ -36,8 +36,13 @@
     }
     #titleDisplay {
       font-size: 24px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       font-weight: bold;
+    }
+    #instructionMessage {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
     }
     /* Scroll wrapper styling */
     #scrollWrapper {
@@ -70,10 +75,17 @@
     .current-char {
       border-bottom-color: #28a745;
     }
-    /* Hidden input to capture keystrokes */
+    /* Visible text input to capture keystrokes */
     #hiddenInput {
-      position: absolute;
-      opacity: 0;
+      width: 80%;
+      max-width: 300px;
+      font-size: 24px;
+      text-align: center;
+      margin: 20px auto;
+      padding: 10px;
+      border: 2px solid #28a745;
+      border-radius: 4px;
+      display: block;
     }
     #feedbackMessage {
       font-size: 18px;
@@ -105,14 +117,15 @@
   <div id="exerciseSection">
     <div id="progressDisplay"></div>
     <div id="titleDisplay"></div>
+    <div id="instructionMessage">Type the Chinese characters corresponding to the pinyin above</div>
     <div id="scrollWrapper">
       <div id="scrollContainer">
         <div id="pinyinRow"></div>
         <div id="charRow" style="margin-top: 20px;"></div>
       </div>
     </div>
-    <!-- Hidden text input to capture keystrokes -->
-    <input type="text" id="hiddenInput" autofocus>
+    <!-- Visible text input to capture keystrokes -->
+    <input type="text" id="hiddenInput" placeholder="Type here..." autofocus>
     <div id="feedbackMessage"></div>
   </div>
 
@@ -131,6 +144,7 @@
     const exerciseSection = document.getElementById('exerciseSection');
     const progressDisplay = document.getElementById('progressDisplay');
     const titleDisplay = document.getElementById('titleDisplay');
+    const instructionMessage = document.getElementById('instructionMessage');
     const pinyinRow = document.getElementById('pinyinRow');
     const charRow = document.getElementById('charRow');
     const scrollContainer = document.getElementById('scrollContainer');
@@ -195,7 +209,7 @@
       hiddenInput.focus();
     }
 
-    // Load an exercise: set title, generate pinyin and create empty boxes
+    // Load an exercise: set title, generate pinyin, and create empty boxes for each character
     function loadExercise(exercise) {
       titleDisplay.textContent = exercise.title;
       // Generate pinyin for the Chinese text
@@ -237,7 +251,7 @@
       scrollContainer.style.transform = 'translateX(' + translateX + 'px)';
     }
 
-    // Listen for user input from the hidden input field
+    // Listen for user input from the visible input field
     hiddenInput.addEventListener('input', function(e) {
       const inputVal = e.target.value;
       if (!inputVal) return;
@@ -279,7 +293,7 @@
       }
     });
 
-    // Keep the hidden input focused for consistent typing
+    // Ensure the input remains focused when clicking anywhere on the document
     document.addEventListener('click', function() {
       hiddenInput.focus();
     });
