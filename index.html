@@ -6,40 +6,100 @@
   <title>Chinese Typing Exercise</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
       margin: 0;
       padding: 0;
       text-align: center;
+      color: #333;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 30px;
+      color: #28a745;
     }
     #uploadSection {
-      margin-top: 50px;
-      padding: 10px;
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .upload-option {
+      margin-bottom: 30px;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #e9ecef;
+    }
+    .upload-option h3 {
+      margin-top: 0;
+      color: #28a745;
+    }
+    #file-upload-label {
+      display: inline-block;
+      padding: 12px 20px;
+      background-color: #28a745;
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    #csvFileInput {
+      display: none;
+    }
+    #sheetsUrlInput {
+      width: 70%;
+      padding: 12px;
+      margin: 10px auto;
+      border: 1px solid #ced4da;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    #loadSheetButton {
+      padding: 12px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
     }
     #exerciseSection {
       display: none;
-      margin: 20px 10px;
-      padding: 20px;
+      margin: 20px 0;
+      padding: 30px;
       background-color: #fff;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     }
     #progressDisplay {
       font-size: 18px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       color: #555;
     }
     #titleDisplay {
       font-size: 24px;
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       font-weight: bold;
+      color: #333;
     }
     #scrollWrapper {
       position: relative;
       width: 100%;
-      height: 120px;
+      height: 140px;
+      margin: 30px 0 10px 0;
+      background-color: #f8f9fa;
+      border-radius: 8px 8px 0 0;
+      padding: 10px 0;
       overflow: hidden;
-      margin: 20px 0;
     }
     #scrollContainer {
       position: absolute;
@@ -47,85 +107,235 @@
       top: 0;
       white-space: nowrap;
       transition: transform 0.3s ease-out;
+      padding: 10px;
+    }
+    #scrollbarContainer {
+      position: relative;
+      width: 100%;
+      height: 20px;
+      background-color: #e9ecef;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    #scrollbar {
+      position: absolute;
+      height: 100%;
+      background-color: #adb5bd;
+      border-radius: 0 0 8px 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    #scrollbar:hover {
+      background-color: #6c757d;
+    }
+    #scrollbar:active {
+      background-color: #495057;
     }
     .pinyin-box, .char-box {
       display: inline-block;
       width: 60px;
-      margin: 0 5px;
-      font-size: 24px;
-      transition: color 0.3s;
+      margin: 0 8px;
+      font-size: 26px;
+      transition: all 0.3s;
     }
     .char-box {
-      border-bottom: 2px solid #000;
-      height: 40px;
-      line-height: 40px;
+      border-bottom: 2px solid #ddd;
+      height: 50px;
+      line-height: 50px;
     }
     .current-char {
       border-bottom-color: #28a745;
+      background-color: rgba(40, 167, 69, 0.1);
+      border-radius: 4px;
+      transform: scale(1.1);
     }
     .correct-pinyin {
       color: #28a745;
       font-weight: bold;
+    }
+    .completed-char {
+      color: #6c757d;
     }
     #hiddenInput {
       width: 80%;
       max-width: 300px;
       font-size: 24px;
       margin: 20px auto;
-      padding: 10px;
+      padding: 12px;
       border: 2px solid #28a745;
-      border-radius: 4px;
+      border-radius: 8px;
+      outline: none;
+      background-color: #f8f9fa;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
     #feedbackMessage {
-      font-size: 18px;
-      height: 24px;
-      margin: 10px 0;
+      font-size: 20px;
+      height: 30px;
+      margin: 15px 0;
+      font-weight: bold;
     }
-    button {
+    .btn {
       margin: 20px 10px;
-      padding: 10px 20px;
+      padding: 12px 24px;
       font-size: 18px;
-      background-color: #28a745;
       color: white;
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
       cursor: pointer;
+      transition: all 0.2s;
+      font-weight: bold;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .btn:active {
+      transform: translateY(1px);
+    }
+    .btn-primary {
+      background-color: #28a745;
+    }
+    .btn-warning {
+      background-color: #ffc107;
+      color: #333;
+    }
+    .btn-secondary {
+      background-color: #6c757d;
+    }
+    .btn-reset {
+      background-color: #17a2b8;
+    }
+    .instruction {
+      margin: 20px 0;
+      font-size: 16px;
+      color: #6c757d;
+    }
+    .file-name {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #6c757d;
+    }
+    .error {
+      animation: shake 0.5s;
+    }
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(40, 167, 69, 0.3);
+      border-radius: 50%;
+      border-top-color: #28a745;
+      animation: spin 1s ease-in-out infinite;
+      margin-left: 10px;
+      vertical-align: middle;
+    }
+    .keyboard-shortcut {
+      display: inline-block;
+      padding: 2px 8px;
+      background-color: #e9ecef;
+      border-radius: 4px;
+      font-size: 14px;
+      margin: 0 4px;
+      color: #495057;
+      border: 1px solid #ced4da;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @media (max-width: 768px) {
+      .pinyin-box, .char-box {
+        width: 50px;
+        font-size: 22px;
+      }
+      .char-box {
+        height: 40px;
+        line-height: 40px;
+      }
+      .btn {
+        padding: 10px 18px;
+        font-size: 16px;
+        margin: 10px 5px;
+      }
+      #sheetsUrlInput {
+        width: 90%;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="uploadSection">
-    <h2>Upload CSV File</h2>
-    <input type="file" id="csvFileInput" accept=".csv">
-  </div>
-
-  <div id="exerciseSection">
-    <div id="progressDisplay"></div>
-    <div id="titleDisplay"></div>
-    <div id="scrollWrapper">
-      <div id="scrollContainer">
-        <div id="pinyinRow"></div>
-        <div id="charRow" style="margin-top: 20px;"></div>
+  <div class="container">
+    <h1>Chinese Typing Exercise</h1>
+    
+    <div id="uploadSection">
+      <h2>Import Exercise Data</h2>
+      
+      <div class="upload-option">
+        <h3>Option 1: Upload CSV File</h3>
+        <p class="instruction">Upload a CSV file with two columns: Title and Chinese text.</p>
+        <label id="file-upload-label" for="csvFileInput">Choose CSV File</label>
+        <input type="file" id="csvFileInput" accept=".csv">
+        <div id="fileName" class="file-name"></div>
+      </div>
+      
+      <div class="upload-option">
+        <h3>Option 2: Import from Google Sheets</h3>
+        <p class="instruction">Paste your Google Sheets URL below. Make sure the sheet is public or shared with anyone with the link.</p>
+        <input type="text" id="sheetsUrlInput" placeholder="https://docs.google.com/spreadsheets/d/..." />
+        <div id="loadingIndicator" style="display: none;"><span class="loading"></span> Loading...</div>
+        <p class="instruction">Sheet should have columns for Title and Chinese text.</p>
+        <button id="loadSheetButton">Import from Google Sheets</button>
       </div>
     </div>
-    <input type="text" id="hiddenInput" placeholder="Type here..." autofocus>
-    <div id="feedbackMessage"></div>
+
+    <div id="exerciseSection">
+      <div id="progressDisplay"></div>
+      <div id="titleDisplay"></div>
+      <div id="scrollWrapper">
+        <div id="scrollContainer">
+          <div id="pinyinRow"></div>
+          <div id="charRow" style="margin-top: 20px;"></div>
+        </div>
+      </div>
+      <div id="scrollbarContainer">
+        <div id="scrollbar"></div>
+      </div>
+      <input type="text" id="hiddenInput" placeholder="Type here..." autofocus>
+      <div id="feedbackMessage"></div>
+      <p class="instruction">Type the Chinese characters or press <span class="keyboard-shortcut">Space</span> to skip a character. Use the scrollbar to navigate.</p>
+    </div>
+
+    <div id="buttonContainer">
+      <button id="restartButton" class="btn btn-reset" style="display:none;">Restart Exercise</button>
+      <button id="nextButton" class="btn btn-primary" style="display:none;">Next Exercise</button>
+      <button id="returnButton" class="btn btn-secondary" style="display:none;">Return to Upload</button>
+    </div>
   </div>
 
-  <div>
-    <button id="nextButton" style="display:none;">Next Exercise</button>
-    <button id="returnButton" style="display:none;">Return to Landing Page</button>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/pinyin-pro?v=1.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.13.2/dist/index.js"></script>
   <script>
     let exercises = [];
     let currentExerciseIndex = 0;
     let currentCharIndex = 0;
     let isComposing = false;
+    let lastFocusTime = Date.now();
+    let isDragging = false;
+    let startX = 0;
+    let scrollStartPosition = 0;
+    let totalWidth = 0;
+    let containerWidth = 0;
 
     const elements = {
       csvFileInput: document.getElementById('csvFileInput'),
+      sheetsUrlInput: document.getElementById('sheetsUrlInput'),
+      loadSheetButton: document.getElementById('loadSheetButton'),
+      loadingIndicator: document.getElementById('loadingIndicator'),
       uploadSection: document.getElementById('uploadSection'),
       exerciseSection: document.getElementById('exerciseSection'),
       progressDisplay: document.getElementById('progressDisplay'),
@@ -133,141 +343,440 @@
       pinyinRow: document.getElementById('pinyinRow'),
       charRow: document.getElementById('charRow'),
       scrollContainer: document.getElementById('scrollContainer'),
+      scrollWrapper: document.getElementById('scrollWrapper'),
+      scrollbarContainer: document.getElementById('scrollbarContainer'),
+      scrollbar: document.getElementById('scrollbar'),
       hiddenInput: document.getElementById('hiddenInput'),
       feedbackMessage: document.getElementById('feedbackMessage'),
+      restartButton: document.getElementById('restartButton'),
       nextButton: document.getElementById('nextButton'),
-      returnButton: document.getElementById('returnButton')
+      returnButton: document.getElementById('returnButton'),
+      fileName: document.getElementById('fileName')
     };
 
-    // Improved CSV parser with quoted field support
     function parseCSV(text) {
-      const lines = text.split('\n').filter(line => line.trim() !== '');
-      exercises = lines.map(line => {
-        const matches = line.match(/(?:,|\n|^)("(?:(?:"")*[^"]*)*"|[^",\n]*|(?!\n)|$)/g);
-        return matches.map(field => field.replace(/^"|"$/g, '').trim());
-      }).filter(fields => fields.length >= 2)
-        .map(fields => ({ title: fields[0], text: fields[1] }));
+      try {
+        // Remove BOM and handle different line endings (CRLF, LF)
+        const cleanedText = text.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n');
+        const lines = cleanedText.split('\n')
+          .map(line => line.trim())
+          .filter(line => line !== '');
+        
+        // Parse CSV lines - handling quoted fields correctly
+        const parsedExercises = [];
+        for (const line of lines) {
+          let fields = [];
+          let currentField = "";
+          let inQuotes = false;
+          
+          for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            
+            if (char === '"' && (i === 0 || line[i-1] !== '\\')) {
+              inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+              fields.push(currentField.replace(/^"(.*)"$/, '$1').trim());
+              currentField = "";
+            } else {
+              currentField += char;
+            }
+          }
+          
+          // Add the last field
+          fields.push(currentField.replace(/^"(.*)"$/, '$1').trim());
+          
+          if (fields.length >= 2 && fields[1].length > 0) {
+            parsedExercises.push({ 
+              title: fields[0] || 'Exercise', 
+              text: fields[1] 
+            });
+          }
+        }
+        
+        exercises = parsedExercises;
+        
+        if (exercises.length) {
+          startExercise();
+          return true;
+        } else {
+          showError('No valid exercises found in CSV. Ensure second column contains Chinese text.');
+          return false;
+        }
+      } catch (error) {
+        showError('Error parsing CSV file: ' + error.message);
+        console.error(error);
+        return false;
+      }
+    }
+    
+    function extractGoogleSheetId(url) {
+      // Extract the sheet ID from different Google Sheets URL formats
+      const regex = /\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/;
+      const match = url.match(regex);
+      return match ? match[1] : null;
+    }
+    
+    function importFromGoogleSheets(url) {
+      const sheetId = extractGoogleSheetId(url);
       
-      if (exercises.length) startExercise();
-      else alert('Invalid CSV format');
+      if (!sheetId) {
+        showError('Invalid Google Sheets URL. Please check and try again.');
+        elements.loadingIndicator.style.display = 'none';
+        return;
+      }
+      
+      // Construct the CSV export URL
+      const csvExportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
+      
+      // Fetch the CSV data
+      fetch(csvExportUrl)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Could not access the sheet. Make sure it\'s shared publicly or with anyone with the link.');
+          }
+          return response.text();
+        })
+        .then(data => {
+          elements.loadingIndicator.style.display = 'none';
+          parseCSV(data);
+        })
+        .catch(error => {
+          elements.loadingIndicator.style.display = 'none';
+          showError(`Error importing from Google Sheets: ${error.message}`);
+        });
+    }
+
+    function showError(message) {
+      alert(message);
     }
 
     function startExercise() {
       elements.uploadSection.style.display = 'none';
       elements.exerciseSection.style.display = 'block';
+      elements.restartButton.style.display = 'inline-block';
       elements.returnButton.style.display = 'inline-block';
       elements.nextButton.style.display = 'none';
       currentCharIndex = 0;
       loadExercise(exercises[currentExerciseIndex]);
-      elements.hiddenInput.focus();
+      setTimeout(() => elements.hiddenInput.focus(), 100);
+    }
+
+    function restartCurrentExercise() {
+      currentCharIndex = 0;
+      loadExercise(exercises[currentExerciseIndex]);
+      elements.nextButton.style.display = 'none';
+      elements.feedbackMessage.textContent = '';
+      setTimeout(() => elements.hiddenInput.focus(), 100);
     }
 
     function loadExercise(exercise) {
       elements.titleDisplay.textContent = exercise.title;
       elements.progressDisplay.textContent = `Exercise ${currentExerciseIndex + 1} of ${exercises.length}`;
       
-      // Generate accurate pinyin array
-      const pinyinArr = pinyinPro.pinyin(exercise.text, { 
-        toneType: 'marks',
-        type: 'array'
-      });
+      try {
+        // Use pinyin library with specific options
+        const pinyinArr = pinyinPro.pinyin(exercise.text, { 
+          toneType: 'marks',
+          type: 'array',
+          nonZh: 'retain'
+        });
 
-      elements.pinyinRow.innerHTML = '';
-      elements.charRow.innerHTML = '';
+        // Clear previous exercise
+        elements.pinyinRow.innerHTML = '';
+        elements.charRow.innerHTML = '';
 
-      exercise.text.split('').forEach((char, i) => {
-        const pinyinSpan = document.createElement('span');
-        pinyinSpan.className = 'pinyin-box';
-        pinyinSpan.textContent = pinyinArr[i] || '';
-        elements.pinyinRow.appendChild(pinyinSpan);
+        // Create DOM elements for each character and its pinyin
+        const fragment1 = document.createDocumentFragment();
+        const fragment2 = document.createDocumentFragment();
 
-        const charSpan = document.createElement('span');
-        charSpan.className = 'char-box';
-        charSpan.dataset.expected = char;
-        elements.charRow.appendChild(charSpan);
-      });
+        exercise.text.split('').forEach((char, i) => {
+          const pinyinSpan = document.createElement('span');
+          pinyinSpan.className = 'pinyin-box';
+          pinyinSpan.textContent = pinyinArr[i] || '';
+          fragment1.appendChild(pinyinSpan);
 
-      updateInterface();
+          const charSpan = document.createElement('span');
+          charSpan.className = 'char-box';
+          charSpan.dataset.expected = char;
+          fragment2.appendChild(charSpan);
+        });
+
+        elements.pinyinRow.appendChild(fragment1);
+        elements.charRow.appendChild(fragment2);
+
+        // Calculate total content width for scrollbar
+        setTimeout(() => {
+          updateScrollbarDimensions();
+          updateInterface();
+        }, 0);
+      } catch (error) {
+        showError('Error loading exercise: ' + error.message);
+        console.error(error);
+      }
     }
 
-    function updateInterface() {
-      document.querySelectorAll('.char-box').forEach(box => 
-        box.classList.remove('current-char'));
+    function updateScrollbarDimensions() {
+      // Calculate dimensions for scrollbar
+      containerWidth = elements.scrollWrapper.offsetWidth;
+      totalWidth = elements.scrollContainer.scrollWidth;
       
+      // Set scrollbar width proportional to visible area
+      const scrollbarRatio = Math.min(containerWidth / totalWidth, 1);
+      const scrollbarWidth = Math.max(containerWidth * scrollbarRatio, 40); // Minimum width of 40px
+      
+      elements.scrollbar.style.width = scrollbarWidth + 'px';
+    }
+
+    function updateScrollbarPosition(offsetX) {
+      // Calculate how much of the content is scrolled
+      const maxOffset = totalWidth - containerWidth;
+      const scrollRatio = maxOffset <= 0 ? 0 : offsetX / maxOffset;
+      
+      // Calculate scrollbar position
+      const maxScrollbarOffset = elements.scrollbarContainer.offsetWidth - elements.scrollbar.offsetWidth;
+      const scrollbarPosition = scrollRatio * maxScrollbarOffset;
+      
+      // Update scrollbar position
+      elements.scrollbar.style.left = scrollbarPosition + 'px';
+    }
+
+    function updateInterface(manualOffset = null) {
+      // Reset all character boxes
+      document.querySelectorAll('.char-box').forEach((box, index) => {
+        box.classList.remove('current-char');
+        if (index < currentCharIndex) {
+          box.classList.add('completed-char');
+        } else {
+          box.classList.remove('completed-char');
+        }
+      });
+      
+      // Highlight current character
       const charBoxes = document.querySelectorAll('.char-box');
-      if (charBoxes[currentCharIndex]) {
+      if (charBoxes.length > 0 && currentCharIndex < charBoxes.length) {
         charBoxes[currentCharIndex].classList.add('current-char');
       }
 
-      // Calculate dynamic scroll position
-      const containerWidth = elements.scrollContainer.parentElement.offsetWidth;
-      const boxWidth = charBoxes[0]?.offsetWidth || 60;
-      const offset = containerWidth / 2 - boxWidth / 2;
-      elements.scrollContainer.style.transform = 
-        `translateX(${offset - currentCharIndex * (boxWidth + 10)}px)`;
+      // Calculate scroll position
+      const boxWidth = charBoxes.length > 0 ? charBoxes[0].offsetWidth + 16 : 76; // width + margins
+      
+      let offsetX;
+      if (manualOffset !== null) {
+        // Use manual offset from scrollbar drag
+        offsetX = manualOffset;
+      } else {
+        // Center current character
+        const containerWidth = elements.scrollWrapper.offsetWidth;
+        const offset = containerWidth / 2 - boxWidth / 2;
+        offsetX = currentCharIndex * boxWidth - offset;
+        
+        // Constrain to valid range
+        const maxOffset = totalWidth - containerWidth;
+        offsetX = Math.max(0, Math.min(offsetX, maxOffset));
+      }
+      
+      // Apply transform to scroll container
+      requestAnimationFrame(() => {
+        elements.scrollContainer.style.transform = `translateX(-${offsetX}px)`;
+        updateScrollbarPosition(offsetX);
+      });
     }
 
-    // Handle IME composition
-    elements.hiddenInput.addEventListener('compositionstart', () => isComposing = true);
-    elements.hiddenInput.addEventListener('compositionend', () => isComposing = false);
-
-    // Process each character from the input instantly
-    elements.hiddenInput.addEventListener('input', function(e) {
-      if (isComposing) return;
+    function handleScrollbarDrag(clientX) {
+      const scrollbarContainerRect = elements.scrollbarContainer.getBoundingClientRect();
+      const scrollbarRect = elements.scrollbar.getBoundingClientRect();
       
-      const inputStr = e.target.value;
+      // Calculate position within container accounting for scrollbar width
+      const scrollbarWidth = scrollbarRect.width;
+      const containerWidth = scrollbarContainerRect.width;
+      
+      // Calculate the new scrollbar position
+      let newLeft = clientX - scrollbarContainerRect.left - (scrollbarWidth / 2);
+      
+      // Constrain to valid range
+      newLeft = Math.max(0, Math.min(newLeft, containerWidth - scrollbarWidth));
+      
+      // Calculate content offset based on scrollbar position
+      const scrollRatio = newLeft / (containerWidth - scrollbarWidth);
+      const maxOffset = totalWidth - elements.scrollWrapper.offsetWidth;
+      const contentOffset = maxOffset * scrollRatio;
+      
+      // Update interface with manual offset
+      updateInterface(contentOffset);
+      
+      return newLeft;
+    }
+
+    function handleSkip() {
+      const charBoxes = document.querySelectorAll('.char-box');
+      if (currentCharIndex >= charBoxes.length) return;
+
+      // Show correct character and mark as skipped
+      charBoxes[currentCharIndex].textContent = charBoxes[currentCharIndex].dataset.expected;
+      charBoxes[currentCharIndex].style.color = '#ffc107'; // Yellow for skipped
+      
+      currentCharIndex++;
+      
+      if (currentCharIndex === charBoxes.length) {
+        completeExercise();
+      } else {
+        updateInterface();
+        elements.hiddenInput.focus();
+      }
+    }
+
+    function completeExercise() {
+      elements.feedbackMessage.textContent = 'Exercise Completed!';
+      elements.feedbackMessage.style.color = '#28a745';
+      elements.nextButton.style.display = 'inline-block';
+      elements.hiddenInput.blur();
+    }
+
+    function checkInput(inputStr) {
       if (!inputStr) return;
       
       const charBoxes = document.querySelectorAll('.char-box');
+      const pinyinBoxes = document.querySelectorAll('.pinyin-box');
+      
       for (let i = 0; i < inputStr.length; i++) {
-          if (currentCharIndex >= charBoxes.length) break;
-          const inputChar = inputStr[i];
-          const expected = charBoxes[currentCharIndex].dataset.expected;
-          if (inputChar === expected) {
-              charBoxes[currentCharIndex].textContent = expected;
-              document.querySelectorAll('.pinyin-box')[currentCharIndex].classList.add('correct-pinyin');
-              currentCharIndex++;
-              if (currentCharIndex === charBoxes.length) {
-                  elements.feedbackMessage.textContent = 'Completed!';
-                  elements.feedbackMessage.style.color = 'green';
-                  elements.nextButton.style.display = 'inline-block';
-                  elements.hiddenInput.blur();
-                  break;
-              } else {
-                  elements.feedbackMessage.textContent = '✓ Correct';
-                  elements.feedbackMessage.style.color = 'green';
-              }
+        if (currentCharIndex >= charBoxes.length) break;
+        
+        const inputChar = inputStr[i];
+        const expected = charBoxes[currentCharIndex].dataset.expected;
+        
+        if (inputChar === expected) {
+          // Correct input
+          charBoxes[currentCharIndex].textContent = expected;
+          charBoxes[currentCharIndex].style.color = '#28a745';
+          pinyinBoxes[currentCharIndex].classList.add('correct-pinyin');
+          
+          currentCharIndex++;
+          
+          if (currentCharIndex === charBoxes.length) {
+            completeExercise();
+            break;
           } else {
-              elements.feedbackMessage.textContent = '✗ Try Again';
-              elements.feedbackMessage.style.color = 'red';
+            showFeedback('✓ Correct', '#28a745');
           }
-          updateInterface();
+        } else {
+          // Incorrect input
+          showFeedback('✗ Try Again', '#dc3545');
+          elements.hiddenInput.classList.add('error');
+          setTimeout(() => elements.hiddenInput.classList.remove('error'), 500);
+        }
       }
       
-      e.target.value = '';
-      setTimeout(() => {
-         elements.feedbackMessage.textContent = '';
-      }, 1000);
+      updateInterface();
+    }
+
+    function showFeedback(message, color) {
+      elements.feedbackMessage.textContent = message;
+      elements.feedbackMessage.style.color = color;
+      
+      // Clear feedback after delay
+      clearTimeout(window.feedbackTimer);
+      window.feedbackTimer = setTimeout(() => {
+        elements.feedbackMessage.textContent = '';
+      }, 1500);
+    }
+
+    // Scrollbar Event Handlers
+    elements.scrollbar.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      scrollStartPosition = elements.scrollbar.offsetLeft;
+      document.body.style.userSelect = 'none'; // Prevent text selection during drag
+      
+      // Prevent focus from moving away from input
+      e.preventDefault();
     });
 
+    document.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      
+      const deltaX = e.clientX - startX;
+      const newLeft = scrollStartPosition + deltaX;
+      
+      handleScrollbarDrag(e.clientX);
+    });
+
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        document.body.style.userSelect = '';
+        elements.hiddenInput.focus();
+      }
+    });
+
+    // Touch events for mobile support
+    elements.scrollbar.addEventListener('touchstart', (e) => {
+      isDragging = true;
+      startX = e.touches[0].clientX;
+      scrollStartPosition = elements.scrollbar.offsetLeft;
+      e.preventDefault();
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      handleScrollbarDrag(e.touches[0].clientX);
+    });
+
+    document.addEventListener('touchend', () => {
+      isDragging = false;
+      elements.hiddenInput.focus();
+    });
+
+    // Clicking on scrollbar container to jump
+    elements.scrollbarContainer.addEventListener('click', (e) => {
+      // Ignore if clicking on scrollbar itself
+      if (e.target === elements.scrollbar) return;
+      
+      handleScrollbarDrag(e.clientX);
+    });
+
+    // Input Event Listeners
+    elements.hiddenInput.addEventListener('compositionstart', () => isComposing = true);
+    elements.hiddenInput.addEventListener('compositionend', (e) => {
+      isComposing = false;
+      // Process the final composed text
+      checkInput(e.target.value);
+      e.target.value = '';
+    });
+
+    elements.hiddenInput.addEventListener('input', function(e) {
+      if (isComposing) return;
+      
+      checkInput(e.target.value);
+      e.target.value = '';
+    });
+
+    // Space key for skipping
+    elements.hiddenInput.addEventListener('keydown', function(e) {
+      if (e.code === 'Space' || e.keyCode === 32) {
+        e.preventDefault(); // Prevent space from being added to input
+        handleSkip();
+      }
+    });
+    
+    elements.restartButton.addEventListener('click', restartCurrentExercise);
+    
     elements.nextButton.addEventListener('click', () => {
       if (currentExerciseIndex < exercises.length - 1) {
         currentExerciseIndex++;
         startExercise();
-        elements.nextButton.style.display = 'none';
-        elements.hiddenInput.focus();
       } else {
-        alert('All exercises completed!');
+        showFeedback('All exercises completed! 🎉', '#28a745');
+        elements.nextButton.style.display = 'none';
+        elements.returnButton.style.display = 'inline-block';
       }
     });
 
-    // Return button to go back to the landing/upload page
     elements.returnButton.addEventListener('click', () => {
       elements.uploadSection.style.display = 'block';
       elements.exerciseSection.style.display = 'none';
       elements.nextButton.style.display = 'none';
       elements.returnButton.style.display = 'none';
-      // Reset the exercise state
+      elements.restartButton.style.display = 'none';
       exercises = [];
       currentExerciseIndex = 0;
     });
@@ -276,12 +785,50 @@
       const file = e.target.files[0];
       if (!file) return;
       
+      // Display file name
+      elements.fileName.textContent = file.name;
+      
       const reader = new FileReader();
       reader.onload = e => parseCSV(e.target.result);
+      reader.onerror = () => showError('Error reading file');
       reader.readAsText(file);
     });
+    
+    elements.loadSheetButton.addEventListener('click', function() {
+      const url = elements.sheetsUrlInput.value.trim();
+      
+      if (!url) {
+        showError('Please enter a Google Sheets URL');
+        return;
+      }
+      
+      elements.loadingIndicator.style.display = 'inline-block';
+      importFromGoogleSheets(url);
+    });
 
-    document.addEventListener('click', () => elements.hiddenInput.focus());
+    // Keep focus on input box
+    document.addEventListener('click', (e) => {
+      // Only refocus if we're in exercise mode and not too frequent
+      // And not clicking on scrollbar
+      if (elements.exerciseSection.style.display === 'block' && 
+          Date.now() - lastFocusTime > 200 &&
+          e.target !== elements.scrollbar &&
+          e.target !== elements.scrollbarContainer) {
+        elements.hiddenInput.focus();
+        lastFocusTime = Date.now();
+      }
+    });
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      updateScrollbarDimensions();
+      updateInterface();
+      
+      // On mobile, when keyboard appears, scroll to input
+      if (window.innerWidth <= 768) {
+        elements.hiddenInput.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
   </script>
 </body>
 </html>
