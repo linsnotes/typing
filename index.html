@@ -81,8 +81,8 @@
       height: 24px;
       margin: 10px 0;
     }
-    #nextButton {
-      margin: 20px 0;
+    button {
+      margin: 20px 10px;
       padding: 10px 20px;
       font-size: 18px;
       background-color: #28a745;
@@ -112,7 +112,10 @@
     <div id="feedbackMessage"></div>
   </div>
 
-  <button id="nextButton" style="display:none;">Next Exercise</button>
+  <div>
+    <button id="nextButton" style="display:none;">Next Exercise</button>
+    <button id="returnButton" style="display:none;">Return to Landing Page</button>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/pinyin-pro?v=1.0"></script>
   <script>
@@ -132,7 +135,8 @@
       scrollContainer: document.getElementById('scrollContainer'),
       hiddenInput: document.getElementById('hiddenInput'),
       feedbackMessage: document.getElementById('feedbackMessage'),
-      nextButton: document.getElementById('nextButton')
+      nextButton: document.getElementById('nextButton'),
+      returnButton: document.getElementById('returnButton')
     };
 
     // Improved CSV parser with quoted field support
@@ -151,9 +155,11 @@
     function startExercise() {
       elements.uploadSection.style.display = 'none';
       elements.exerciseSection.style.display = 'block';
+      elements.returnButton.style.display = 'inline-block';
       elements.nextButton.style.display = 'none';
       currentCharIndex = 0;
       loadExercise(exercises[currentExerciseIndex]);
+      elements.hiddenInput.focus();
     }
 
     function loadExercise(exercise) {
@@ -196,7 +202,7 @@
       // Calculate dynamic scroll position
       const containerWidth = elements.scrollContainer.parentElement.offsetWidth;
       const boxWidth = charBoxes[0]?.offsetWidth || 60;
-      const offset = containerWidth/2 - boxWidth/2;
+      const offset = containerWidth / 2 - boxWidth / 2;
       elements.scrollContainer.style.transform = 
         `translateX(${offset - currentCharIndex * (boxWidth + 10)}px)`;
     }
@@ -205,38 +211,43 @@
     elements.hiddenInput.addEventListener('compositionstart', () => isComposing = true);
     elements.hiddenInput.addEventListener('compositionend', () => isComposing = false);
 
+    // Process each character from the input instantly
     elements.hiddenInput.addEventListener('input', function(e) {
       if (isComposing) return;
       
-      const inputChar = e.target.value;
-      if (!inputChar) return;
-
-      e.target.value = '';
+      const inputStr = e.target.value;
+      if (!inputStr) return;
+      
       const charBoxes = document.querySelectorAll('.char-box');
-      if (currentCharIndex >= charBoxes.length) return;
-
-      const expected = charBoxes[currentCharIndex].dataset.expected;
-      if (inputChar === expected) {
-        charBoxes[currentCharIndex].textContent = expected;
-        document.querySelectorAll('.pinyin-box')[currentCharIndex].classList.add('correct-pinyin');
-        currentCharIndex++;
-        
-        if (currentCharIndex === charBoxes.length) {
-          elements.feedbackMessage.textContent = 'Completed!';
-          elements.nextButton.style.display = 'block';
-          this.blur();
-        } else {
-          elements.feedbackMessage.textContent = '✓ Correct';
-          elements.feedbackMessage.style.color = 'green';
-        }
-        
-        updateInterface();
-      } else {
-        elements.feedbackMessage.textContent = '✗ Try Again';
-        elements.feedbackMessage.style.color = 'red';
+      for (let i = 0; i < inputStr.length; i++) {
+          if (currentCharIndex >= charBoxes.length) break;
+          const inputChar = inputStr[i];
+          const expected = charBoxes[currentCharIndex].dataset.expected;
+          if (inputChar === expected) {
+              charBoxes[currentCharIndex].textContent = expected;
+              document.querySelectorAll('.pinyin-box')[currentCharIndex].classList.add('correct-pinyin');
+              currentCharIndex++;
+              if (currentCharIndex === charBoxes.length) {
+                  elements.feedbackMessage.textContent = 'Completed!';
+                  elements.feedbackMessage.style.color = 'green';
+                  elements.nextButton.style.display = 'inline-block';
+                  elements.hiddenInput.blur();
+                  break;
+              } else {
+                  elements.feedbackMessage.textContent = '✓ Correct';
+                  elements.feedbackMessage.style.color = 'green';
+              }
+          } else {
+              elements.feedbackMessage.textContent = '✗ Try Again';
+              elements.feedbackMessage.style.color = 'red';
+          }
+          updateInterface();
       }
       
-      setTimeout(() => elements.feedbackMessage.textContent = '', 1000);
+      e.target.value = '';
+      setTimeout(() => {
+         elements.feedbackMessage.textContent = '';
+      }, 1000);
     });
 
     elements.nextButton.addEventListener('click', () => {
@@ -248,6 +259,17 @@
       } else {
         alert('All exercises completed!');
       }
+    });
+
+    // Return button to go back to the landing/upload page
+    elements.returnButton.addEventListener('click', () => {
+      elements.uploadSection.style.display = 'block';
+      elements.exerciseSection.style.display = 'none';
+      elements.nextButton.style.display = 'none';
+      elements.returnButton.style.display = 'none';
+      // Reset the exercise state
+      exercises = [];
+      currentExerciseIndex = 0;
     });
 
     elements.csvFileInput.addEventListener('change', function(e) {
