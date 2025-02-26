@@ -67,6 +67,10 @@
       width: 0;
       height: 0;
     }
+    #visitor-counter {
+      margin-right: auto;
+      text-align: left;
+    }
     .slider {
       position: absolute;
       cursor: pointer;
@@ -399,6 +403,9 @@
   <div class="container">
     <!-- Dark mode toggle -->
     <div class="theme-toggle">
+      <div id="visitor-counter">
+      Welcome! You’re visitor #<span id="pageviews">Loading...</span>
+      </div>
       <label class="switch">
         <input type="checkbox" id="themeToggle">
         <span class="slider"></span>
@@ -915,6 +922,8 @@
       elements.restartButton.style.display = 'none';
       exercises = [];
       currentExerciseIndex = 0;
+      elements.csvFileInput.value = ""; // Reset file input to allow same CSV re-upload
+      elements.fileName.textContent = ""; // Clear displayed file name
     });
 
     elements.csvFileInput.addEventListener('change', function(e) {
@@ -965,6 +974,34 @@
         elements.hiddenInput.scrollIntoView({ behavior: 'smooth' });
       }
     });
+
+    // Pageviews
+    document.addEventListener('DOMContentLoaded', () => {
+      const pv = document.getElementById('pageviews');
+
+      if (pv !== null) {
+        // Strip trailing slash (if any) so the path matches GoatCounter
+        const uri = location.pathname.replace(/\/$/, '');
+        // Build the JSON endpoint URL for your domain
+        const url = `https://linsnotes.goatcounter.com/counter/${encodeURIComponent(uri)}.json`;
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            // 'data.count' comes back as a string with possible whitespace
+            const count = data.count.replace(/\s/g, '');
+            // Format it with commas, etc.
+            pv.innerText = new Intl.NumberFormat().format(count);
+          })
+          .catch((error) => {
+            // Fallback if something goes wrong
+            pv.innerText = '1';
+          });
+      }
+    });
+
+
+
   </script>
 </body>
 </html>
