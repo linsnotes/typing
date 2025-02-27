@@ -1,6 +1,6 @@
-# Chinese Typing Exercise
+# Chinese Typing Exercise - 弹指之间
 
-**字随指落** is a browser-based Chinese typing exercise application. It provides users with an interactive platform to practice Chinese typing by importing text data from either a CSV file or a Google Sheets document. The application displays Chinese text along with its pinyin, supports dark mode, and includes a dynamic scrollbar for navigation.
+**弹指之间** is a browser-based Chinese typing exercise application. It provides users with an interactive platform to practice Chinese typing by importing text data from either a CSV file or a Google Sheets document. The application displays Chinese text along with its pinyin, supports dark mode, and includes a dynamic scrollbar for navigation.
 
 ## Features
 
