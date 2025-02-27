@@ -4,9 +4,9 @@
 
 ## Features
 
-- **Dual Data Import Options:**  
-  - **CSV Upload:** Import exercise data from a CSV file (expects two columns: Title and Chinese text).
+- **Dual Data Import Options:**
   - **Google Sheets Integration:** Import directly from a publicly shared Google Sheets URL.
+  - **CSV/Excel Upload:** Import exercise data from a CSV file (expects two columns: Title and Chinese text).
 
 - **Interactive Typing Interface:**  
   - Displays Chinese characters with corresponding pinyin.
