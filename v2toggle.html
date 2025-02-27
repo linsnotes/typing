@@ -708,6 +708,22 @@
           <div id="scrollbar"></div>
         </div>
 
+
+
+        <input
+          type="text"
+          id="hiddenInput"
+          placeholder="Type here..."
+          autofocus
+        />
+        <div id="feedbackMessage"></div>
+        <p class="instruction">
+          Type the Chinese characters or press
+          <span class="keyboard-shortcut">Space</span> to skip a character. Use
+          <span class="keyboard-shortcut">Backspace</span> to correct previous input.
+          Use the scrollbar to navigate.
+        </p>
+
         <!-- Speed Meter -->
         <div id="speedMeterContainer">
           <div class="speed-stat">
@@ -723,19 +739,6 @@
             <div class="speed-label">Accuracy</div>
           </div>
         </div>
-
-        <input
-          type="text"
-          id="hiddenInput"
-          placeholder="Type here..."
-          autofocus
-        />
-        <div id="feedbackMessage"></div>
-        <p class="instruction">
-          Type the Chinese characters or press
-          <span class="keyboard-shortcut">Space</span> to skip a character. Use
-          the scrollbar to navigate.
-        </p>
       </div>
 
       <!-- Results Section -->
@@ -856,6 +859,9 @@
       let scrollStartPosition = 0;
       let totalWidth = 0;
       let containerWidth = 0;
+      
+      // New variables to track character state for backspace functionality
+      let charStates = []; // Array to store the state of each character (correct, skipped, etc.)
 
       // Speed and stats tracking
       let startTime = 0;
@@ -1171,6 +1177,9 @@
             recentCorrectChars: 0,
           };
 
+          // Initialize character states array
+          charStates = [];
+
           // Reset speed display
           elements.currentSpeed.textContent = "0";
           elements.averageSpeed.textContent = "0";
@@ -1303,6 +1312,9 @@
             const fragment1 = document.createDocumentFragment();
             const fragment2 = document.createDocumentFragment();
 
+            // Reset charStates array
+            charStates = new Array(exercise.text.length).fill('pending');
+
             exercise.text.split("").forEach((char, i) => {
               const pinyinSpan = document.createElement("span");
               pinyinSpan.className = "pinyin-box";
@@ -1330,8 +1342,8 @@
 
             // Update instruction text based on mode
             const instructionText = isPinyinMode
-              ? 'Type the pinyin for each character without tone. Press <span class="keyboard-shortcut">Space</span> to skip.'
-              : 'Type the Chinese characters or press <span class="keyboard-shortcut">Space</span> to skip a character. Use the scrollbar to navigate.';
+              ? 'Type the pinyin for each character without tone. Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input.'
+              : 'Type the Chinese characters or press <span class="keyboard-shortcut">Space</span> to skip a character. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input. Use the scrollbar to navigate.';
 
             document.querySelector(".instruction").innerHTML = instructionText;
 
@@ -1473,6 +1485,9 @@
 
           // Update stats
           typingStats.skippedChars++;
+          
+          // Update character state
+          charStates[currentCharIndex] = 'skipped';
 
           currentCharIndex++;
 
@@ -1482,6 +1497,46 @@
             updateInterface();
             elements.hiddenInput.focus();
           }
+        }
+
+        // New function to handle backspace
+        function handleBackspace() {
+          if (currentCharIndex <= 0) return; // Can't go back if at the beginning
+          
+          const prevIndex = currentCharIndex - 1;
+          const charBoxes = document.querySelectorAll(".char-box");
+          const pinyinBoxes = document.querySelectorAll(".pinyin-box");
+          
+          // Update stats based on the previous character's state
+          if (charStates[prevIndex] === 'correct') {
+            typingStats.correctChars--;
+          } else if (charStates[prevIndex] === 'skipped') {
+            typingStats.skippedChars--;
+          }
+          
+          // Reset the previous character's appearance
+          if (isPinyinMode) {
+            // In pinyin mode, clear the pinyin display
+            pinyinBoxes[prevIndex].textContent = "";
+            pinyinBoxes[prevIndex].classList.remove("correct-pinyin");
+            pinyinBoxes[prevIndex].style.color = ""; // Reset color
+          } else {
+            // In character mode, clear the character display
+            charBoxes[prevIndex].textContent = "";
+            charBoxes[prevIndex].style.color = ""; // Reset color
+            pinyinBoxes[prevIndex].classList.remove("correct-pinyin");
+          }
+          
+          // Reset the character state
+          charStates[prevIndex] = 'pending';
+          
+          // Move back to the previous character
+          currentCharIndex = prevIndex;
+          
+          // Update the interface
+          updateInterface();
+          showFeedback("◀ Backspace", "#0a84ff");
+          elements.hiddenInput.focus();
         }
 
         function formatTime(milliseconds) {
@@ -1650,10 +1705,10 @@ Grade: ${elements.resultGrade.textContent}
             const inputChar = inputStr[i];
             const expected = charBoxes[currentCharIndex].dataset.expected;
 
-            if (
-              inputChar === expected ||
-              (isPinyinMode && checkPinyinMatch(inputChar, expected))
-            ) {
+          if (
+            (!isPinyinMode && inputChar === expected) ||
+            (isPinyinMode && checkPinyinMatch(inputStr, expected))
+          ) {
               // Correct input
               if (isPinyinMode) {
                 // In pinyin mode, show the pinyin with tone when correct
@@ -1670,6 +1725,9 @@ Grade: ${elements.resultGrade.textContent}
               // Update stats
               typingStats.correctChars++;
               typingStats.recentCorrectChars++;
+              
+              // Update character state
+              charStates[currentCharIndex] = 'correct';
 
               currentCharIndex++;
 
@@ -1872,11 +1930,18 @@ Grade: ${elements.resultGrade.textContent}
           e.target.value = "";
         });
 
-        // Space key for skipping
+        // Space key for skipping and Backspace for going back
         elements.hiddenInput.addEventListener("keydown", function (e) {
           if (e.code === "Space" || e.keyCode === 32) {
             e.preventDefault(); // Prevent space from being added to input
             handleSkip();
+          } else if (e.code === "Backspace" || e.keyCode === 8) {
+            // Only prevent default if there's no text in the input
+            // This allows normal backspace behavior when editing text
+            if (!this.value) {
+              e.preventDefault();
+              handleBackspace();
+            }
           }
         });
 
