@@ -46,6 +46,15 @@
         display: none;
       }
       
+      /* Results mode visibility adjustments */
+      .results-mode h1 {
+        display: none;
+      }
+      
+      .results-mode #visitor-counter {
+        display: none;
+      }
+      
       /* Dark mode adjustments for sections */
       #uploadSection,
       #exerciseSection,
@@ -111,7 +120,15 @@
         margin-right: auto;
       }
       
-      .exercise-controls .btn {
+      /* Results mode buttons in header */
+      .results-controls {
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+      }
+      
+      .exercise-controls .btn,
+      .results-controls .btn {
         margin: 0 5px;
         padding: 8px 12px;
         font-size: 14px;
@@ -170,20 +187,37 @@
       body.dark-mode .upload-option h3 {
         color: #f2f2f7;
       }
+      
+      /* Updated file upload label (Apple-styled button) */
       #file-upload-label {
         display: inline-block;
-        padding: 12px 20px;
-        background: linear-gradient(to bottom, #fefefe, #e0e0e0);
+        padding: 12px 24px;
+        background-color: #f5f5f7;
         color: #000;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
         margin-top: 10px;
-        font-weight: bold;
-        transition: background 0.3s ease;
+        font-weight: 500;
+        border: none;
+        font-size: 16px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       }
       #file-upload-label:hover {
-        background: linear-gradient(to bottom, #eaeaea, #d4d4d4);
+        background-color: #eeeeef;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
       }
+      body.dark-mode #file-upload-label {
+        background-color: #3a3a3c;
+        color: #f5f5f7;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+      body.dark-mode #file-upload-label:hover {
+        background-color: #4a4a4c;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+      }
+      
       #xlsxFileInput {
         display: none;
       }
@@ -201,21 +235,33 @@
         border-color: #0a84ff;
         box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
       }
+      
+      /* Updated load sheet button (Apple-styled) */
       #loadSheetButton {
-        padding: 12px 20px;
-        background: linear-gradient(to bottom, #fefefe, #e0e0e0);
-        color: #000;
+        padding: 12px 24px;
+        background-color: #0a84ff;
+        color: #fff;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
-        font-weight: bold;
+        font-weight: 500;
         margin-top: 10px;
-        transition: background 0.3s ease, box-shadow 0.3s ease;
+        font-size: 16px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 6px rgba(10, 132, 255, 0.3);
       }
       #loadSheetButton:hover {
-        background: linear-gradient(to bottom, #eaeaea, #d4d4d4);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #007aff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(10, 132, 255, 0.4);
       }
+      body.dark-mode #loadSheetButton {
+        box-shadow: 0 2px 6px rgba(10, 132, 255, 0.5);
+      }
+      body.dark-mode #loadSheetButton:hover {
+        box-shadow: 0 4px 10px rgba(10, 132, 255, 0.7);
+      }
+      
       /* Exercise Section */
       #exerciseSection {
         display: none;
@@ -362,41 +408,105 @@
         margin: 15px 0;
         font-weight: bold;
       }
+      
+      /* Updated button styles (Apple-styled) */
       .btn {
         margin: 20px 10px;
         padding: 12px 24px;
-        font-size: 18px;
+        font-size: 16px;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
-        font-weight: bold;
-        background: linear-gradient(to bottom, #fefefe, #e0e0e0);
-        color: #000;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       }
       .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
       }
       .btn:active {
         transform: translateY(1px);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
+      
       .btn-primary {
-        background: linear-gradient(to bottom, #fefefe, #e0e0e0);
-        color: #000;
+        background-color: #0a84ff;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(10, 132, 255, 0.3);
       }
+      .btn-primary:hover {
+        background-color: #007aff;
+        box-shadow: 0 4px 10px rgba(10, 132, 255, 0.4);
+      }
+      
       .btn-warning {
-        background: linear-gradient(to bottom, #fff5e5, #ffe0b3);
-        color: #333;
+        background-color: #ff9f0a;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(255, 159, 10, 0.3);
       }
+      .btn-warning:hover {
+        background-color: #f08800;
+        box-shadow: 0 4px 10px rgba(255, 159, 10, 0.4);
+      }
+      
       .btn-secondary {
-        background: linear-gradient(to bottom, #f0f0f0, #dcdcdc);
-        color: #333;
+        background-color: #0a84ff;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(10, 132, 255, 0.3);
       }
-      .btn-reset {
-        background: linear-gradient(to bottom, #e5f7fa, #cceeea);
+      .btn-secondary:hover {
+        background-color: #007aff;
+        box-shadow: 0 4px 10px rgba(10, 132, 255, 0.4);
+      }
+
+      /*
+      .btn-secondary {
+        background-color: #f5f5f7;
         color: #000;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       }
+      .btn-secondary:hover {
+        background-color: #eeeeef;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+      }
+      */
+
+
+      .btn-reset {
+        background-color: #32d74b;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(50, 215, 75, 0.3);
+      }
+      .btn-reset:hover {
+        background-color: #30c848;
+        box-shadow: 0 4px 10px rgba(50, 215, 75, 0.4);
+      }
+      
+      /* Dark mode button adjustments */
+      body.dark-mode .btn-secondary {
+      /*
+        background-color: #3a3a3c;
+        color: #f5f5f7;
+      */
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+      body.dark-mode .btn-secondary:hover {
+        /* background-color: #4a4a4c; */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+      }
+      
+      body.dark-mode .btn-primary,
+      body.dark-mode .btn-warning,
+      body.dark-mode .btn-reset {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+      body.dark-mode .btn-primary:hover,
+      body.dark-mode .btn-warning:hover,
+      body.dark-mode .btn-reset:hover {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      }
+      
       .instruction {
         margin: 20px 0;
         font-size: 16px;
@@ -598,13 +708,16 @@
           transform: rotate(360deg);
         }
       }
+      
+      /* Responsive styles */
       @media (max-width: 768px) {
         .theme-toggle {
           justify-content: center;
           gap: 10px;
         }
         
-        .exercise-controls {
+        .exercise-controls,
+        .results-controls {
           width: 100%;
           justify-content: center;
           margin-bottom: 10px;
@@ -619,11 +732,19 @@
           height: 40px;
           line-height: 40px;
         }
+        
+        /* Button responsive adjustments */
         .btn {
-          padding: 10px 18px;
-          font-size: 16px;
+          padding: 8px 16px;
+          font-size: 14px;
           margin: 10px 5px;
         }
+        #loadSheetButton, 
+        #file-upload-label {
+          padding: 10px 20px;
+          font-size: 14px;
+        }
+        
         #sheetsUrlInput {
           width: 90%;
         }
@@ -652,9 +773,20 @@
           justify-content: center;
         }
         
-        .exercise-controls .btn {
+        /* Small screen button adjustments */
+        .exercise-controls .btn,
+        .results-controls .btn {
           padding: 6px 10px;
           font-size: 12px;
+          margin: 4px 2px;
+        }
+        
+        #loadSheetButton, 
+        #file-upload-label {
+          padding: 8px 16px;
+          font-size: 13px;
+          width: 80%;
+          margin: 8px auto;
         }
       }
     </style>
@@ -673,6 +805,16 @@
             Restart Exercise
           </button>
           <button id="returnButton" class="btn btn-secondary">
+            Return to Upload
+          </button>
+        </div>
+        
+        <!-- Results controls (initially hidden) -->
+        <div class="results-controls" style="display: none;">
+          <button id="newExerciseBtn" class="btn btn-primary">
+            Try Another Exercise
+          </button>
+          <button id="returnFromResultsBtn" class="btn btn-secondary">
             Return to Upload
           </button>
         </div>
@@ -870,15 +1012,6 @@
             Copy Results
           </button>
         </div>
-
-        <div class="btn-container">
-          <button id="newExerciseBtn" class="btn btn-primary">
-            Try Another Exercise
-          </button>
-          <button id="returnFromResultsBtn" class="btn btn-secondary">
-            Return to Upload
-          </button>
-        </div>
       </div>
     </div>
 
@@ -953,7 +1086,9 @@ document.addEventListener("DOMContentLoaded", function () {
         fileName: document.getElementById("fileName"),
         exerciseProgress: document.getElementById("exerciseProgress"),
         exerciseControls: document.querySelector(".exercise-controls"),
+        resultsControls: document.querySelector(".results-controls"),
         visitorCounter: document.getElementById("visitor-counter"),
+        exerciseInstruction: document.querySelector("#exerciseSection .instruction"),
 
         // Speed meter elements
         currentSpeed: document.getElementById("currentSpeed"),
@@ -1321,9 +1456,11 @@ document.addEventListener("DOMContentLoaded", function () {
         
         // Set body class for exercise mode
         document.body.classList.add('exercise-mode');
+        document.body.classList.remove('results-mode');
         
         // Show exercise controls in the header
         elements.exerciseControls.style.display = "flex";
+        elements.resultsControls.style.display = "none";
         
         currentCharIndex = 0;
         resetTypingStats();
@@ -1396,12 +1533,12 @@ document.addEventListener("DOMContentLoaded", function () {
             // Set the total character count for stats
             typingStats.totalChars = exercise.text.length;
 
-            // Update instruction text based on mode
+            // Update instruction text based on mode - FIXED: Use specific element reference
             const instructionText = isPinyinMode
                 ? 'Type the pinyin for each character without tone. Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input.'
                 : 'Type the Chinese characters or press <span class="keyboard-shortcut">Space</span> to skip a character. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input. Use the scrollbar to navigate.';
 
-            document.querySelector(".instruction").innerHTML = instructionText;
+            elements.exerciseInstruction.innerHTML = instructionText;
 
             // Calculate total content width for scrollbar
             setTimeout(() => {
@@ -1662,11 +1799,15 @@ document.addEventListener("DOMContentLoaded", function () {
             elements.resultGrade.style.color = "#FF3B30"; // Red
         }
 
-        // Hide exercise mode class
+        // Remove exercise mode class
         document.body.classList.remove('exercise-mode');
         
-        // Hide exercise controls
+        // Add results mode class to hide h1 and visitor counter
+        document.body.classList.add('results-mode');
+        
+        // Hide exercise controls and show results controls
         elements.exerciseControls.style.display = "none";
+        elements.resultsControls.style.display = "flex";
 
         // Show results section
         elements.exerciseSection.style.display = "none";
@@ -1936,9 +2077,11 @@ Copied!
         elements.exerciseSection.style.display = "none";
         elements.resultsSection.style.display = "none";
         elements.exerciseControls.style.display = "none";
+        elements.resultsControls.style.display = "none";
         
-        // Remove exercise mode class
+        // Remove exercise and results mode classes
         document.body.classList.remove('exercise-mode');
+        document.body.classList.remove('results-mode');
 
         if (speedUpdateTimer) {
             clearInterval(speedUpdateTimer);
@@ -1968,6 +2111,10 @@ Copied!
     elements.returnFromResultsBtn.addEventListener("click", () => {
         elements.uploadSection.style.display = "block";
         elements.resultsSection.style.display = "none";
+        elements.resultsControls.style.display = "none";
+        
+        // Remove results mode class
+        document.body.classList.remove('results-mode');
 
         exercises = [];
         currentExerciseIndex = 0;
