@@ -27,34 +27,34 @@
         padding: 20px;
         transition: max-width 0.3s ease;
       }
-      
+
       /* Exercise mode container width adjustment */
       .exercise-mode .container {
         max-width: 1000px;
       }
-      
+
       /* Element visibility in exercise mode */
       .exercise-mode h1 {
         display: none;
       }
-      
+
       .exercise-mode #titleDisplay {
         display: none;
       }
-      
+
       .exercise-mode #visitor-counter {
         display: none;
       }
-      
+
       /* Results mode visibility adjustments */
       .results-mode h1 {
         display: none;
       }
-      
+
       .results-mode #visitor-counter {
         display: none;
       }
-      
+
       /* Dark mode adjustments for sections */
       #uploadSection,
       #exerciseSection,
@@ -80,9 +80,14 @@
       }
 
       .mode-toggle {
-        display: flex;
+        display: none;
         align-items: center;
         margin-right: 15px;
+      }
+
+      /* Only show Pinyin Mode toggle during exercise */
+      .exercise-mode .mode-toggle {
+        display: flex;
       }
 
       /* Dark mode toggle switch (Apple-style) */
@@ -112,28 +117,28 @@
         margin-right: auto;
         text-align: left;
       }
-      
+
       /* Exercise mode buttons in header */
       .exercise-controls {
         display: flex;
         align-items: center;
         margin-right: auto;
       }
-      
+
       /* Results mode buttons in header */
       .results-controls {
         display: flex;
         align-items: center;
         margin-right: auto;
       }
-      
+
       .exercise-controls .btn,
       .results-controls .btn {
         margin: 0 5px;
         padding: 8px 12px;
         font-size: 14px;
       }
-      
+
       .slider {
         position: absolute;
         cursor: pointer;
@@ -187,7 +192,7 @@
       body.dark-mode .upload-option h3 {
         color: #f2f2f7;
       }
-      
+
       /* Updated file upload label (Apple-styled button) */
       #file-upload-label {
         display: inline-block;
@@ -217,7 +222,7 @@
         background-color: #4a4a4c;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
       }
-      
+
       #xlsxFileInput {
         display: none;
       }
@@ -235,7 +240,7 @@
         border-color: #0a84ff;
         box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
       }
-      
+
       /* Updated load sheet button (Apple-styled) */
       #loadSheetButton {
         padding: 12px 24px;
@@ -261,7 +266,7 @@
       body.dark-mode #loadSheetButton:hover {
         box-shadow: 0 4px 10px rgba(10, 132, 255, 0.7);
       }
-      
+
       /* Exercise Section */
       #exerciseSection {
         display: none;
@@ -408,7 +413,7 @@
         margin: 15px 0;
         font-weight: bold;
       }
-      
+
       /* Updated button styles (Apple-styled) */
       .btn {
         margin: 20px 10px;
@@ -429,7 +434,7 @@
         transform: translateY(1px);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
-      
+
       .btn-primary {
         background-color: #0a84ff;
         color: #fff;
@@ -439,7 +444,7 @@
         background-color: #007aff;
         box-shadow: 0 4px 10px rgba(10, 132, 255, 0.4);
       }
-      
+
       .btn-warning {
         background-color: #ff9f0a;
         color: #fff;
@@ -449,7 +454,7 @@
         background-color: #f08800;
         box-shadow: 0 4px 10px rgba(255, 159, 10, 0.4);
       }
-      
+
       .btn-secondary {
         background-color: #0a84ff;
         color: #fff;
@@ -472,7 +477,6 @@
       }
       */
 
-
       .btn-reset {
         background-color: #32d74b;
         color: #fff;
@@ -482,10 +486,10 @@
         background-color: #30c848;
         box-shadow: 0 4px 10px rgba(50, 215, 75, 0.4);
       }
-      
+
       /* Dark mode button adjustments */
       body.dark-mode .btn-secondary {
-      /*
+        /*
         background-color: #3a3a3c;
         color: #f5f5f7;
       */
@@ -495,7 +499,7 @@
         /* background-color: #4a4a4c; */
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
       }
-      
+
       body.dark-mode .btn-primary,
       body.dark-mode .btn-warning,
       body.dark-mode .btn-reset {
@@ -506,7 +510,7 @@
       body.dark-mode .btn-reset:hover {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
       }
-      
+
       .instruction {
         margin: 20px 0;
         font-size: 16px;
@@ -708,14 +712,14 @@
           transform: rotate(360deg);
         }
       }
-      
+
       /* Responsive styles */
       @media (max-width: 768px) {
         .theme-toggle {
           justify-content: center;
           gap: 10px;
         }
-        
+
         .exercise-controls,
         .results-controls {
           width: 100%;
@@ -732,19 +736,19 @@
           height: 40px;
           line-height: 40px;
         }
-        
+
         /* Button responsive adjustments */
         .btn {
           padding: 8px 16px;
           font-size: 14px;
           margin: 10px 5px;
         }
-        #loadSheetButton, 
+        #loadSheetButton,
         #file-upload-label {
           padding: 10px 20px;
           font-size: 14px;
         }
-        
+
         #sheetsUrlInput {
           width: 90%;
         }
@@ -772,7 +776,7 @@
           margin: 5px 0;
           justify-content: center;
         }
-        
+
         /* Small screen button adjustments */
         .exercise-controls .btn,
         .results-controls .btn {
@@ -780,8 +784,8 @@
           font-size: 12px;
           margin: 4px 2px;
         }
-        
-        #loadSheetButton, 
+
+        #loadSheetButton,
         #file-upload-label {
           padding: 8px 16px;
           font-size: 13px;
@@ -798,9 +802,9 @@
         <div id="visitor-counter">
           Welcome! You're visitor #<span id="pageviews">Loading...</span>
         </div>
-        
+
         <!-- Exercise controls (initially hidden) -->
-        <div class="exercise-controls" style="display: none;">
+        <div class="exercise-controls" style="display: none">
           <button id="restartButton" class="btn btn-reset">
             Restart Exercise
           </button>
@@ -808,9 +812,9 @@
             Return to Home
           </button>
         </div>
-        
+
         <!-- Results controls (initially hidden) -->
-        <div class="results-controls" style="display: none;">
+        <div class="results-controls" style="display: none">
           <button id="newExerciseBtn" class="btn btn-primary">
             Try Another Exercise
           </button>
@@ -915,8 +919,8 @@
         <p class="instruction">
           Type the Chinese characters or press
           <span class="keyboard-shortcut">Space</span> to skip a character. Use
-          <span class="keyboard-shortcut">Backspace</span> to correct previous input.
-          Use the scrollbar to navigate.
+          <span class="keyboard-shortcut">Backspace</span> to correct previous
+          input. Use the scrollbar to navigate.
         </p>
 
         <!-- Speed Meter -->
@@ -1019,143 +1023,145 @@
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
-// Add these variables to your existing variables section
-let isPinyinMode = false; // Default to character input mode
-let currentInputMode = "character"; // 'character' or 'pinyin'
-let exercises = [];
-let currentExerciseIndex = 0;
-let currentCharIndex = 0;
-let isComposing = false;
-let lastFocusTime = Date.now();
-let isDragging = false;
-let startX = 0;
-let scrollStartPosition = 0;
-let totalWidth = 0;
-let containerWidth = 0;
-let pinyinInputBuffer = ""; // Buffer to store accumulated pinyin input
-let pinyinMatchComplete = false; // Flag to indicate if a match was found
+      // Add these variables to your existing variables section
+      let isPinyinMode = false; // Default to character input mode
+      let currentInputMode = "character"; // 'character' or 'pinyin'
+      let exercises = [];
+      let currentExerciseIndex = 0;
+      let currentCharIndex = 0;
+      let isComposing = false;
+      let lastFocusTime = Date.now();
+      let isDragging = false;
+      let startX = 0;
+      let scrollStartPosition = 0;
+      let totalWidth = 0;
+      let containerWidth = 0;
+      let pinyinInputBuffer = ""; // Buffer to store accumulated pinyin input
+      let pinyinMatchComplete = false; // Flag to indicate if a match was found
 
-// New variables to track character state for backspace functionality
-let charStates = []; // Array to store the state of each character (correct, skipped, etc.)
+      // New variables to track character state for backspace functionality
+      let charStates = []; // Array to store the state of each character (correct, skipped, etc.)
 
-// Speed and stats tracking
-let startTime = 0;
-let speedUpdateTimer = null;
-let typingStats = {
-    correctChars: 0,
-    skippedChars: 0,
-    totalChars: 0,
-    errorCount: 0,
-    startTime: 0,
-    endTime: 0,
-    lastUpdate: 0,
-    speedSamples: [],
-    recentCorrectChars: 0,
-};
+      // Speed and stats tracking
+      let startTime = 0;
+      let speedUpdateTimer = null;
+      let typingStats = {
+        correctChars: 0,
+        skippedChars: 0,
+        totalChars: 0,
+        errorCount: 0,
+        startTime: 0,
+        endTime: 0,
+        lastUpdate: 0,
+        speedSamples: [],
+        recentCorrectChars: 0,
+      };
 
-// Constants
-const SPEED_UPDATE_INTERVAL = 1000; // Update speed display every second
-const SPEED_SAMPLE_WINDOW = 5; // Calculate current speed based on last 5 seconds
+      // Constants
+      const SPEED_UPDATE_INTERVAL = 1000; // Update speed display every second
+      const SPEED_SAMPLE_WINDOW = 5; // Calculate current speed based on last 5 seconds
 
-// Wait for DOM to be fully loaded
-document.addEventListener("DOMContentLoaded", function () {
-    // Initialize element references
-    const elements = {
-        modeToggle: document.getElementById("modeToggle"),
-        themeToggle: document.getElementById("themeToggle"),
-        xlsxFileInput: document.getElementById("xlsxFileInput"),
-        sheetsUrlInput: document.getElementById("sheetsUrlInput"),
-        loadSheetButton: document.getElementById("loadSheetButton"),
-        loadingIndicator: document.getElementById("loadingIndicator"),
-        uploadSection: document.getElementById("uploadSection"),
-        exerciseSection: document.getElementById("exerciseSection"),
-        resultsSection: document.getElementById("resultsSection"),
-        progressDisplay: document.getElementById("progressDisplay"),
-        titleDisplay: document.getElementById("titleDisplay"),
-        exerciseSelector: document.getElementById("exerciseSelector"),
-        pinyinRow: document.getElementById("pinyinRow"),
-        charRow: document.getElementById("charRow"),
-        scrollContainer: document.getElementById("scrollContainer"),
-        scrollWrapper: document.getElementById("scrollWrapper"),
-        scrollbarContainer: document.getElementById("scrollbarContainer"),
-        scrollbar: document.getElementById("scrollbar"),
-        hiddenInput: document.getElementById("hiddenInput"),
-        feedbackMessage: document.getElementById("feedbackMessage"),
-        restartButton: document.getElementById("restartButton"),
-        returnButton: document.getElementById("returnButton"),
-        fileName: document.getElementById("fileName"),
-        exerciseProgress: document.getElementById("exerciseProgress"),
-        exerciseControls: document.querySelector(".exercise-controls"),
-        resultsControls: document.querySelector(".results-controls"),
-        visitorCounter: document.getElementById("visitor-counter"),
-        exerciseInstruction: document.querySelector("#exerciseSection .instruction"),
+      // Wait for DOM to be fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize element references
+        const elements = {
+          modeToggle: document.getElementById("modeToggle"),
+          themeToggle: document.getElementById("themeToggle"),
+          xlsxFileInput: document.getElementById("xlsxFileInput"),
+          sheetsUrlInput: document.getElementById("sheetsUrlInput"),
+          loadSheetButton: document.getElementById("loadSheetButton"),
+          loadingIndicator: document.getElementById("loadingIndicator"),
+          uploadSection: document.getElementById("uploadSection"),
+          exerciseSection: document.getElementById("exerciseSection"),
+          resultsSection: document.getElementById("resultsSection"),
+          progressDisplay: document.getElementById("progressDisplay"),
+          titleDisplay: document.getElementById("titleDisplay"),
+          exerciseSelector: document.getElementById("exerciseSelector"),
+          pinyinRow: document.getElementById("pinyinRow"),
+          charRow: document.getElementById("charRow"),
+          scrollContainer: document.getElementById("scrollContainer"),
+          scrollWrapper: document.getElementById("scrollWrapper"),
+          scrollbarContainer: document.getElementById("scrollbarContainer"),
+          scrollbar: document.getElementById("scrollbar"),
+          hiddenInput: document.getElementById("hiddenInput"),
+          feedbackMessage: document.getElementById("feedbackMessage"),
+          restartButton: document.getElementById("restartButton"),
+          returnButton: document.getElementById("returnButton"),
+          fileName: document.getElementById("fileName"),
+          exerciseProgress: document.getElementById("exerciseProgress"),
+          exerciseControls: document.querySelector(".exercise-controls"),
+          resultsControls: document.querySelector(".results-controls"),
+          visitorCounter: document.getElementById("visitor-counter"),
+          exerciseInstruction: document.querySelector(
+            "#exerciseSection .instruction"
+          ),
 
-        // Speed meter elements
-        currentSpeed: document.getElementById("currentSpeed"),
-        averageSpeed: document.getElementById("averageSpeed"),
-        accuracy: document.getElementById("accuracy"),
+          // Speed meter elements
+          currentSpeed: document.getElementById("currentSpeed"),
+          averageSpeed: document.getElementById("averageSpeed"),
+          accuracy: document.getElementById("accuracy"),
 
-        // Results elements
-        resultTitle: document.getElementById("resultTitle"),
-        resultTotalChars: document.getElementById("resultTotalChars"),
-        resultCorrectChars: document.getElementById("resultCorrectChars"),
-        resultSkippedChars: document.getElementById("resultSkippedChars"),
-        resultTime: document.getElementById("resultTime"),
-        resultSpeed: document.getElementById("resultSpeed"),
-        resultAccuracy: document.getElementById("resultAccuracy"),
-        resultGrade: document.getElementById("resultGrade"),
+          // Results elements
+          resultTitle: document.getElementById("resultTitle"),
+          resultTotalChars: document.getElementById("resultTotalChars"),
+          resultCorrectChars: document.getElementById("resultCorrectChars"),
+          resultSkippedChars: document.getElementById("resultSkippedChars"),
+          resultTime: document.getElementById("resultTime"),
+          resultSpeed: document.getElementById("resultSpeed"),
+          resultAccuracy: document.getElementById("resultAccuracy"),
+          resultGrade: document.getElementById("resultGrade"),
 
-        // Results buttons
-        screenshotBtn: document.getElementById("screenshotBtn"),
-        copyResultsBtn: document.getElementById("copyResultsBtn"),
-        newExerciseBtn: document.getElementById("newExerciseBtn"),
-        returnFromResultsBtn: document.getElementById("returnFromResultsBtn"),
-    };
+          // Results buttons
+          screenshotBtn: document.getElementById("screenshotBtn"),
+          copyResultsBtn: document.getElementById("copyResultsBtn"),
+          newExerciseBtn: document.getElementById("newExerciseBtn"),
+          returnFromResultsBtn: document.getElementById("returnFromResultsBtn"),
+        };
 
-    // Initialize state
-    window.elements = elements; // Make elements available globally for debugging
+        // Initialize state
+        window.elements = elements; // Make elements available globally for debugging
 
-    // Add this function to update the placeholder text
-    function updatePlaceholder() {
-        elements.hiddenInput.placeholder = isPinyinMode
+        // Add this function to update the placeholder text
+        function updatePlaceholder() {
+          elements.hiddenInput.placeholder = isPinyinMode
             ? "Type pinyin here..."
             : "Type here...";
-    }
-
-    // Set initial placeholder
-    updatePlaceholder();
-
-    // Function to clear the pinyin buffer
-    function resetPinyinBuffer() {
-        pinyinInputBuffer = "";
-    }
-
-    // Function to handle mode switching
-    function toggleInputMode() {
-        resetPinyinBuffer();
-        isPinyinMode = elements.modeToggle.checked;
-        currentInputMode = isPinyinMode ? "pinyin" : "character";
-
-        updatePlaceholder(); // Update placeholder text
-
-        if (exercises.length > 0) {
-            // Reload the current exercise with the new mode
-            loadExercise(exercises[currentExerciseIndex]);
         }
 
-        // Focus the input field
-        setTimeout(() => elements.hiddenInput.focus(), 100);
-    }
+        // Set initial placeholder
+        updatePlaceholder();
 
-    // Helper function to handle errors
-    function showError(message) {
-        alert(message);
-        console.error(message);
-    }
+        // Function to clear the pinyin buffer
+        function resetPinyinBuffer() {
+          pinyinInputBuffer = "";
+        }
 
-    // Process XLSX data from ArrayBuffer
-    function processXLSXData(arrayBuffer) {
-        try {
+        // Function to handle mode switching
+        function toggleInputMode() {
+          resetPinyinBuffer();
+          isPinyinMode = elements.modeToggle.checked;
+          currentInputMode = isPinyinMode ? "pinyin" : "character";
+
+          updatePlaceholder(); // Update placeholder text
+
+          if (exercises.length > 0) {
+            // Reload the current exercise with the new mode
+            loadExercise(exercises[currentExerciseIndex]);
+          }
+
+          // Focus the input field
+          setTimeout(() => elements.hiddenInput.focus(), 100);
+        }
+
+        // Helper function to handle errors
+        function showError(message) {
+          alert(message);
+          console.error(message);
+        }
+
+        // Process XLSX data from ArrayBuffer
+        function processXLSXData(arrayBuffer) {
+          try {
             // Parse the Excel file
             const data = new Uint8Array(arrayBuffer);
             const workbook = XLSX.read(data, { type: "array" });
@@ -1166,191 +1172,191 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Convert to JSON
             const jsonData = XLSX.utils.sheet_to_json(worksheet, {
-                header: ["title", "text"],
+              header: ["title", "text"],
             });
 
             // Skip header row if it exists
             const startIndex =
-                jsonData[0] &&
-                (jsonData[0].title === "Title" || jsonData[0].title === "title")
-                    ? 1
-                    : 0;
+              jsonData[0] &&
+              (jsonData[0].title === "Title" || jsonData[0].title === "title")
+                ? 1
+                : 0;
 
             // Process data into exercises format
             const processedExercises = [];
             for (let i = startIndex; i < jsonData.length; i++) {
-                const row = jsonData[i];
-                if (
-                    row &&
-                    row.text &&
-                    typeof row.text === "string" &&
-                    row.text.trim() !== ""
-                ) {
-                    processedExercises.push({
-                        title: row.title || `Exercise ${i + 1 - startIndex}`,
-                        text: row.text,
-                    });
-                }
+              const row = jsonData[i];
+              if (
+                row &&
+                row.text &&
+                typeof row.text === "string" &&
+                row.text.trim() !== ""
+              ) {
+                processedExercises.push({
+                  title: row.title || `Exercise ${i + 1 - startIndex}`,
+                  text: row.text,
+                });
+              }
             }
 
             if (processedExercises.length === 0) {
-                showError(
-                    "No valid exercises found in the Excel file. Ensure the second column contains Chinese text."
-                );
-                return false;
+              showError(
+                "No valid exercises found in the Excel file. Ensure the second column contains Chinese text."
+              );
+              return false;
             }
 
             exercises = processedExercises;
             populateExerciseSelector();
             startExercise();
             return true;
-        } catch (error) {
+          } catch (error) {
             showError("Error processing Excel file: " + error.message);
             console.error(error);
             return false;
+          }
         }
-    }
 
-    function extractGoogleSheetId(url) {
-        // Extract the sheet ID from different Google Sheets URL formats
-        const regex = /\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/;
-        const match = url.match(regex);
-        return match ? match[1] : null;
-    }
+        function extractGoogleSheetId(url) {
+          // Extract the sheet ID from different Google Sheets URL formats
+          const regex = /\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/;
+          const match = url.match(regex);
+          return match ? match[1] : null;
+        }
 
-    function importFromGoogleSheets(url) {
-        const sheetId = extractGoogleSheetId(url);
+        function importFromGoogleSheets(url) {
+          const sheetId = extractGoogleSheetId(url);
 
-        if (!sheetId) {
+          if (!sheetId) {
             showError("Invalid Google Sheets URL. Please check and try again.");
             elements.loadingIndicator.style.display = "none";
             return;
-        }
+          }
 
-        elements.loadingIndicator.style.display = "inline-block";
+          elements.loadingIndicator.style.display = "inline-block";
 
-        // First try to get the data as XLSX
-        const xlsxExportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=xlsx`;
+          // First try to get the data as XLSX
+          const xlsxExportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=xlsx`;
 
-        fetch(xlsxExportUrl)
+          fetch(xlsxExportUrl)
             .then((response) => {
-                if (!response.ok) {
-                    throw new Error(
-                        "Could not access the sheet. Make sure it's shared publicly or with anyone with the link."
-                    );
-                }
-                return response.arrayBuffer();
+              if (!response.ok) {
+                throw new Error(
+                  "Could not access the sheet. Make sure it's shared publicly or with anyone with the link."
+                );
+              }
+              return response.arrayBuffer();
             })
             .then((data) => {
-                elements.loadingIndicator.style.display = "none";
-                processXLSXData(data);
+              elements.loadingIndicator.style.display = "none";
+              processXLSXData(data);
             })
             .catch((error) => {
-                // If XLSX fails, fallback to CSV
-                console.warn("XLSX import failed, falling back to CSV", error);
-                const csvExportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
+              // If XLSX fails, fallback to CSV
+              console.warn("XLSX import failed, falling back to CSV", error);
+              const csvExportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
 
-                fetch(csvExportUrl)
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(
-                                "Could not access the sheet. Make sure it's shared publicly or with anyone with the link."
-                            );
-                        }
-                        return response.text();
-                    })
-                    .then((csvData) => {
-                        elements.loadingIndicator.style.display = "none";
-                        processCSVData(csvData);
-                    })
-                    .catch((finalError) => {
-                        elements.loadingIndicator.style.display = "none";
-                        showError(
-                            `Error importing from Google Sheets: ${finalError.message}`
-                        );
-                    });
+              fetch(csvExportUrl)
+                .then((response) => {
+                  if (!response.ok) {
+                    throw new Error(
+                      "Could not access the sheet. Make sure it's shared publicly or with anyone with the link."
+                    );
+                  }
+                  return response.text();
+                })
+                .then((csvData) => {
+                  elements.loadingIndicator.style.display = "none";
+                  processCSVData(csvData);
+                })
+                .catch((finalError) => {
+                  elements.loadingIndicator.style.display = "none";
+                  showError(
+                    `Error importing from Google Sheets: ${finalError.message}`
+                  );
+                });
             });
-    }
+        }
 
-    // Process CSV data as fallback
-    function processCSVData(text) {
-        try {
+        // Process CSV data as fallback
+        function processCSVData(text) {
+          try {
             // Remove BOM and handle different line endings (CRLF, LF)
             const cleanedText = text
-                .replace(/^\uFEFF/, "")
-                .replace(/\r\n/g, "\n");
+              .replace(/^\uFEFF/, "")
+              .replace(/\r\n/g, "\n");
             const lines = cleanedText
-                .split("\n")
-                .map((line) => line.trim())
-                .filter((line) => line !== "");
+              .split("\n")
+              .map((line) => line.trim())
+              .filter((line) => line !== "");
 
             // Parse CSV lines - handling quoted fields correctly
             const parsedExercises = [];
             for (const line of lines) {
-                let fields = [];
-                let currentField = "";
-                let inQuotes = false;
+              let fields = [];
+              let currentField = "";
+              let inQuotes = false;
 
-                for (let i = 0; i < line.length; i++) {
-                    const char = line[i];
+              for (let i = 0; i < line.length; i++) {
+                const char = line[i];
 
-                    if (char === '"' && (i === 0 || line[i - 1] !== "\\")) {
-                        inQuotes = !inQuotes;
-                    } else if (char === "," && !inQuotes) {
-                        fields.push(currentField.replace(/^"(.*)"$/, "$1").trim());
-                        currentField = "";
-                    } else {
-                        currentField += char;
-                    }
+                if (char === '"' && (i === 0 || line[i - 1] !== "\\")) {
+                  inQuotes = !inQuotes;
+                } else if (char === "," && !inQuotes) {
+                  fields.push(currentField.replace(/^"(.*)"$/, "$1").trim());
+                  currentField = "";
+                } else {
+                  currentField += char;
                 }
+              }
 
-                // Add the last field
-                fields.push(currentField.replace(/^"(.*)"$/, "$1").trim());
+              // Add the last field
+              fields.push(currentField.replace(/^"(.*)"$/, "$1").trim());
 
-                if (fields.length >= 2 && fields[1].length > 0) {
-                    parsedExercises.push({
-                        title: fields[0] || "Exercise",
-                        text: fields[1],
-                    });
-                }
+              if (fields.length >= 2 && fields[1].length > 0) {
+                parsedExercises.push({
+                  title: fields[0] || "Exercise",
+                  text: fields[1],
+                });
+              }
             }
 
             if (parsedExercises.length === 0) {
-                showError(
-                    "No valid exercises found in CSV. Ensure second column contains Chinese text."
-                );
-                return false;
+              showError(
+                "No valid exercises found in CSV. Ensure second column contains Chinese text."
+              );
+              return false;
             }
 
             exercises = parsedExercises;
             populateExerciseSelector();
             startExercise();
             return true;
-        } catch (error) {
+          } catch (error) {
             showError("Error parsing CSV data: " + error.message);
             console.error(error);
             return false;
+          }
         }
-    }
 
-    function populateExerciseSelector() {
-        // Clear the selector
-        elements.exerciseSelector.innerHTML = "";
+        function populateExerciseSelector() {
+          // Clear the selector
+          elements.exerciseSelector.innerHTML = "";
 
-        // Add options for each exercise
-        exercises.forEach((exercise, index) => {
+          // Add options for each exercise
+          exercises.forEach((exercise, index) => {
             const option = document.createElement("option");
             option.value = index;
             option.textContent = `${index + 1}. ${exercise.title}`;
             elements.exerciseSelector.appendChild(option);
-        });
+          });
 
-        // Set the current exercise
-        elements.exerciseSelector.value = currentExerciseIndex;
-    }
+          // Set the current exercise
+          elements.exerciseSelector.value = currentExerciseIndex;
+        }
 
-    function resetTypingStats() {
-        typingStats = {
+        function resetTypingStats() {
+          typingStats = {
             correctChars: 0,
             skippedChars: 0,
             totalChars: 0,
@@ -1360,51 +1366,51 @@ document.addEventListener("DOMContentLoaded", function () {
             lastUpdate: Date.now(),
             speedSamples: [],
             recentCorrectChars: 0,
-        };
+          };
 
-        // Initialize character states array
-        charStates = [];
+          // Initialize character states array
+          charStates = [];
 
-        // Reset speed display
-        elements.currentSpeed.textContent = "0";
-        elements.averageSpeed.textContent = "0";
-        elements.accuracy.textContent = "100%";
+          // Reset speed display
+          elements.currentSpeed.textContent = "0";
+          elements.averageSpeed.textContent = "0";
+          elements.accuracy.textContent = "100%";
 
-        // Start speed update timer
-        if (speedUpdateTimer) {
+          // Start speed update timer
+          if (speedUpdateTimer) {
             clearInterval(speedUpdateTimer);
-        }
+          }
 
-        speedUpdateTimer = setInterval(
+          speedUpdateTimer = setInterval(
             updateSpeedDisplay,
             SPEED_UPDATE_INTERVAL
-        );
-    }
+          );
+        }
 
-    function updateSpeedDisplay() {
-        const now = Date.now();
-        const elapsedSeconds = (now - typingStats.lastUpdate) / 1000;
+        function updateSpeedDisplay() {
+          const now = Date.now();
+          const elapsedSeconds = (now - typingStats.lastUpdate) / 1000;
 
-        if (elapsedSeconds > 0) {
+          if (elapsedSeconds > 0) {
             // Calculate current speed based on recent characters
             const currentCharsPerMinute = Math.round(
-                (typingStats.recentCorrectChars / elapsedSeconds) * 60
+              (typingStats.recentCorrectChars / elapsedSeconds) * 60
             );
 
             // Add to samples (limit to last SPEED_SAMPLE_WINDOW samples)
             typingStats.speedSamples.push({
-                time: now,
-                chars: typingStats.recentCorrectChars,
-                speed: currentCharsPerMinute,
+              time: now,
+              chars: typingStats.recentCorrectChars,
+              speed: currentCharsPerMinute,
             });
 
             // Keep only the most recent samples
             while (
-                typingStats.speedSamples.length > 1 &&
-                now - typingStats.speedSamples[0].time >
-                    SPEED_SAMPLE_WINDOW * 1000
+              typingStats.speedSamples.length > 1 &&
+              now - typingStats.speedSamples[0].time >
+                SPEED_SAMPLE_WINDOW * 1000
             ) {
-                typingStats.speedSamples.shift();
+              typingStats.speedSamples.shift();
             }
 
             // Calculate average speed for display (weighted average of samples)
@@ -1412,89 +1418,89 @@ document.addEventListener("DOMContentLoaded", function () {
             let validSamples = 0;
 
             typingStats.speedSamples.forEach((sample) => {
-                if (sample.speed > 0) {
-                    totalSpeed += sample.speed;
-                    validSamples++;
-                }
+              if (sample.speed > 0) {
+                totalSpeed += sample.speed;
+                validSamples++;
+              }
             });
 
             const averageSpeed =
-                validSamples > 0 ? Math.round(totalSpeed / validSamples) : 0;
+              validSamples > 0 ? Math.round(totalSpeed / validSamples) : 0;
 
             // Calculate overall average speed
             const totalElapsedMinutes = (now - typingStats.startTime) / 60000;
             const overallSpeed =
-                totalElapsedMinutes > 0
-                    ? Math.round(typingStats.correctChars / totalElapsedMinutes)
-                    : 0;
+              totalElapsedMinutes > 0
+                ? Math.round(typingStats.correctChars / totalElapsedMinutes)
+                : 0;
 
             // Calculate accuracy
             const accuracy =
-                typingStats.totalChars > 0
-                    ? Math.round(
-                        (typingStats.correctChars / typingStats.totalChars) * 100
-                    )
-                    : 100;
+              typingStats.totalChars > 0
+                ? Math.round(
+                    (typingStats.correctChars / typingStats.totalChars) * 100
+                  )
+                : 100;
 
             // Update the display
             elements.currentSpeed.textContent =
-                currentCharsPerMinute > 0 ? currentCharsPerMinute : "0";
+              currentCharsPerMinute > 0 ? currentCharsPerMinute : "0";
             elements.averageSpeed.textContent =
-                overallSpeed > 0 ? overallSpeed : "0";
+              overallSpeed > 0 ? overallSpeed : "0";
             elements.accuracy.textContent = `${accuracy}%`;
 
             // Reset the counter for the next interval
             typingStats.recentCorrectChars = 0;
             typingStats.lastUpdate = now;
+          }
         }
-    }
 
-    function startExercise() {
-        elements.uploadSection.style.display = "none";
-        elements.exerciseSection.style.display = "block";
-        elements.resultsSection.style.display = "none";
-        
-        // Set body class for exercise mode
-        document.body.classList.add('exercise-mode');
-        document.body.classList.remove('results-mode');
-        
-        // Show exercise controls in the header
-        elements.exerciseControls.style.display = "flex";
-        elements.resultsControls.style.display = "none";
-        
-        currentCharIndex = 0;
-        resetTypingStats();
-        loadExercise(exercises[currentExerciseIndex]);
-        setTimeout(() => elements.hiddenInput.focus(), 100);
-    }
+        function startExercise() {
+          elements.uploadSection.style.display = "none";
+          elements.exerciseSection.style.display = "block";
+          elements.resultsSection.style.display = "none";
 
-    function restartCurrentExercise() {
-        resetPinyinBuffer();
-        currentCharIndex = 0;
-        resetTypingStats();
-        loadExercise(exercises[currentExerciseIndex]);
-        elements.feedbackMessage.textContent = "";
-        elements.exerciseProgress.style.width = "0%";
-        setTimeout(() => elements.hiddenInput.focus(), 100);
-    }
+          // Set body class for exercise mode
+          document.body.classList.add("exercise-mode");
+          document.body.classList.remove("results-mode");
 
-    function loadExercise(exercise) {
-        if (!exercise || !exercise.text) {
+          // Show exercise controls in the header
+          elements.exerciseControls.style.display = "flex";
+          elements.resultsControls.style.display = "none";
+
+          currentCharIndex = 0;
+          resetTypingStats();
+          loadExercise(exercises[currentExerciseIndex]);
+          setTimeout(() => elements.hiddenInput.focus(), 100);
+        }
+
+        function restartCurrentExercise() {
+          resetPinyinBuffer();
+          currentCharIndex = 0;
+          resetTypingStats();
+          loadExercise(exercises[currentExerciseIndex]);
+          elements.feedbackMessage.textContent = "";
+          elements.exerciseProgress.style.width = "0%";
+          setTimeout(() => elements.hiddenInput.focus(), 100);
+        }
+
+        function loadExercise(exercise) {
+          if (!exercise || !exercise.text) {
             showError("Invalid exercise data");
             return;
-        }
+          }
 
-        elements.titleDisplay.textContent = exercise.title;
-        elements.progressDisplay.textContent = `Exercise ${
+          elements.titleDisplay.textContent = exercise.title;
+          elements.progressDisplay.textContent = `Exercise ${
             currentExerciseIndex + 1
-        } of ${exercises.length}`;
+          } of ${exercises.length}`;
 
-        try {
+          try {
             // Use pinyin library with specific options
             const pinyinArr = pinyinPro.pinyin(exercise.text, {
-                toneType: "marks",
-                type: "array",
-                nonZh: "retain",
+              toneType: "marks",
+              type: "array",
+              nonZh: "retain",
             });
 
             // Clear previous exercise
@@ -1506,25 +1512,25 @@ document.addEventListener("DOMContentLoaded", function () {
             const fragment2 = document.createDocumentFragment();
 
             // Reset charStates array
-            charStates = new Array(exercise.text.length).fill('pending');
+            charStates = new Array(exercise.text.length).fill("pending");
 
             exercise.text.split("").forEach((char, i) => {
-                const pinyinSpan = document.createElement("span");
-                pinyinSpan.className = "pinyin-box";
-                pinyinSpan.textContent = isPinyinMode ? "" : pinyinArr[i] || "";
-                pinyinSpan.dataset.pinyin = pinyinArr[i] || "";
-                fragment1.appendChild(pinyinSpan);
+              const pinyinSpan = document.createElement("span");
+              pinyinSpan.className = "pinyin-box";
+              pinyinSpan.textContent = isPinyinMode ? "" : pinyinArr[i] || "";
+              pinyinSpan.dataset.pinyin = pinyinArr[i] || "";
+              fragment1.appendChild(pinyinSpan);
 
-                const charSpan = document.createElement("span");
-                charSpan.className = "char-box";
-                charSpan.dataset.expected = isPinyinMode
-                    ? pinyinPro.pinyin(char, {
-                        toneType: "none",
-                        type: "string",
-                    }) || char
-                    : char;
-                charSpan.textContent = isPinyinMode ? char : "";
-                fragment2.appendChild(charSpan);
+              const charSpan = document.createElement("span");
+              charSpan.className = "char-box";
+              charSpan.dataset.expected = isPinyinMode
+                ? pinyinPro.pinyin(char, {
+                    toneType: "none",
+                    type: "string",
+                  }) || char
+                : char;
+              charSpan.textContent = isPinyinMode ? char : "";
+              fragment2.appendChild(charSpan);
             });
 
             elements.pinyinRow.appendChild(fragment1);
@@ -1535,82 +1541,82 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Update instruction text based on mode - FIXED: Use specific element reference
             const instructionText = isPinyinMode
-                ? 'Type the pinyin for each character without tone. Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input.'
-                : 'Type the Chinese characters or press <span class="keyboard-shortcut">Space</span> to skip a character. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input. Use the scrollbar to navigate.';
+              ? 'Type the pinyin for each character without tone. Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input.'
+              : 'Type the Chinese characters or press <span class="keyboard-shortcut">Space</span> to skip a character. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input. Use the scrollbar to navigate.';
 
             elements.exerciseInstruction.innerHTML = instructionText;
 
             // Calculate total content width for scrollbar
             setTimeout(() => {
-                updateScrollbarDimensions();
-                updateInterface();
+              updateScrollbarDimensions();
+              updateInterface();
             }, 0);
-        } catch (error) {
+          } catch (error) {
             showError("Error loading exercise: " + error.message);
             console.error(error);
+          }
         }
-    }
 
-    function updateScrollbarDimensions() {
-        // Calculate dimensions for scrollbar
-        containerWidth = elements.scrollWrapper.offsetWidth;
-        totalWidth = elements.scrollContainer.scrollWidth;
+        function updateScrollbarDimensions() {
+          // Calculate dimensions for scrollbar
+          containerWidth = elements.scrollWrapper.offsetWidth;
+          totalWidth = elements.scrollContainer.scrollWidth;
 
-        // Set scrollbar width proportional to visible area
-        const scrollbarRatio = Math.min(containerWidth / totalWidth, 1);
-        const scrollbarWidth = Math.max(containerWidth * scrollbarRatio, 40); // Minimum width of 40px
+          // Set scrollbar width proportional to visible area
+          const scrollbarRatio = Math.min(containerWidth / totalWidth, 1);
+          const scrollbarWidth = Math.max(containerWidth * scrollbarRatio, 40); // Minimum width of 40px
 
-        elements.scrollbar.style.width = scrollbarWidth + "px";
-    }
+          elements.scrollbar.style.width = scrollbarWidth + "px";
+        }
 
-    function updateScrollbarPosition(offsetX) {
-        // Calculate how much of the content is scrolled
-        const maxOffset = totalWidth - containerWidth;
-        const scrollRatio = maxOffset <= 0 ? 0 : offsetX / maxOffset;
+        function updateScrollbarPosition(offsetX) {
+          // Calculate how much of the content is scrolled
+          const maxOffset = totalWidth - containerWidth;
+          const scrollRatio = maxOffset <= 0 ? 0 : offsetX / maxOffset;
 
-        // Calculate scrollbar position
-        const maxScrollbarOffset =
+          // Calculate scrollbar position
+          const maxScrollbarOffset =
             elements.scrollbarContainer.offsetWidth -
             elements.scrollbar.offsetWidth;
-        const scrollbarPosition = scrollRatio * maxScrollbarOffset;
+          const scrollbarPosition = scrollRatio * maxScrollbarOffset;
 
-        // Update scrollbar position
-        elements.scrollbar.style.left = scrollbarPosition + "px";
-    }
+          // Update scrollbar position
+          elements.scrollbar.style.left = scrollbarPosition + "px";
+        }
 
-    function updateInterface(manualOffset = null) {
-        // Reset all character boxes
-        document.querySelectorAll(".char-box").forEach((box, index) => {
+        function updateInterface(manualOffset = null) {
+          // Reset all character boxes
+          document.querySelectorAll(".char-box").forEach((box, index) => {
             box.classList.remove("current-char");
             if (index < currentCharIndex) {
-                box.classList.add("completed-char");
+              box.classList.add("completed-char");
             } else {
-                box.classList.remove("completed-char");
+              box.classList.remove("completed-char");
             }
-        });
+          });
 
-        // Highlight current character
-        const charBoxes = document.querySelectorAll(".char-box");
-        if (charBoxes.length > 0 && currentCharIndex < charBoxes.length) {
+          // Highlight current character
+          const charBoxes = document.querySelectorAll(".char-box");
+          if (charBoxes.length > 0 && currentCharIndex < charBoxes.length) {
             charBoxes[currentCharIndex].classList.add("current-char");
-        }
+          }
 
-        // Update progress bar
-        if (charBoxes.length > 0) {
+          // Update progress bar
+          if (charBoxes.length > 0) {
             const progressPercentage =
-                (currentCharIndex / charBoxes.length) * 100;
+              (currentCharIndex / charBoxes.length) * 100;
             elements.exerciseProgress.style.width = `${progressPercentage}%`;
-        }
+          }
 
-        // Calculate scroll position
-        const boxWidth =
+          // Calculate scroll position
+          const boxWidth =
             charBoxes.length > 0 ? charBoxes[0].offsetWidth + 16 : 76; // width + margins
 
-        let offsetX;
-        if (manualOffset !== null) {
+          let offsetX;
+          if (manualOffset !== null) {
             // Use manual offset from scrollbar drag
             offsetX = manualOffset;
-        } else {
+          } else {
             // Center current character
             const containerWidth = elements.scrollWrapper.offsetWidth;
             const offset = containerWidth / 2 - boxWidth / 2;
@@ -1619,240 +1625,240 @@ document.addEventListener("DOMContentLoaded", function () {
             // Constrain to valid range
             const maxOffset = totalWidth - containerWidth;
             offsetX = Math.max(0, Math.min(offsetX, maxOffset));
-        }
+          }
 
-        // Apply transform to scroll container
-        requestAnimationFrame(() => {
+          // Apply transform to scroll container
+          requestAnimationFrame(() => {
             elements.scrollContainer.style.transform = `translateX(-${offsetX}px)`;
             updateScrollbarPosition(offsetX);
-        });
-    }
+          });
+        }
 
-    function handleScrollbarDrag(clientX) {
-        const scrollbarContainerRect =
+        function handleScrollbarDrag(clientX) {
+          const scrollbarContainerRect =
             elements.scrollbarContainer.getBoundingClientRect();
-        const scrollbarRect = elements.scrollbar.getBoundingClientRect();
+          const scrollbarRect = elements.scrollbar.getBoundingClientRect();
 
-        // Calculate position within container accounting for scrollbar width
-        const scrollbarWidth = scrollbarRect.width;
-        const containerWidth = scrollbarContainerRect.width;
+          // Calculate position within container accounting for scrollbar width
+          const scrollbarWidth = scrollbarRect.width;
+          const containerWidth = scrollbarContainerRect.width;
 
-        // Calculate the new scrollbar position
-        let newLeft =
+          // Calculate the new scrollbar position
+          let newLeft =
             clientX - scrollbarContainerRect.left - scrollbarWidth / 2;
 
-        // Constrain to valid range
-        newLeft = Math.max(
+          // Constrain to valid range
+          newLeft = Math.max(
             0,
             Math.min(newLeft, containerWidth - scrollbarWidth)
-        );
+          );
 
-        // Calculate content offset based on scrollbar position
-        const scrollRatio = newLeft / (containerWidth - scrollbarWidth);
-        const maxOffset = totalWidth - elements.scrollWrapper.offsetWidth;
-        const contentOffset = maxOffset * scrollRatio;
+          // Calculate content offset based on scrollbar position
+          const scrollRatio = newLeft / (containerWidth - scrollbarWidth);
+          const maxOffset = totalWidth - elements.scrollWrapper.offsetWidth;
+          const contentOffset = maxOffset * scrollRatio;
 
-        // Update interface with manual offset
-        updateInterface(contentOffset);
+          // Update interface with manual offset
+          updateInterface(contentOffset);
 
-        return newLeft;
-    }
+          return newLeft;
+        }
 
-    function handleSkip() {
-        const charBoxes = document.querySelectorAll(".char-box");
-        const pinyinBoxes = document.querySelectorAll(".pinyin-box");
+        function handleSkip() {
+          const charBoxes = document.querySelectorAll(".char-box");
+          const pinyinBoxes = document.querySelectorAll(".pinyin-box");
 
-        if (currentCharIndex >= charBoxes.length) return;
+          if (currentCharIndex >= charBoxes.length) return;
 
-        if (isPinyinMode) {
+          if (isPinyinMode) {
             // In pinyin mode, show the pinyin with tone when skipped
             pinyinBoxes[currentCharIndex].textContent =
-                pinyinBoxes[currentCharIndex].dataset.pinyin;
+              pinyinBoxes[currentCharIndex].dataset.pinyin;
             pinyinBoxes[currentCharIndex].style.color = "#ffc107"; // Yellow for skipped
-        } else {
+          } else {
             // In character mode, show the character
             charBoxes[currentCharIndex].textContent =
-                charBoxes[currentCharIndex].dataset.expected;
+              charBoxes[currentCharIndex].dataset.expected;
             charBoxes[currentCharIndex].style.color = "#ffc107"; // Yellow for skipped
-        }
+          }
 
-        // Update stats
-        typingStats.skippedChars++;
-        
-        // Update character state
-        charStates[currentCharIndex] = 'skipped';
+          // Update stats
+          typingStats.skippedChars++;
 
-        currentCharIndex++;
+          // Update character state
+          charStates[currentCharIndex] = "skipped";
 
-        if (currentCharIndex === charBoxes.length) {
+          currentCharIndex++;
+
+          if (currentCharIndex === charBoxes.length) {
             completeExercise();
-        } else {
+          } else {
             updateInterface();
             elements.hiddenInput.focus();
+          }
         }
-    }
 
-    function handleBackspace() {
-        if (currentCharIndex <= 0) return; // Can't go back if at the beginning
-        
-        if (isPinyinMode) {
+        function handleBackspace() {
+          if (currentCharIndex <= 0) return; // Can't go back if at the beginning
+
+          if (isPinyinMode) {
             // First try to clear the buffer if there's anything in it
             if (pinyinInputBuffer.length > 0) {
-                pinyinInputBuffer = "";
-                showFeedback("Buffer Cleared", "#0a84ff");
-                return;
+              pinyinInputBuffer = "";
+              showFeedback("Buffer Cleared", "#0a84ff");
+              return;
             }
-        }
-        
-        const prevIndex = currentCharIndex - 1;
-        const charBoxes = document.querySelectorAll(".char-box");
-        const pinyinBoxes = document.querySelectorAll(".pinyin-box");
-        
-        // Update stats based on the previous character's state
-        if (charStates[prevIndex] === 'correct') {
+          }
+
+          const prevIndex = currentCharIndex - 1;
+          const charBoxes = document.querySelectorAll(".char-box");
+          const pinyinBoxes = document.querySelectorAll(".pinyin-box");
+
+          // Update stats based on the previous character's state
+          if (charStates[prevIndex] === "correct") {
             typingStats.correctChars--;
-        } else if (charStates[prevIndex] === 'skipped') {
+          } else if (charStates[prevIndex] === "skipped") {
             typingStats.skippedChars--;
-        }
-        
-        // Reset the previous character's appearance
-        if (isPinyinMode) {
+          }
+
+          // Reset the previous character's appearance
+          if (isPinyinMode) {
             // In pinyin mode, clear the pinyin display
             pinyinBoxes[prevIndex].textContent = "";
             pinyinBoxes[prevIndex].classList.remove("correct-pinyin");
             pinyinBoxes[prevIndex].style.color = ""; // Reset color
-        } else {
+          } else {
             // In character mode, clear the character display
             charBoxes[prevIndex].textContent = "";
             charBoxes[prevIndex].style.color = ""; // Reset color
             pinyinBoxes[prevIndex].classList.remove("correct-pinyin");
+          }
+
+          // Reset the character state
+          charStates[prevIndex] = "pending";
+
+          // Move back to the previous character
+          currentCharIndex = prevIndex;
+
+          // Update the interface
+          updateInterface();
+          showFeedback("◀ Backspace", "#0a84ff");
+          elements.hiddenInput.focus();
         }
-        
-        // Reset the character state
-        charStates[prevIndex] = 'pending';
-        
-        // Move back to the previous character
-        currentCharIndex = prevIndex;
-        
-        // Update the interface
-        updateInterface();
-        showFeedback("◀ Backspace", "#0a84ff");
-        elements.hiddenInput.focus();
-    }
 
-    function formatTime(milliseconds) {
-        const totalSeconds = Math.floor(milliseconds / 1000);
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-    }
+        function formatTime(milliseconds) {
+          const totalSeconds = Math.floor(milliseconds / 1000);
+          const minutes = Math.floor(totalSeconds / 60);
+          const seconds = totalSeconds % 60;
+          return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+        }
 
-    function calculateGrade(speed, accuracy) {
-        // Basic grading system based on speed and accuracy
-        if (speed >= 30 && accuracy >= 95) return "A+";
-        if (speed >= 20 && accuracy >= 90) return "A";
-        if (speed >= 20 && accuracy >= 85) return "B+";
-        if (speed >= 15 && accuracy >= 80) return "B";
-        if (speed >= 10 && accuracy >= 75) return "C+";
-        if (speed >= 7 && accuracy >= 70) return "C";
-        if (speed >= 5 && accuracy >= 65) return "D+";
-        if (speed >= 2 && accuracy >= 60) return "D";
-        return "E";
-    }
+        function calculateGrade(speed, accuracy) {
+          // Basic grading system based on speed and accuracy
+          if (speed >= 30 && accuracy >= 95) return "A+";
+          if (speed >= 20 && accuracy >= 90) return "A";
+          if (speed >= 20 && accuracy >= 85) return "B+";
+          if (speed >= 15 && accuracy >= 80) return "B";
+          if (speed >= 10 && accuracy >= 75) return "C+";
+          if (speed >= 7 && accuracy >= 70) return "C";
+          if (speed >= 5 && accuracy >= 65) return "D+";
+          if (speed >= 2 && accuracy >= 60) return "D";
+          return "E";
+        }
 
-    function showResults() {
-        // Stop speed update timer
-        if (speedUpdateTimer) {
+        function showResults() {
+          // Stop speed update timer
+          if (speedUpdateTimer) {
             clearInterval(speedUpdateTimer);
             speedUpdateTimer = null;
-        }
+          }
 
-        // Calculate final stats
-        const elapsedTime = typingStats.endTime - typingStats.startTime;
-        const elapsedMinutes = elapsedTime / 60000;
-        const speed = Math.round(
+          // Calculate final stats
+          const elapsedTime = typingStats.endTime - typingStats.startTime;
+          const elapsedMinutes = elapsedTime / 60000;
+          const speed = Math.round(
             typingStats.correctChars / Math.max(elapsedMinutes, 0.1)
-        );
-        const accuracy = Math.round(
+          );
+          const accuracy = Math.round(
             (typingStats.correctChars / typingStats.totalChars) * 100
-        );
-        const grade = calculateGrade(speed, accuracy);
+          );
+          const grade = calculateGrade(speed, accuracy);
 
-        // Update result elements
-        elements.resultTitle.textContent = `${exercises[currentExerciseIndex].title} - Completed`;
-        elements.resultTotalChars.textContent = typingStats.totalChars;
-        elements.resultCorrectChars.textContent = typingStats.correctChars;
-        elements.resultSkippedChars.textContent = typingStats.skippedChars;
-        elements.resultTime.textContent = formatTime(elapsedTime);
-        elements.resultSpeed.textContent = speed;
-        elements.resultAccuracy.textContent = `${accuracy}%`;
-        elements.resultGrade.textContent = grade;
+          // Update result elements
+          elements.resultTitle.textContent = `${exercises[currentExerciseIndex].title} - Completed`;
+          elements.resultTotalChars.textContent = typingStats.totalChars;
+          elements.resultCorrectChars.textContent = typingStats.correctChars;
+          elements.resultSkippedChars.textContent = typingStats.skippedChars;
+          elements.resultTime.textContent = formatTime(elapsedTime);
+          elements.resultSpeed.textContent = speed;
+          elements.resultAccuracy.textContent = `${accuracy}%`;
+          elements.resultGrade.textContent = grade;
 
-        // Adjust grade color based on result
-        if (grade.startsWith("A")) {
+          // Adjust grade color based on result
+          if (grade.startsWith("A")) {
             elements.resultGrade.style.color = "#34C759"; // Green
-        } else if (grade.startsWith("B")) {
+          } else if (grade.startsWith("B")) {
             elements.resultGrade.style.color = "#007AFF"; // Blue
-        } else if (grade.startsWith("C")) {
+          } else if (grade.startsWith("C")) {
             elements.resultGrade.style.color = "#FF9500"; // Orange
-        } else {
+          } else {
             elements.resultGrade.style.color = "#FF3B30"; // Red
+          }
+
+          // Remove exercise mode class
+          document.body.classList.remove("exercise-mode");
+
+          // Add results mode class to hide h1 and visitor counter
+          document.body.classList.add("results-mode");
+
+          // Hide exercise controls and show results controls
+          elements.exerciseControls.style.display = "none";
+          elements.resultsControls.style.display = "flex";
+
+          // Show results section
+          elements.exerciseSection.style.display = "none";
+          elements.resultsSection.style.display = "block";
         }
 
-        // Remove exercise mode class
-        document.body.classList.remove('exercise-mode');
-        
-        // Add results mode class to hide h1 and visitor counter
-        document.body.classList.add('results-mode');
-        
-        // Hide exercise controls and show results controls
-        elements.exerciseControls.style.display = "none";
-        elements.resultsControls.style.display = "flex";
+        function completeExercise() {
+          // Record end time
+          typingStats.endTime = Date.now();
 
-        // Show results section
-        elements.exerciseSection.style.display = "none";
-        elements.resultsSection.style.display = "block";
-    }
-
-    function completeExercise() {
-        // Record end time
-        typingStats.endTime = Date.now();
-
-        // Stop speed updates
-        if (speedUpdateTimer) {
+          // Stop speed updates
+          if (speedUpdateTimer) {
             clearInterval(speedUpdateTimer);
+          }
+
+          elements.feedbackMessage.textContent = "Exercise Completed!";
+          elements.feedbackMessage.style.color = "#0a84ff";
+          elements.hiddenInput.blur();
+
+          // Show results after a short delay
+          setTimeout(showResults, 1000);
         }
 
-        elements.feedbackMessage.textContent = "Exercise Completed!";
-        elements.feedbackMessage.style.color = "#0a84ff";
-        elements.hiddenInput.blur();
+        function takeScreenshot() {
+          const screenshotArea = document.getElementById("screenshot-area");
 
-        // Show results after a short delay
-        setTimeout(showResults, 1000);
-    }
-
-    function takeScreenshot() {
-        const screenshotArea = document.getElementById("screenshot-area");
-
-        html2canvas(screenshotArea, {
+          html2canvas(screenshotArea, {
             backgroundColor: document.body.classList.contains("dark-mode")
-                ? "#2c2c2e"
-                : "#f8f9fa",
+              ? "#2c2c2e"
+              : "#f8f9fa",
             scale: 2, // Higher resolution
-        }).then((canvas) => {
+          }).then((canvas) => {
             // Convert to image and trigger download
             const img = canvas.toDataURL("image/png");
             const link = document.createElement("a");
             link.href = img;
             link.download = `Chinese-Typing-Results-${Date.now()}.png`;
             link.click();
-        });
-    }
+          });
+        }
 
-    function copyResults() {
-        // Create formatted text of results
-        const exerciseTitle = exercises[currentExerciseIndex].title;
-        const resultText = `
+        function copyResults() {
+          // Create formatted text of results
+          const exerciseTitle = exercises[currentExerciseIndex].title;
+          const resultText = `
 Chinese Typing Exercise Results - ${exerciseTitle}
 --------------------------------------------
 Total Characters: ${elements.resultTotalChars.textContent}
@@ -1864,402 +1870,402 @@ Accuracy: ${elements.resultAccuracy.textContent}
 Grade: ${elements.resultGrade.textContent}
         `.trim();
 
-        // Copy to clipboard
-        navigator.clipboard
+          // Copy to clipboard
+          navigator.clipboard
             .writeText(resultText)
             .then(() => {
-                // Show feedback
-                const origText = elements.copyResultsBtn.innerHTML;
-                elements.copyResultsBtn.innerHTML = `
+              // Show feedback
+              const origText = elements.copyResultsBtn.innerHTML;
+              elements.copyResultsBtn.innerHTML = `
 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <polyline points="20 6 9 17 4 12"></polyline>
 </svg>
 Copied!
 `;
 
-                setTimeout(() => {
-                    elements.copyResultsBtn.innerHTML = origText;
-                }, 2000);
+              setTimeout(() => {
+                elements.copyResultsBtn.innerHTML = origText;
+              }, 2000);
             })
             .catch((err) => {
-                console.error("Failed to copy results: ", err);
-                alert("Failed to copy results to clipboard.");
+              console.error("Failed to copy results: ", err);
+              alert("Failed to copy results to clipboard.");
             });
-    }
+        }
 
-    // Improved pinyin matching
-    function checkPinyinMatch(input, expected) {
-        // Remove spaces, tone marks, punctuation, and make lowercase for comparison
-        const cleanInput = input
+        // Improved pinyin matching
+        function checkPinyinMatch(input, expected) {
+          // Remove spaces, tone marks, punctuation, and make lowercase for comparison
+          const cleanInput = input
             .toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f\s,.。?!;:'"]/g, "");
-        const cleanExpected = expected
+          const cleanExpected = expected
             .toLowerCase()
             .normalize("NFD")
             .replace(/[\u0300-\u036f\s,.。?!;:'"]/g, "");
 
-        return cleanInput === cleanExpected;
-    }
+          return cleanInput === cleanExpected;
+        }
 
-    function checkInput(inputStr) {
-        if (!inputStr) return;
+        function checkInput(inputStr) {
+          if (!inputStr) return;
 
-        const charBoxes = document.querySelectorAll(".char-box");
-        const pinyinBoxes = document.querySelectorAll(".pinyin-box");
+          const charBoxes = document.querySelectorAll(".char-box");
+          const pinyinBoxes = document.querySelectorAll(".pinyin-box");
 
-        if (isPinyinMode) {
+          if (isPinyinMode) {
             // Pinyin mode: accumulate input in buffer
             pinyinInputBuffer += inputStr;
-            
+
             // Get expected pinyin for current character
             if (currentCharIndex < charBoxes.length) {
-                const expected = charBoxes[currentCharIndex].dataset.expected;
-                
-                // Check if accumulated pinyin matches expected
-                if (checkPinyinMatch(pinyinInputBuffer, expected)) {
-                    // Match found
-                    pinyinBoxes[currentCharIndex].textContent =
-                        pinyinBoxes[currentCharIndex].dataset.pinyin;
-                    pinyinBoxes[currentCharIndex].classList.add("correct-pinyin");
-                    
-                    // Update stats
-                    typingStats.correctChars++;
-                    typingStats.recentCorrectChars++;
-                    
-                    // Update character state
-                    charStates[currentCharIndex] = 'correct';
-                    
-                    // Reset buffer for next character
-                    pinyinInputBuffer = "";
-                    
-                    // Move to next character
-                    currentCharIndex++;
-                    
-                    if (currentCharIndex === charBoxes.length) {
-                        completeExercise();
-                    } else {
-                        showFeedback("✓ Correct", "#0a84ff");
-                    }
+              const expected = charBoxes[currentCharIndex].dataset.expected;
+
+              // Check if accumulated pinyin matches expected
+              if (checkPinyinMatch(pinyinInputBuffer, expected)) {
+                // Match found
+                pinyinBoxes[currentCharIndex].textContent =
+                  pinyinBoxes[currentCharIndex].dataset.pinyin;
+                pinyinBoxes[currentCharIndex].classList.add("correct-pinyin");
+
+                // Update stats
+                typingStats.correctChars++;
+                typingStats.recentCorrectChars++;
+
+                // Update character state
+                charStates[currentCharIndex] = "correct";
+
+                // Reset buffer for next character
+                pinyinInputBuffer = "";
+
+                // Move to next character
+                currentCharIndex++;
+
+                if (currentCharIndex === charBoxes.length) {
+                  completeExercise();
                 } else {
-                    // Check if accumulated input is longer than expected pinyin
-                    // This helps determine if we should mark it as incorrect
-                    if (pinyinInputBuffer.length >= expected.length + 2) {
-                        showFeedback("✗ Try Again", "#dc3545");
-                        elements.hiddenInput.classList.add("error");
-                        
-                        // Update stats
-                        typingStats.errorCount++;
-                        typingStats.totalChars++; // Count errors as additional characters attempted
-                        
-                        // Clear buffer after showing error
-                        pinyinInputBuffer = "";
-                        
-                        setTimeout(
-                            () => elements.hiddenInput.classList.remove("error"),
-                            500
-                        );
-                    }
+                  showFeedback("✓ Correct", "#0a84ff");
                 }
+              } else {
+                // Check if accumulated input is longer than expected pinyin
+                // This helps determine if we should mark it as incorrect
+                if (pinyinInputBuffer.length >= expected.length + 2) {
+                  showFeedback("✗ Try Again", "#dc3545");
+                  elements.hiddenInput.classList.add("error");
+
+                  // Update stats
+                  typingStats.errorCount++;
+                  typingStats.totalChars++; // Count errors as additional characters attempted
+
+                  // Clear buffer after showing error
+                  pinyinInputBuffer = "";
+
+                  setTimeout(
+                    () => elements.hiddenInput.classList.remove("error"),
+                    500
+                  );
+                }
+              }
             }
-        } else {
+          } else {
             // Character mode: process each character individually (original behavior)
             for (let i = 0; i < inputStr.length; i++) {
-                if (currentCharIndex >= charBoxes.length) break;
+              if (currentCharIndex >= charBoxes.length) break;
 
-                const inputChar = inputStr[i];
-                const expected = charBoxes[currentCharIndex].dataset.expected;
+              const inputChar = inputStr[i];
+              const expected = charBoxes[currentCharIndex].dataset.expected;
 
-                if (inputChar === expected) {
-                    // Correct input
-                    charBoxes[currentCharIndex].textContent = expected;
-                    charBoxes[currentCharIndex].style.color = "#0a84ff";
-                    pinyinBoxes[currentCharIndex].classList.add("correct-pinyin");
+              if (inputChar === expected) {
+                // Correct input
+                charBoxes[currentCharIndex].textContent = expected;
+                charBoxes[currentCharIndex].style.color = "#0a84ff";
+                pinyinBoxes[currentCharIndex].classList.add("correct-pinyin");
 
-                    // Update stats
-                    typingStats.correctChars++;
-                    typingStats.recentCorrectChars++;
-                    
-                    // Update character state
-                    charStates[currentCharIndex] = 'correct';
+                // Update stats
+                typingStats.correctChars++;
+                typingStats.recentCorrectChars++;
 
-                    currentCharIndex++;
+                // Update character state
+                charStates[currentCharIndex] = "correct";
 
-                    if (currentCharIndex === charBoxes.length) {
-                        completeExercise();
-                        break;
-                    } else {
-                        showFeedback("✓ Correct", "#0a84ff");
-                    }
+                currentCharIndex++;
+
+                if (currentCharIndex === charBoxes.length) {
+                  completeExercise();
+                  break;
                 } else {
-                    // Incorrect input
-                    showFeedback("✗ Try Again", "#dc3545");
-                    elements.hiddenInput.classList.add("error");
-
-                    // Update stats
-                    typingStats.errorCount++;
-                    typingStats.totalChars++; // Count errors as additional characters attempted
-
-                    setTimeout(
-                        () => elements.hiddenInput.classList.remove("error"),
-                        500
-                    );
+                  showFeedback("✓ Correct", "#0a84ff");
                 }
+              } else {
+                // Incorrect input
+                showFeedback("✗ Try Again", "#dc3545");
+                elements.hiddenInput.classList.add("error");
+
+                // Update stats
+                typingStats.errorCount++;
+                typingStats.totalChars++; // Count errors as additional characters attempted
+
+                setTimeout(
+                  () => elements.hiddenInput.classList.remove("error"),
+                  500
+                );
+              }
             }
+          }
+
+          updateInterface();
         }
 
-        updateInterface();
-    }
+        function showFeedback(message, color) {
+          elements.feedbackMessage.textContent = message;
+          elements.feedbackMessage.style.color = color;
 
-    function showFeedback(message, color) {
-        elements.feedbackMessage.textContent = message;
-        elements.feedbackMessage.style.color = color;
-
-        // Clear feedback after delay
-        clearTimeout(window.feedbackTimer);
-        window.feedbackTimer = setTimeout(() => {
+          // Clear feedback after delay
+          clearTimeout(window.feedbackTimer);
+          window.feedbackTimer = setTimeout(() => {
             elements.feedbackMessage.textContent = "";
-        }, 1500);
-    }
+          }, 1500);
+        }
 
-    // Event Listeners
+        // Event Listeners
 
-    // Dark Mode Toggle
-    elements.themeToggle.addEventListener("change", function () {
-        document.body.classList.toggle("dark-mode", this.checked);
-    });
+        // Dark Mode Toggle
+        elements.themeToggle.addEventListener("change", function () {
+          document.body.classList.toggle("dark-mode", this.checked);
+        });
 
-    // Input Mode Toggle
-    elements.modeToggle.addEventListener("change", toggleInputMode);
+        // Input Mode Toggle
+        elements.modeToggle.addEventListener("change", toggleInputMode);
 
-    // XLSX file upload
-    elements.xlsxFileInput.addEventListener("change", function (e) {
-        const file = e.target.files[0];
-        if (!file) return;
+        // XLSX file upload
+        elements.xlsxFileInput.addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (!file) return;
 
-        // Display file name
-        elements.fileName.textContent = file.name;
+          // Display file name
+          elements.fileName.textContent = file.name;
 
-        const reader = new FileReader();
-        reader.onload = (e) => processXLSXData(e.target.result);
-        reader.onerror = () => showError("Error reading file");
-        reader.readAsArrayBuffer(file);
-    });
+          const reader = new FileReader();
+          reader.onload = (e) => processXLSXData(e.target.result);
+          reader.onerror = () => showError("Error reading file");
+          reader.readAsArrayBuffer(file);
+        });
 
-    // Google Sheets import
-    elements.loadSheetButton.addEventListener("click", function () {
-        const url = elements.sheetsUrlInput.value.trim();
+        // Google Sheets import
+        elements.loadSheetButton.addEventListener("click", function () {
+          const url = elements.sheetsUrlInput.value.trim();
 
-        if (!url) {
+          if (!url) {
             showError("Please enter a Google Sheets URL");
             return;
-        }
+          }
 
-        elements.loadingIndicator.style.display = "inline-block";
-        importFromGoogleSheets(url);
-    });
+          elements.loadingIndicator.style.display = "inline-block";
+          importFromGoogleSheets(url);
+        });
 
-    // Exercise selector change
-    elements.exerciseSelector.addEventListener("change", function () {
-        currentExerciseIndex = parseInt(this.value);
-        restartCurrentExercise();
-    });
+        // Exercise selector change
+        elements.exerciseSelector.addEventListener("change", function () {
+          currentExerciseIndex = parseInt(this.value);
+          restartCurrentExercise();
+        });
 
-    // Restart button
-    elements.restartButton.addEventListener(
-        "click",
-        restartCurrentExercise
-    );
+        // Restart button
+        elements.restartButton.addEventListener(
+          "click",
+          restartCurrentExercise
+        );
 
-    // Return button
-    elements.returnButton.addEventListener("click", () => {
-        elements.uploadSection.style.display = "block";
-        elements.exerciseSection.style.display = "none";
-        elements.resultsSection.style.display = "none";
-        elements.exerciseControls.style.display = "none";
-        elements.resultsControls.style.display = "none";
-        
-        // Remove exercise and results mode classes
-        document.body.classList.remove('exercise-mode');
-        document.body.classList.remove('results-mode');
+        // Return button
+        elements.returnButton.addEventListener("click", () => {
+          elements.uploadSection.style.display = "block";
+          elements.exerciseSection.style.display = "none";
+          elements.resultsSection.style.display = "none";
+          elements.exerciseControls.style.display = "none";
+          elements.resultsControls.style.display = "none";
 
-        if (speedUpdateTimer) {
+          // Remove exercise and results mode classes
+          document.body.classList.remove("exercise-mode");
+          document.body.classList.remove("results-mode");
+
+          if (speedUpdateTimer) {
             clearInterval(speedUpdateTimer);
             speedUpdateTimer = null;
-        }
+          }
 
-        exercises = [];
-        currentExerciseIndex = 0;
-        elements.xlsxFileInput.value = ""; // Reset file input
-        elements.fileName.textContent = ""; // Clear displayed file name
-    });
+          exercises = [];
+          currentExerciseIndex = 0;
+          elements.xlsxFileInput.value = ""; // Reset file input
+          elements.fileName.textContent = ""; // Clear displayed file name
+        });
 
-    // Results buttons
-    elements.screenshotBtn.addEventListener("click", takeScreenshot);
-    elements.copyResultsBtn.addEventListener("click", copyResults);
-    elements.newExerciseBtn.addEventListener("click", () => {
-        // If there are more exercises, move to the next one
-        if (currentExerciseIndex < exercises.length - 1) {
+        // Results buttons
+        elements.screenshotBtn.addEventListener("click", takeScreenshot);
+        elements.copyResultsBtn.addEventListener("click", copyResults);
+        elements.newExerciseBtn.addEventListener("click", () => {
+          // If there are more exercises, move to the next one
+          if (currentExerciseIndex < exercises.length - 1) {
             currentExerciseIndex++;
             startExercise();
-        } else {
+          } else {
             // Otherwise, loop back to the first exercise
             currentExerciseIndex = 0;
             startExercise();
-        }
-    });
-    elements.returnFromResultsBtn.addEventListener("click", () => {
-        elements.uploadSection.style.display = "block";
-        elements.resultsSection.style.display = "none";
-        elements.resultsControls.style.display = "none";
-        
-        // Remove results mode class
-        document.body.classList.remove('results-mode');
+          }
+        });
+        elements.returnFromResultsBtn.addEventListener("click", () => {
+          elements.uploadSection.style.display = "block";
+          elements.resultsSection.style.display = "none";
+          elements.resultsControls.style.display = "none";
 
-        exercises = [];
-        currentExerciseIndex = 0;
-        elements.xlsxFileInput.value = ""; // Reset file input
-        elements.fileName.textContent = ""; // Clear displayed file name
-    });
+          // Remove results mode class
+          document.body.classList.remove("results-mode");
 
-    // Scrollbar Event Handlers
-    elements.scrollbar.addEventListener("mousedown", (e) => {
-        isDragging = true;
-        startX = e.clientX;
-        scrollStartPosition = elements.scrollbar.offsetLeft;
-        document.body.style.userSelect = "none"; // Prevent text selection during drag
+          exercises = [];
+          currentExerciseIndex = 0;
+          elements.xlsxFileInput.value = ""; // Reset file input
+          elements.fileName.textContent = ""; // Clear displayed file name
+        });
 
-        // Prevent focus from moving away from input
-        e.preventDefault();
-    });
+        // Scrollbar Event Handlers
+        elements.scrollbar.addEventListener("mousedown", (e) => {
+          isDragging = true;
+          startX = e.clientX;
+          scrollStartPosition = elements.scrollbar.offsetLeft;
+          document.body.style.userSelect = "none"; // Prevent text selection during drag
 
-    document.addEventListener("mousemove", (e) => {
-        if (!isDragging) return;
+          // Prevent focus from moving away from input
+          e.preventDefault();
+        });
 
-        handleScrollbarDrag(e.clientX);
-    });
+        document.addEventListener("mousemove", (e) => {
+          if (!isDragging) return;
 
-    document.addEventListener("mouseup", () => {
-        if (isDragging) {
+          handleScrollbarDrag(e.clientX);
+        });
+
+        document.addEventListener("mouseup", () => {
+          if (isDragging) {
             isDragging = false;
             document.body.style.userSelect = "";
             elements.hiddenInput.focus();
-        }
-    });
+          }
+        });
 
-    // Touch events for mobile support
-    elements.scrollbar.addEventListener("touchstart", (e) => {
-        isDragging = true;
-        startX = e.touches[0].clientX;
-        scrollStartPosition = elements.scrollbar.offsetLeft;
-        e.preventDefault();
-    });
+        // Touch events for mobile support
+        elements.scrollbar.addEventListener("touchstart", (e) => {
+          isDragging = true;
+          startX = e.touches[0].clientX;
+          scrollStartPosition = elements.scrollbar.offsetLeft;
+          e.preventDefault();
+        });
 
-    document.addEventListener("touchmove", (e) => {
-        if (!isDragging) return;
-        handleScrollbarDrag(e.touches[0].clientX);
-    });
+        document.addEventListener("touchmove", (e) => {
+          if (!isDragging) return;
+          handleScrollbarDrag(e.touches[0].clientX);
+        });
 
-    document.addEventListener("touchend", () => {
-        isDragging = false;
-        elements.hiddenInput.focus();
-    });
+        document.addEventListener("touchend", () => {
+          isDragging = false;
+          elements.hiddenInput.focus();
+        });
 
-    // Clicking on scrollbar container to jump
-    elements.scrollbarContainer.addEventListener("click", (e) => {
-        // Ignore if clicking on scrollbar itself
-        if (e.target === elements.scrollbar) return;
+        // Clicking on scrollbar container to jump
+        elements.scrollbarContainer.addEventListener("click", (e) => {
+          // Ignore if clicking on scrollbar itself
+          if (e.target === elements.scrollbar) return;
 
-        handleScrollbarDrag(e.clientX);
-    });
+          handleScrollbarDrag(e.clientX);
+        });
 
-    // Input Event Listeners
-    elements.hiddenInput.addEventListener(
-        "compositionstart",
-        () => (isComposing = true)
-    );
+        // Input Event Listeners
+        elements.hiddenInput.addEventListener(
+          "compositionstart",
+          () => (isComposing = true)
+        );
 
-    elements.hiddenInput.addEventListener("compositionend", (e) => {
-        isComposing = false;
-        // Process the final composed text
-        checkInput(e.target.value);
-        e.target.value = "";
-    });
+        elements.hiddenInput.addEventListener("compositionend", (e) => {
+          isComposing = false;
+          // Process the final composed text
+          checkInput(e.target.value);
+          e.target.value = "";
+        });
 
-    elements.hiddenInput.addEventListener("input", function (e) {
-        if (isComposing) return;
+        elements.hiddenInput.addEventListener("input", function (e) {
+          if (isComposing) return;
 
-        checkInput(e.target.value);
-        e.target.value = "";
-    });
+          checkInput(e.target.value);
+          e.target.value = "";
+        });
 
-    // Space key for skipping and Backspace for going back
-    elements.hiddenInput.addEventListener("keydown", function (e) {
-        if (e.code === "Space" || e.keyCode === 32) {
+        // Space key for skipping and Backspace for going back
+        elements.hiddenInput.addEventListener("keydown", function (e) {
+          if (e.code === "Space" || e.keyCode === 32) {
             e.preventDefault(); // Prevent space from being added to input
             handleSkip();
-        } else if (e.code === "Backspace" || e.keyCode === 8) {
+          } else if (e.code === "Backspace" || e.keyCode === 8) {
             // Only prevent default if there's no text in the input
             // This allows normal backspace behavior when editing text
             if (!this.value) {
-                e.preventDefault();
-                handleBackspace();
+              e.preventDefault();
+              handleBackspace();
             }
-        }
-    });
+          }
+        });
 
-    // Keep focus on input box
-    document.addEventListener("click", (e) => {
-        // Only refocus if we're in exercise mode and not too frequent
-        // And not clicking on scrollbar or exercise selector
-        if (
+        // Keep focus on input box
+        document.addEventListener("click", (e) => {
+          // Only refocus if we're in exercise mode and not too frequent
+          // And not clicking on scrollbar or exercise selector
+          if (
             elements.exerciseSection.style.display === "block" &&
             Date.now() - lastFocusTime > 200 &&
             e.target !== elements.scrollbar &&
             e.target !== elements.scrollbarContainer &&
             e.target !== elements.exerciseSelector
-        ) {
+          ) {
             elements.hiddenInput.focus();
             lastFocusTime = Date.now();
-        }
-    });
+          }
+        });
 
-    // Handle window resize
-    window.addEventListener("resize", () => {
-        updateScrollbarDimensions();
-        updateInterface();
+        // Handle window resize
+        window.addEventListener("resize", () => {
+          updateScrollbarDimensions();
+          updateInterface();
 
-        // On mobile, when keyboard appears, scroll to input
-        if (window.innerWidth <= 768) {
+          // On mobile, when keyboard appears, scroll to input
+          if (window.innerWidth <= 768) {
             elements.hiddenInput.scrollIntoView({ behavior: "smooth" });
-        }
-    });
+          }
+        });
 
-    // Pageviews counter
-    const pv = document.getElementById("pageviews");
-    if (pv !== null) {
-        // Strip trailing slash (if any) so the path matches GoatCounter
-        const uri = location.pathname.replace(/\/$/, "");
-        // Build the JSON endpoint URL for your domain
-        const url = `https://linsnotes.goatcounter.com/counter/${encodeURIComponent(
+        // Pageviews counter
+        const pv = document.getElementById("pageviews");
+        if (pv !== null) {
+          // Strip trailing slash (if any) so the path matches GoatCounter
+          const uri = location.pathname.replace(/\/$/, "");
+          // Build the JSON endpoint URL for your domain
+          const url = `https://linsnotes.goatcounter.com/counter/${encodeURIComponent(
             uri
-        )}.json`;
+          )}.json`;
 
-        fetch(url)
+          fetch(url)
             .then((response) => response.json())
             .then((data) => {
-                // 'data.count' comes back as a string with possible whitespace
-                const count = data.count.replace(/\s/g, "");
-                // Format it with commas, etc.
-                pv.innerText = new Intl.NumberFormat().format(count);
+              // 'data.count' comes back as a string with possible whitespace
+              const count = data.count.replace(/\s/g, "");
+              // Format it with commas, etc.
+              pv.innerText = new Intl.NumberFormat().format(count);
             })
             .catch((error) => {
-                // Fallback if something goes wrong
-                console.error("Error fetching pageviews:", error);
-                pv.innerText = "1";
+              // Fallback if something goes wrong
+              console.error("Error fetching pageviews:", error);
+              pv.innerText = "1";
             });
-    }
-});
+        }
+      });
     </script>
   </body>
 </html>
