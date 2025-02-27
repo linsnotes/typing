@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>字随指落</title>
+    <title>弹指之间</title>
     <style>
       /* Apple-inspired base styles */
       body {
@@ -25,7 +25,36 @@
         max-width: 800px;
         margin: 0 auto;
         padding: 20px;
+        transition: max-width 0.3s ease;
       }
+
+      /* Exercise mode container width adjustment */
+      .exercise-mode .container {
+        max-width: 1000px;
+      }
+
+      /* Element visibility in exercise mode */
+      .exercise-mode h1 {
+        display: none;
+      }
+
+      .exercise-mode #titleDisplay {
+        display: none;
+      }
+
+      .exercise-mode #visitor-counter {
+        display: none;
+      }
+
+      /* Results mode visibility adjustments */
+      .results-mode h1 {
+        display: none;
+      }
+
+      .results-mode #visitor-counter {
+        display: none;
+      }
+
       /* Dark mode adjustments for sections */
       #uploadSection,
       #exerciseSection,
@@ -51,9 +80,14 @@
       }
 
       .mode-toggle {
-        display: flex;
+        display: none;
         align-items: center;
         margin-right: 15px;
+      }
+
+      /* Only show Pinyin Mode toggle during exercise */
+      .exercise-mode .mode-toggle {
+        display: flex;
       }
 
       /* Dark mode toggle switch (Apple-style) */
@@ -83,6 +117,28 @@
         margin-right: auto;
         text-align: left;
       }
+
+      /* Exercise mode buttons in header */
+      .exercise-controls {
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+      }
+
+      /* Results mode buttons in header */
+      .results-controls {
+        display: flex;
+        align-items: center;
+        margin-right: auto;
+      }
+
+      .exercise-controls .btn,
+      .results-controls .btn {
+        margin: 0 5px;
+        padding: 8px 12px;
+        font-size: 14px;
+      }
+
       .slider {
         position: absolute;
         cursor: pointer;
@@ -136,20 +192,37 @@
       body.dark-mode .upload-option h3 {
         color: #f2f2f7;
       }
+
+      /* Updated file upload label (Apple-styled button) */
       #file-upload-label {
         display: inline-block;
-        padding: 12px 20px;
-        background: linear-gradient(to bottom, #fefefe, #e0e0e0);
-        color: #000;
-        border-radius: 8px;
+        padding: 12px 24px;
+        background-color: #34c759;
+        color: #fff;
+        border-radius: 10px;
         cursor: pointer;
         margin-top: 10px;
-        font-weight: bold;
-        transition: background 0.3s ease;
+        font-weight: 500;
+        border: none;
+        font-size: 16px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       }
       #file-upload-label:hover {
-        background: linear-gradient(to bottom, #eaeaea, #d4d4d4);
+        background-color: #2cc543;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
       }
+      body.dark-mode #file-upload-label {
+        background-color: #34c759;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+      body.dark-mode #file-upload-label:hover {
+        background-color: #2cc543;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+      }
+
       #xlsxFileInput {
         display: none;
       }
@@ -167,21 +240,33 @@
         border-color: #0a84ff;
         box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
       }
+
+      /* Updated load sheet button (Apple-styled) */
       #loadSheetButton {
-        padding: 12px 20px;
-        background: linear-gradient(to bottom, #fefefe, #e0e0e0);
-        color: #000;
+        padding: 12px 24px;
+        background-color: #0a84ff;
+        color: #fff;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
-        font-weight: bold;
+        font-weight: 500;
         margin-top: 10px;
-        transition: background 0.3s ease, box-shadow 0.3s ease;
+        font-size: 16px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 6px rgba(10, 132, 255, 0.3);
       }
       #loadSheetButton:hover {
-        background: linear-gradient(to bottom, #eaeaea, #d4d4d4);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #007aff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(10, 132, 255, 0.4);
       }
+      body.dark-mode #loadSheetButton {
+        box-shadow: 0 2px 6px rgba(10, 132, 255, 0.5);
+      }
+      body.dark-mode #loadSheetButton:hover {
+        box-shadow: 0 4px 10px rgba(10, 132, 255, 0.7);
+      }
+
       /* Exercise Section */
       #exerciseSection {
         display: none;
@@ -328,41 +413,58 @@
         margin: 15px 0;
         font-weight: bold;
       }
+
+      /* Updated button styles (Apple-styled) */
       .btn {
         margin: 20px 10px;
         padding: 12px 24px;
-        font-size: 18px;
+        font-size: 16px;
         border: none;
-        border-radius: 8px;
+        border-radius: 10px;
         cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s, background 0.3s;
-        font-weight: bold;
-        background: linear-gradient(to bottom, #fefefe, #e0e0e0);
-        color: #000;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       }
       .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
       }
       .btn:active {
         transform: translateY(1px);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
+
       .btn-primary {
-        background: linear-gradient(to bottom, #fefefe, #e0e0e0);
-        color: #000;
+        background-color: #0a84ff;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(10, 132, 255, 0.3);
       }
+      .btn-primary:hover {
+        background-color: #007aff;
+        box-shadow: 0 4px 10px rgba(10, 132, 255, 0.4);
+      }
+
       .btn-warning {
-        background: linear-gradient(to bottom, #fff5e5, #ffe0b3);
-        color: #333;
+        background-color: #ff9f0a;
+        color: #fff;
+        box-shadow: 0 2px 6px rgba(255, 159, 10, 0.3);
       }
-      .btn-secondary {
-        background: linear-gradient(to bottom, #f0f0f0, #dcdcdc);
-        color: #333;
+      .btn-warning:hover {
+        background-color: #f08800;
+        box-shadow: 0 4px 10px rgba(255, 159, 10, 0.4);
       }
-      .btn-reset {
-        background: linear-gradient(to bottom, #e5f7fa, #cceeea);
-        color: #000;
+
+      /* Dark mode button adjustments */
+      body.dark-mode .btn-primary,
+      body.dark-mode .btn-warning {
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       }
+      body.dark-mode .btn-primary:hover,
+      body.dark-mode .btn-warning:hover {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      }
+
       .instruction {
         margin: 20px 0;
         font-size: 16px;
@@ -564,10 +666,19 @@
           transform: rotate(360deg);
         }
       }
+
+      /* Responsive styles */
       @media (max-width: 768px) {
         .theme-toggle {
           justify-content: center;
           gap: 10px;
+        }
+
+        .exercise-controls,
+        .results-controls {
+          width: 100%;
+          justify-content: center;
+          margin-bottom: 10px;
         }
 
         .pinyin-box,
@@ -579,11 +690,19 @@
           height: 40px;
           line-height: 40px;
         }
+
+        /* Button responsive adjustments */
         .btn {
-          padding: 10px 18px;
-          font-size: 16px;
+          padding: 8px 16px;
+          font-size: 14px;
           margin: 10px 5px;
         }
+        #loadSheetButton,
+        #file-upload-label {
+          padding: 10px 20px;
+          font-size: 14px;
+        }
+
         #sheetsUrlInput {
           width: 90%;
         }
@@ -611,6 +730,84 @@
           margin: 5px 0;
           justify-content: center;
         }
+
+        /* Small screen button adjustments */
+        .exercise-controls .btn,
+        .results-controls .btn {
+          padding: 6px 10px;
+          font-size: 12px;
+          margin: 4px 2px;
+        }
+
+        #loadSheetButton,
+        #file-upload-label {
+          padding: 8px 16px;
+          font-size: 13px;
+          width: 80%;
+          margin: 8px auto;
+        }
+      }
+
+      /* Mobile-specific exercise mode adjustments */
+      @media (max-width: 480px) {
+        /* When in exercise mode */
+        body.exercise-mode .container {
+          /* Changed padding for better space usage */
+          padding: 10px 10px 120px 10px;
+        }
+
+        /* Reposition the critical exercise elements */
+        body.exercise-mode #scrollWrapper {
+          height: 110px;
+          margin-bottom: 5px;
+        }
+
+        body.exercise-mode #scrollbarContainer {
+          margin-bottom: 10px;
+        }
+
+        /* Position the input higher on mobile screens */
+        body.exercise-mode #hiddenInput {
+          position: sticky;
+          bottom: 20px;
+          margin: 10px auto;
+          width: 90%;
+          z-index: 10;
+          /* Improve visibility */
+          box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Make feedback message more compact */
+        body.exercise-mode #feedbackMessage {
+          height: 25px;
+          margin: 5px 0;
+          font-size: 18px;
+        }
+
+        /* Reduce size of instruction text */
+        body.exercise-mode .instruction {
+          margin: 10px 0;
+          font-size: 14px;
+        }
+
+        /* Compact speed meter on mobile */
+        body.exercise-mode #speedMeterContainer {
+          margin: 10px auto;
+        }
+
+        body.exercise-mode .speed-stat {
+          padding: 5px;
+          min-width: 80px;
+        }
+
+        body.exercise-mode .speed-value {
+          font-size: 20px;
+          margin: 2px 0;
+        }
+
+        body.exercise-mode .speed-label {
+          font-size: 12px;
+        }
       }
     </style>
   </head>
@@ -620,6 +817,26 @@
       <div class="theme-toggle">
         <div id="visitor-counter">
           Welcome! You're visitor #<span id="pageviews">Loading...</span>
+        </div>
+
+        <!-- Exercise controls (initially hidden) -->
+        <div class="exercise-controls" style="display: none">
+          <button id="restartButton" class="btn btn-primary">
+            Restart Exercise
+          </button>
+          <button id="returnButton" class="btn btn-primary">
+            Return to Home
+          </button>
+        </div>
+
+        <!-- Results controls (initially hidden) -->
+        <div class="results-controls" style="display: none">
+          <button id="newExerciseBtn" class="btn btn-primary">
+            Try Another Exercise
+          </button>
+          <button id="returnFromResultsBtn" class="btn btn-primary">
+            Return to Home
+          </button>
         </div>
 
         <!-- New Mode Toggle -->
@@ -708,8 +925,6 @@
           <div id="scrollbar"></div>
         </div>
 
-
-
         <input
           type="text"
           id="hiddenInput"
@@ -720,8 +935,8 @@
         <p class="instruction">
           Type the Chinese characters or press
           <span class="keyboard-shortcut">Space</span> to skip a character. Use
-          <span class="keyboard-shortcut">Backspace</span> to correct previous input.
-          Use the scrollbar to navigate.
+          <span class="keyboard-shortcut">Backspace</span> to correct previous
+          input. Use the scrollbar to navigate.
         </p>
 
         <!-- Speed Meter -->
@@ -817,28 +1032,6 @@
             Copy Results
           </button>
         </div>
-
-        <div class="btn-container">
-          <button id="newExerciseBtn" class="btn btn-primary">
-            Try Another Exercise
-          </button>
-          <button id="returnFromResultsBtn" class="btn btn-secondary">
-            Return to Upload
-          </button>
-        </div>
-      </div>
-
-      <div id="buttonContainer">
-        <button id="restartButton" class="btn btn-reset" style="display: none">
-          Restart Exercise
-        </button>
-        <button
-          id="returnButton"
-          class="btn btn-secondary"
-          style="display: none"
-        >
-          Return to Upload
-        </button>
       </div>
     </div>
 
@@ -859,7 +1052,9 @@
       let scrollStartPosition = 0;
       let totalWidth = 0;
       let containerWidth = 0;
-      
+      let pinyinInputBuffer = ""; // Buffer to store accumulated pinyin input
+      let pinyinMatchComplete = false; // Flag to indicate if a match was found
+
       // New variables to track character state for backspace functionality
       let charStates = []; // Array to store the state of each character (correct, skipped, etc.)
 
@@ -910,6 +1105,12 @@
           returnButton: document.getElementById("returnButton"),
           fileName: document.getElementById("fileName"),
           exerciseProgress: document.getElementById("exerciseProgress"),
+          exerciseControls: document.querySelector(".exercise-controls"),
+          resultsControls: document.querySelector(".results-controls"),
+          visitorCounter: document.getElementById("visitor-counter"),
+          exerciseInstruction: document.querySelector(
+            "#exerciseSection .instruction"
+          ),
 
           // Speed meter elements
           currentSpeed: document.getElementById("currentSpeed"),
@@ -946,8 +1147,14 @@
         // Set initial placeholder
         updatePlaceholder();
 
+        // Function to clear the pinyin buffer
+        function resetPinyinBuffer() {
+          pinyinInputBuffer = "";
+        }
+
         // Function to handle mode switching
         function toggleInputMode() {
+          resetPinyinBuffer();
           isPinyinMode = elements.modeToggle.checked;
           currentInputMode = isPinyinMode ? "pinyin" : "character";
 
@@ -1268,15 +1475,26 @@
           elements.uploadSection.style.display = "none";
           elements.exerciseSection.style.display = "block";
           elements.resultsSection.style.display = "none";
-          elements.restartButton.style.display = "inline-block";
-          elements.returnButton.style.display = "inline-block";
+
+          // Set body class for exercise mode
+          document.body.classList.add("exercise-mode");
+          document.body.classList.remove("results-mode");
+
+          // Show exercise controls in the header
+          elements.exerciseControls.style.display = "flex";
+          elements.resultsControls.style.display = "none";
+
           currentCharIndex = 0;
           resetTypingStats();
           loadExercise(exercises[currentExerciseIndex]);
           setTimeout(() => elements.hiddenInput.focus(), 100);
+
+          // Add this line at the end of the startExercise function
+          setupMobileKeyboardBehavior();
         }
 
         function restartCurrentExercise() {
+          resetPinyinBuffer();
           currentCharIndex = 0;
           resetTypingStats();
           loadExercise(exercises[currentExerciseIndex]);
@@ -1313,7 +1531,7 @@
             const fragment2 = document.createDocumentFragment();
 
             // Reset charStates array
-            charStates = new Array(exercise.text.length).fill('pending');
+            charStates = new Array(exercise.text.length).fill("pending");
 
             exercise.text.split("").forEach((char, i) => {
               const pinyinSpan = document.createElement("span");
@@ -1340,12 +1558,12 @@
             // Set the total character count for stats
             typingStats.totalChars = exercise.text.length;
 
-            // Update instruction text based on mode
+            // Update instruction text based on mode - FIXED: Use specific element reference
             const instructionText = isPinyinMode
               ? 'Type the pinyin for each character without tone. Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input.'
               : 'Type the Chinese characters or press <span class="keyboard-shortcut">Space</span> to skip a character. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input. Use the scrollbar to navigate.';
 
-            document.querySelector(".instruction").innerHTML = instructionText;
+            elements.exerciseInstruction.innerHTML = instructionText;
 
             // Calculate total content width for scrollbar
             setTimeout(() => {
@@ -1485,9 +1703,9 @@
 
           // Update stats
           typingStats.skippedChars++;
-          
+
           // Update character state
-          charStates[currentCharIndex] = 'skipped';
+          charStates[currentCharIndex] = "skipped";
 
           currentCharIndex++;
 
@@ -1499,21 +1717,29 @@
           }
         }
 
-        // New function to handle backspace
         function handleBackspace() {
           if (currentCharIndex <= 0) return; // Can't go back if at the beginning
-          
+
+          if (isPinyinMode) {
+            // First try to clear the buffer if there's anything in it
+            if (pinyinInputBuffer.length > 0) {
+              pinyinInputBuffer = "";
+              showFeedback("Buffer Cleared", "#0a84ff");
+              return;
+            }
+          }
+
           const prevIndex = currentCharIndex - 1;
           const charBoxes = document.querySelectorAll(".char-box");
           const pinyinBoxes = document.querySelectorAll(".pinyin-box");
-          
+
           // Update stats based on the previous character's state
-          if (charStates[prevIndex] === 'correct') {
+          if (charStates[prevIndex] === "correct") {
             typingStats.correctChars--;
-          } else if (charStates[prevIndex] === 'skipped') {
+          } else if (charStates[prevIndex] === "skipped") {
             typingStats.skippedChars--;
           }
-          
+
           // Reset the previous character's appearance
           if (isPinyinMode) {
             // In pinyin mode, clear the pinyin display
@@ -1526,13 +1752,13 @@
             charBoxes[prevIndex].style.color = ""; // Reset color
             pinyinBoxes[prevIndex].classList.remove("correct-pinyin");
           }
-          
+
           // Reset the character state
-          charStates[prevIndex] = 'pending';
-          
+          charStates[prevIndex] = "pending";
+
           // Move back to the previous character
           currentCharIndex = prevIndex;
-          
+
           // Update the interface
           updateInterface();
           showFeedback("◀ Backspace", "#0a84ff");
@@ -1598,11 +1824,19 @@
             elements.resultGrade.style.color = "#FF3B30"; // Red
           }
 
+          // Remove exercise mode class
+          document.body.classList.remove("exercise-mode");
+
+          // Add results mode class to hide h1 and visitor counter
+          document.body.classList.add("results-mode");
+
+          // Hide exercise controls and show results controls
+          elements.exerciseControls.style.display = "none";
+          elements.resultsControls.style.display = "flex";
+
           // Show results section
           elements.exerciseSection.style.display = "none";
           elements.resultsSection.style.display = "block";
-          elements.restartButton.style.display = "none";
-          elements.returnButton.style.display = "none";
         }
 
         function completeExercise() {
@@ -1653,7 +1887,7 @@ Time: ${elements.resultTime.textContent}
 Speed: ${elements.resultSpeed.textContent} chars/min
 Accuracy: ${elements.resultAccuracy.textContent}
 Grade: ${elements.resultGrade.textContent}
-  `.trim();
+        `.trim();
 
           // Copy to clipboard
           navigator.clipboard
@@ -1662,11 +1896,11 @@ Grade: ${elements.resultGrade.textContent}
               // Show feedback
               const origText = elements.copyResultsBtn.innerHTML;
               elements.copyResultsBtn.innerHTML = `
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="20 6 9 17 4 12"></polyline>
-    </svg>
-    Copied!
-  `;
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+Copied!
+`;
 
               setTimeout(() => {
                 elements.copyResultsBtn.innerHTML = origText;
@@ -1680,15 +1914,15 @@ Grade: ${elements.resultGrade.textContent}
 
         // Improved pinyin matching
         function checkPinyinMatch(input, expected) {
-          // Remove spaces, tone marks, and make lowercase for comparison
+          // Remove spaces, tone marks, punctuation, and make lowercase for comparison
           const cleanInput = input
             .toLowerCase()
             .normalize("NFD")
-            .replace(/[\u0300-\u036f\s]/g, "");
+            .replace(/[\u0300-\u036f\s,.。?!;:'"]/g, "");
           const cleanExpected = expected
             .toLowerCase()
             .normalize("NFD")
-            .replace(/[\u0300-\u036f\s]/g, "");
+            .replace(/[\u0300-\u036f\s,.。?!;:'"]/g, "");
 
           return cleanInput === cleanExpected;
         }
@@ -1699,57 +1933,103 @@ Grade: ${elements.resultGrade.textContent}
           const charBoxes = document.querySelectorAll(".char-box");
           const pinyinBoxes = document.querySelectorAll(".pinyin-box");
 
-          for (let i = 0; i < inputStr.length; i++) {
-            if (currentCharIndex >= charBoxes.length) break;
+          if (isPinyinMode) {
+            // Pinyin mode: accumulate input in buffer
+            pinyinInputBuffer += inputStr;
 
-            const inputChar = inputStr[i];
-            const expected = charBoxes[currentCharIndex].dataset.expected;
+            // Get expected pinyin for current character
+            if (currentCharIndex < charBoxes.length) {
+              const expected = charBoxes[currentCharIndex].dataset.expected;
 
-          if (
-            (!isPinyinMode && inputChar === expected) ||
-            (isPinyinMode && checkPinyinMatch(inputStr, expected))
-          ) {
-              // Correct input
-              if (isPinyinMode) {
-                // In pinyin mode, show the pinyin with tone when correct
+              // Check if accumulated pinyin matches expected
+              if (checkPinyinMatch(pinyinInputBuffer, expected)) {
+                // Match found
                 pinyinBoxes[currentCharIndex].textContent =
                   pinyinBoxes[currentCharIndex].dataset.pinyin;
                 pinyinBoxes[currentCharIndex].classList.add("correct-pinyin");
+
+                // Update stats
+                typingStats.correctChars++;
+                typingStats.recentCorrectChars++;
+
+                // Update character state
+                charStates[currentCharIndex] = "correct";
+
+                // Reset buffer for next character
+                pinyinInputBuffer = "";
+
+                // Move to next character
+                currentCharIndex++;
+
+                if (currentCharIndex === charBoxes.length) {
+                  completeExercise();
+                } else {
+                  showFeedback("✓ Correct", "#0a84ff");
+                }
               } else {
-                // In character mode, show the character
+                // Check if accumulated input is longer than expected pinyin
+                // This helps determine if we should mark it as incorrect
+                if (pinyinInputBuffer.length >= expected.length + 2) {
+                  showFeedback("✗ Try Again", "#dc3545");
+                  elements.hiddenInput.classList.add("error");
+
+                  // Update stats
+                  typingStats.errorCount++;
+                  typingStats.totalChars++; // Count errors as additional characters attempted
+
+                  // Clear buffer after showing error
+                  pinyinInputBuffer = "";
+
+                  setTimeout(
+                    () => elements.hiddenInput.classList.remove("error"),
+                    500
+                  );
+                }
+              }
+            }
+          } else {
+            // Character mode: process each character individually (original behavior)
+            for (let i = 0; i < inputStr.length; i++) {
+              if (currentCharIndex >= charBoxes.length) break;
+
+              const inputChar = inputStr[i];
+              const expected = charBoxes[currentCharIndex].dataset.expected;
+
+              if (inputChar === expected) {
+                // Correct input
                 charBoxes[currentCharIndex].textContent = expected;
                 charBoxes[currentCharIndex].style.color = "#0a84ff";
                 pinyinBoxes[currentCharIndex].classList.add("correct-pinyin");
-              }
 
-              // Update stats
-              typingStats.correctChars++;
-              typingStats.recentCorrectChars++;
-              
-              // Update character state
-              charStates[currentCharIndex] = 'correct';
+                // Update stats
+                typingStats.correctChars++;
+                typingStats.recentCorrectChars++;
 
-              currentCharIndex++;
+                // Update character state
+                charStates[currentCharIndex] = "correct";
 
-              if (currentCharIndex === charBoxes.length) {
-                completeExercise();
-                break;
+                currentCharIndex++;
+
+                if (currentCharIndex === charBoxes.length) {
+                  completeExercise();
+                  break;
+                } else {
+                  showFeedback("✓ Correct", "#0a84ff");
+                }
               } else {
-                showFeedback("✓ Correct", "#0a84ff");
+                // Incorrect input
+                showFeedback("✗ Try Again", "#dc3545");
+                elements.hiddenInput.classList.add("error");
+
+                // Update stats
+                typingStats.errorCount++;
+                typingStats.totalChars++; // Count errors as additional characters attempted
+
+                setTimeout(
+                  () => elements.hiddenInput.classList.remove("error"),
+                  500
+                );
               }
-            } else {
-              // Incorrect input
-              showFeedback("✗ Try Again", "#dc3545");
-              elements.hiddenInput.classList.add("error");
-
-              // Update stats
-              typingStats.errorCount++;
-              typingStats.totalChars++; // Count errors as additional characters attempted
-
-              setTimeout(
-                () => elements.hiddenInput.classList.remove("error"),
-                500
-              );
             }
           }
 
@@ -1768,6 +2048,19 @@ Grade: ${elements.resultGrade.textContent}
         }
 
         // Event Listeners
+
+        function setupMobileKeyboardBehavior() {
+          if (window.innerWidth <= 480) {
+            // On mobile focus
+            elements.hiddenInput.addEventListener("focus", function () {
+              // Short delay to let keyboard open
+              setTimeout(() => {
+                // Scroll to make sure input is visible
+                this.scrollIntoView({ behavior: "smooth", block: "center" });
+              }, 300);
+            });
+          }
+        }
 
         // Dark Mode Toggle
         elements.themeToggle.addEventListener("change", function () {
@@ -1821,8 +2114,12 @@ Grade: ${elements.resultGrade.textContent}
           elements.uploadSection.style.display = "block";
           elements.exerciseSection.style.display = "none";
           elements.resultsSection.style.display = "none";
-          elements.returnButton.style.display = "none";
-          elements.restartButton.style.display = "none";
+          elements.exerciseControls.style.display = "none";
+          elements.resultsControls.style.display = "none";
+
+          // Remove exercise and results mode classes
+          document.body.classList.remove("exercise-mode");
+          document.body.classList.remove("results-mode");
 
           if (speedUpdateTimer) {
             clearInterval(speedUpdateTimer);
@@ -1852,6 +2149,10 @@ Grade: ${elements.resultGrade.textContent}
         elements.returnFromResultsBtn.addEventListener("click", () => {
           elements.uploadSection.style.display = "block";
           elements.resultsSection.style.display = "none";
+          elements.resultsControls.style.display = "none";
+
+          // Remove results mode class
+          document.body.classList.remove("results-mode");
 
           exercises = [];
           currentExerciseIndex = 0;
