@@ -455,64 +455,13 @@
         box-shadow: 0 4px 10px rgba(255, 159, 10, 0.4);
       }
 
-      .btn-secondary {
-        background-color: #0a84ff;
-        color: #fff;
-        box-shadow: 0 2px 6px rgba(10, 132, 255, 0.3);
-      }
-      .btn-secondary:hover {
-        background-color: #007aff;
-        box-shadow: 0 4px 10px rgba(10, 132, 255, 0.4);
-      }
-
-      /*
-      .btn-secondary {
-        background-color: #f5f5f7;
-        color: #000;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-      }
-      .btn-secondary:hover {
-        background-color: #eeeeef;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-      }
-      */
-
-      .btn-reset {
-        background-color: #0a84ff;
-        color: #fff;
-        box-shadow: 0 2px 6px rgba(10, 132, 255, 0.3);
-        /* background-color: #32d74b;
-        color: #fff; 
-        box-shadow: 0 2px 6px rgba(50, 215, 75, 0.3); */
-      }
-      .btn-reset:hover {
-        background-color: #007aff;
-        box-shadow: 0 4px 10px rgba(10, 132, 255, 0.4);
-        /* background-color: #30c848; 
-        box-shadow: 0 4px 10px rgba(50, 215, 75, 0.4);*/
-      }
-
       /* Dark mode button adjustments */
-      body.dark-mode .btn-secondary {
-        /*
-        background-color: #3a3a3c;
-        color: #f5f5f7;
-      */
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-      }
-      body.dark-mode .btn-secondary:hover {
-        /* background-color: #4a4a4c; */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-      }
-
       body.dark-mode .btn-primary,
-      body.dark-mode .btn-warning,
-      body.dark-mode .btn-reset {
+      body.dark-mode .btn-warning {
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
       }
       body.dark-mode .btn-primary:hover,
-      body.dark-mode .btn-warning:hover,
-      body.dark-mode .btn-reset:hover {
+      body.dark-mode .btn-warning:hover {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
       }
 
@@ -810,10 +759,10 @@
 
         <!-- Exercise controls (initially hidden) -->
         <div class="exercise-controls" style="display: none">
-          <button id="restartButton" class="btn btn-reset">
+          <button id="restartButton" class="btn btn-primary">
             Restart Exercise
           </button>
-          <button id="returnButton" class="btn btn-secondary">
+          <button id="returnButton" class="btn btn-primary">
             Return to Home
           </button>
         </div>
@@ -823,7 +772,7 @@
           <button id="newExerciseBtn" class="btn btn-primary">
             Try Another Exercise
           </button>
-          <button id="returnFromResultsBtn" class="btn btn-secondary">
+          <button id="returnFromResultsBtn" class="btn btn-primary">
             Return to Home
           </button>
         </div>
