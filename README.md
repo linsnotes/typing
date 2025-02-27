@@ -1,83 +1,91 @@
-# Chinese Typing Exercise - 弹指之间
+# 弹指之间 - Chinese Typing Exercise
 
-**弹指之间** is a browser-based Chinese typing exercise application. It provides users with an interactive platform to practice Chinese typing by importing text data from either a CSV file or a Google Sheets document. The application displays Chinese text along with its pinyin, supports dark mode, and includes a dynamic scrollbar for navigation.
+A browser-based application for practicing Chinese typing with real-time feedback, pinyin support, and performance tracking.
 
 ## Features
 
-- **Dual Data Import Options:**
-  - **Google Sheets Integration:** Import directly from a publicly shared Google Sheets URL.
-  - **CSV/Excel Upload:** Import exercise data from a CSV file (expects two columns: Title and Chinese text).
+- **Dual Input Modes**:
+  - **Character Mode**: Type Chinese characters directly
+  - **Pinyin Mode**: Type pinyin (without tones) to match characters
 
-- **Interactive Typing Interface:**  
-  - Displays Chinese characters with corresponding pinyin.
-  - Real-time feedback on typing accuracy.
-  - Option to skip characters using the space bar.
-  - Dynamic scrollbar to navigate through the exercise content.
+- **Exercise Data Import**:
+  - Import from Google Sheets (publicly shared)
+  - Upload Excel (.xlsx) files
+  - Default sample sheet included for immediate practice
 
-- **Dark Mode:**  
-  - Toggle between light and dark themes for an optimized user experience.
+- **Interactive UI**:
+  - Real-time feedback on typing accuracy
+  - Pinyin display above characters
+  - Progress bar and exercise navigation
+  - Skip characters with spacebar
+  - Backspace to correct previous input
+  - Dynamic scrollbar for text navigation
 
-- **Responsive Design:**  
-  - Designed to work seamlessly on both desktop and mobile devices.
+- **Performance Tracking**:
+  - Characters per minute (current and average)
+  - Accuracy percentage
+  - Detailed results with performance grade (A+ to E)
+  - Time tracking
 
-- **Visitor Counter:**  
-  - Integrated visitor counter powered by GoatCounter to display the number of visitors.
+- **Additional Features**:
+  - Dark/Light mode toggle
+  - Mobile-responsive design
+  - Screenshot and share results
+  - Copy results as text
+  - Visitor counter
 
 ## How It Works
 
-1. **Importing Exercise Data:**
-   - **CSV File:** Click the "Choose CSV File" button to upload a CSV file with your exercise data.
-   - **Google Sheets:** Paste your Google Sheets URL into the provided input and click the "Import from Google Sheets" button. Ensure your sheet is public or shared with anyone who has the link.
-   
-2. **Starting the Exercise:**
-   - Once data is imported, the application displays the exercise title and progress.
-   - Chinese text is shown with pinyin above each character.
-   - The current character to be typed is highlighted.
-   
-3. **Typing and Navigation:**
-   - Type the Chinese characters into the input box. Correct entries are highlighted, and incorrect entries prompt feedback.
-   - Use the space bar to skip a character if needed.
-   - Utilize the scrollbar to quickly navigate through longer exercises.
-   
-4. **Exercise Completion:**
-   - Upon finishing the exercise, you will receive feedback and options to restart the exercise or move on to the next one.
+1. **Import Data**:
+   - Use the default Google Sheet URL or paste your own
+   - Or upload an Excel file with two columns: Title and Chinese text
 
-## Setup & Usage
+2. **Practice Typing**:
+   - Select an exercise from the dropdown
+   - Type the characters as they appear (or their pinyin in Pinyin Mode)
+   - Get instant feedback on correct/incorrect inputs
+   - Use spacebar to skip difficult characters
+   - Use backspace to correct previous inputs
 
-1. **Clone the Repository:**
+3. **Review Performance**:
+   - After completing an exercise, view detailed statistics
+   - See your typing speed, accuracy, and grade
+   - Save a screenshot or copy results to share
 
-   ```bash
-   git clone https://github.com/yourusername/chinese-typing-exercise.git
-   cd chinese-typing-exercise
-   ```
+## Sheet Format
 
-2. **Open the Application:**
-   - Simply open the `index.html` file in your preferred web browser.
-   - Alternatively, you can host the file on a web server for public access.
+For Google Sheets or Excel files, use the following format:
+- First column: Exercise title
+- Second column: Chinese text
+- First row can optionally be headers ("Title" and "Text")
 
-3. **Dependencies:**
-   - The application is self-contained and uses the [pinyin-pro](https://github.com/mozillazg/pinyin-pro) library via a CDN.
-   - It also fetches visitor count data from GoatCounter.
+## Keyboard Shortcuts
 
-## File Structure
+- **Space**: Skip current character
+- **Backspace**: Go back to previous character
 
-```
-chinese-typing-exercise/
-├── index.html        # Main HTML file containing the structure, styles, and scripts.
-├── README.md         # This README file.
-└── (Optional assets) # Additional files (if any) for images, custom scripts, or styles.
-```
+## Browser Compatibility
 
-## Customization & Development
+Tested and works on:
+- Chrome
+- Firefox
+- Safari
+- Edge
 
-- **Styling:**  
-  The styles are embedded within the HTML file. Feel free to modify the CSS to better suit your branding or design preferences.
+## Mobile Support
 
-- **Functionality:**  
-  The JavaScript code handles CSV parsing, Google Sheets data import, dynamic UI updates, and event listeners for user interactions. You can enhance or modify the functionality as needed.
+The application is fully responsive with special optimizations for mobile devices:
+- Adjusted layout for smaller screens
+- Touch-friendly scrollbar
+- Input field positioning to accommodate mobile keyboards
 
-- **Contributions:**  
-  Contributions, improvements, and bug fixes are welcome. Please feel free to open an issue or submit a pull request.
+## Development
+
+This application uses:
+- **pinyin-pro**: For Chinese pinyin conversion
+- **XLSX**: For Excel file parsing
+- **html2canvas**: For screenshot functionality
+- Pure vanilla JavaScript (no framework dependencies)
 
 ## License
 
