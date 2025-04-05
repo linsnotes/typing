@@ -2429,30 +2429,44 @@ Copied!
         });
 
         // Pageviews counter
-        const pv = document.getElementById("pageviews");
-        if (pv !== null) {
-          // Strip trailing slash (if any) so the path matches GoatCounter
-          const uri = location.pathname.replace(/\/$/, "");
-          // Build the JSON endpoint URL for your domain
-          const url = `https://linsnotes.goatcounter.com/counter/${encodeURIComponent(
-            uri
-          )}.json`;
-
-          fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-              // 'data.count' comes back as a string with possible whitespace
-              const count = data.count.replace(/\s/g, "");
-              // Format it with commas, etc.
-              pv.innerText = new Intl.NumberFormat().format(count);
-            })
-            .catch((error) => {
-              // Fallback if something goes wrong
-              console.error("Error fetching pageviews:", error);
-              pv.innerText = "1";
-            });
-        }
+          const pv = document.getElementById('pageviews');
+            
+          if (pv !== null) {
+              // Get the pathname. If it's "/" leave it intact; if it ends with "/" (and isn’t just "/"), remove it.
+             let uri = location.pathname;
+             if (uri !== "/" && uri.endsWith("/")) {
+                  uri = uri.slice(0, -1);
+              }
+              // If on the homepage (empty or "/"), use "/" as the key.
+              if (!uri) {
+                  uri = "/";
+              }
+              // Build the JSON endpoint URL
+              const url = `https://linsnotes.goatcounter.com/counter/${encodeURIComponent(uri)}.json`;
+              
+              fetch(url)
+                  .then((response) => {
+                      if (!response.ok) {
+                          // If a 404 or any other error, return a default count of 0 (or another fallback)
+                          return { count: "0" };
+                      }
+                      return response.json();
+                  })
+                  .then((data) => {
+                      // Remove any whitespace from data.count
+                      const count = data.count.replace(/\s/g, '');
+                      // Format and display the count
+                      pv.innerText = new Intl.NumberFormat().format(count);
+                      pv.classList.remove('loading');
+                  })
+                  .catch((error) => {
+                      // Fallback if something goes wrong
+                      pv.innerText = '0';
+                      pv.classList.remove('loading');
+                  });
+          }
       });
+      
     </script>
   </body>
 </html>
