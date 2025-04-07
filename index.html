@@ -1,16 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <meta name="referrer" content="no-referrer">
-    <script data-goatcounter="https://linsnotes.goatcounter.com/count" async src="https://gc.zgo.at/count.js" integrity="sha512-JAlHYZ7sDXF98EQK5HABwb2k1jplfFP93BqY4B6fdHSh0XiAqIjO4gyXe8tdNFdHPYrg75grUX853FHYCzw3Dg==" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.26.0/dist/index.min.js" integrity="sha512-59m22Tdj5NpJr4WpRAJl+HXy96LWKmG2f3drO7abM5kW6WaI7nMHVx7cwJON1z6OdCH0HaZVMnXnRsdFeHQtDA==" crossorigin="anonymous"></script>
-    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha512-AXreDm/maQt99+BKeuV5VUY8x0xBAZPX6OYenHRlRwG/C35PKcZ7GQXITTR8Zf3cLHeTfwVDLEMBBPf7laKtAA==" crossorigin="anonymous"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous"></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <meta name="referrer" content="no-referrer" />
+    <script
+      data-goatcounter="https://linsnotes.goatcounter.com/count"
+      async
+      src="https://gc.zgo.at/count.js"
+      integrity="sha512-JAlHYZ7sDXF98EQK5HABwb2k1jplfFP93BqY4B6fdHSh0XiAqIjO4gyXe8tdNFdHPYrg75grUX853FHYCzw3Dg=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.26.0/dist/index.min.js"
+      integrity="sha512-59m22Tdj5NpJr4WpRAJl+HXy96LWKmG2f3drO7abM5kW6WaI7nMHVx7cwJON1z6OdCH0HaZVMnXnRsdFeHQtDA=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"
+      integrity="sha512-AXreDm/maQt99+BKeuV5VUY8x0xBAZPX6OYenHRlRwG/C35PKcZ7GQXITTR8Zf3cLHeTfwVDLEMBBPf7laKtAA=="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"
+      integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+      crossorigin="anonymous"
+    ></script>
     <title>弹指之间</title>
     <style>
       :root {
@@ -77,9 +98,10 @@
         font-size: 16px;
         background-color: var(--light-bg-secondary);
         color: var(--light-text);
-        transition: border-color var(--transition-speed) var(--transition-function),
-                    background-color var(--transition-speed) var(--transition-function),
-                    color var(--transition-speed) var(--transition-function);
+        transition: border-color var(--transition-speed)
+            var(--transition-function),
+          background-color var(--transition-speed) var(--transition-function),
+          color var(--transition-speed) var(--transition-function);
         display: block; /* Make it block level to center with margin auto */
       }
 
@@ -89,11 +111,10 @@
         box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
       }
 
-        
       body.dark-mode #builtInExerciseSelect {
-          background-color: var(--dark-bg-tertiary);
-          border-color: var(--dark-border);
-          color: var(--dark-text);
+        background-color: var(--dark-bg-tertiary);
+        border-color: var(--dark-border);
+        color: var(--dark-text);
       }
 
       #loadBuiltInButton {
@@ -116,7 +137,7 @@
         box-shadow: 0 4px 10px rgba(10, 132, 255, 0.4);
       }
 
-       body.dark-mode #loadBuiltInButton {
+      body.dark-mode #loadBuiltInButton {
         box-shadow: 0 2px 6px rgba(10, 132, 255, 0.5);
       }
 
@@ -124,9 +145,6 @@
         box-shadow: 0 4px 10px rgba(10, 132, 255, 0.7);
       }
 
-
-
-        
       .container {
         max-width: 800px;
         margin: 0 auto;
@@ -881,7 +899,6 @@
 
       /* Group all related media queries */
       @media (max-width: 768px) {
-
         #builtInExerciseSelect {
           width: 90%;
           padding: 10px;
@@ -891,7 +908,7 @@
           padding: 10px 20px;
           font-size: 14px;
         }
-          
+
         .theme-toggle {
           justify-content: center;
           gap: 10px;
@@ -1047,7 +1064,6 @@
         body.exercise-mode .speed-label {
           font-size: 12px;
         }
-        
       }
     </style>
   </head>
@@ -1102,9 +1118,7 @@
 
         <div class="upload-option">
           <h3>Option 1: Import Sheet ID</h3>
-          <p class="instruction">
-            Paste your Sheet ID below.
-          </p>
+          <p class="instruction">Paste your Sheet ID below.</p>
 
           <input
             type="text"
@@ -1122,7 +1136,6 @@
           </button>
         </div>
 
-
         <div class="upload-option">
           <h3>Option 2: Load Built-in Exercise</h3>
           <p class="instruction">
@@ -1133,13 +1146,13 @@
             <!-- Options will be populated by JavaScript -->
           </select>
           <div id="loadingBuiltInIndicator" style="display: none">
-             <span class="loading"></span> Loading...
+            <span class="loading"></span> Loading...
           </div>
           <button id="loadBuiltInButton" class="btn btn-primary">
             Load Selected Exercise
           </button>
         </div>
-          
+
         <div class="upload-option">
           <h3>Option 3: Upload Excel File</h3>
           <p class="instruction">
@@ -1308,7 +1321,6 @@
       const MASTER_SHEET_ID = "1asbvJIAYrnfVKJLo8zAq6Jbrdz35yNk6NYNGB1aA15Y"; // <--- IMPORTANT: REPLACE THIS
       let builtInExercises = []; // To store the fetched master list
 
-        
       // New variables to track character state for backspace functionality
       let charStates = []; // Array to store the state of each character (correct, skipped, etc.)
 
@@ -1365,11 +1377,15 @@
           exerciseInstruction: document.querySelector(
             "#exerciseSection .instruction"
           ),
-            
-          builtInExerciseSelect: document.getElementById("builtInExerciseSelect"), // New
-          loadBuiltInButton: document.getElementById("loadBuiltInButton"),       // New
-          loadingBuiltInIndicator: document.getElementById("loadingBuiltInIndicator"), // New
-            
+
+          builtInExerciseSelect: document.getElementById(
+            "builtInExerciseSelect"
+          ), // New
+          loadBuiltInButton: document.getElementById("loadBuiltInButton"), // New
+          loadingBuiltInIndicator: document.getElementById(
+            "loadingBuiltInIndicator"
+          ), // New
+
           // Speed meter elements
           currentSpeed: document.getElementById("currentSpeed"),
           averageSpeed: document.getElementById("averageSpeed"),
@@ -1396,7 +1412,7 @@
         window.elements = elements; // Make elements available globally for debugging
         // *** NEW: Fetch the master list on page load ***
         fetchMasterList();
-          
+
         // Add this function to update the placeholder text
         function updatePlaceholder() {
           elements.hiddenInput.placeholder = isPinyinMode
@@ -1435,21 +1451,23 @@
           console.error(message);
         }
 
-
         // *** ADD THE NEW EVENT LISTENER HERE ***
-        elements.loadBuiltInButton.addEventListener('click', function() {
-            const selectedSheetId = elements.builtInExerciseSelect.value;
+        elements.loadBuiltInButton.addEventListener("click", function () {
+          const selectedSheetId = elements.builtInExerciseSelect.value;
 
-            if (!selectedSheetId) {
-                showError("Please select a built-in exercise from the dropdown.");
-                return;
-            }
+          if (!selectedSheetId) {
+            showError("Please select a built-in exercise from the dropdown.");
+            return;
+          }
 
-            // Use the new core function, passing the indicator for the built-in section
-            loadSheetDataById(selectedSheetId, elements.loadingBuiltInIndicator, false); // false = not master list
+          // Use the new core function, passing the indicator for the built-in section
+          loadSheetDataById(
+            selectedSheetId,
+            elements.loadingBuiltInIndicator,
+            false
+          ); // false = not master list
         });
 
-          
         // Process XLSX data from ArrayBuffer
         function processXLSXData(arrayBuffer) {
           try {
@@ -1717,87 +1735,111 @@
           setTimeout(() => elements.hiddenInput.focus(), 100);
         }
 
-
-      // *** NEW Function: Process Master List Data ***
-      // Parses data specifically from the Master Sheet (Title, Sheet ID)
-      function processMasterListData(data, format) {
+        // *** NEW Function: Process Master List Data ***
+        // Parses data specifically from the Master Sheet (Title, Sheet ID)
+        function processMasterListData(data, format) {
           try {
-              let jsonData;
-              if (format === 'xlsx') {
-                  const workbook = XLSX.read(new Uint8Array(data), { type: "array" });
-                  const firstSheetName = workbook.SheetNames[0];
-                  const worksheet = workbook.Sheets[firstSheetName];
-                  jsonData = XLSX.utils.sheet_to_json(worksheet, { header: ["title", "sheetId"] });
-              } else { // csv
-                  const cleanedText = data.replace(/^\uFEFF/, "").replace(/\r\n/g, "\n");
-                  const lines = cleanedText.split("\n").map(line => line.trim()).filter(line => line !== "");
-                  jsonData = lines.map(line => {
-                      // Basic CSV split, assumes no commas within fields or simple quoting
-                      const parts = line.split(',');
-                      return { title: parts[0]?.trim() || '', sheetId: parts[1]?.trim() || '' };
-                  });
+            let jsonData;
+            if (format === "xlsx") {
+              const workbook = XLSX.read(new Uint8Array(data), {
+                type: "array",
+              });
+              const firstSheetName = workbook.SheetNames[0];
+              const worksheet = workbook.Sheets[firstSheetName];
+              jsonData = XLSX.utils.sheet_to_json(worksheet, {
+                header: ["title", "sheetId"],
+              });
+            } else {
+              // csv
+              const cleanedText = data
+                .replace(/^\uFEFF/, "")
+                .replace(/\r\n/g, "\n");
+              const lines = cleanedText
+                .split("\n")
+                .map((line) => line.trim())
+                .filter((line) => line !== "");
+              jsonData = lines.map((line) => {
+                // Basic CSV split, assumes no commas within fields or simple quoting
+                const parts = line.split(",");
+                return {
+                  title: parts[0]?.trim() || "",
+                  sheetId: parts[1]?.trim() || "",
+                };
+              });
+            }
+
+            // Skip header row if present (simple check)
+            const startIndex =
+              jsonData[0] &&
+              (jsonData[0].title?.toLowerCase() === "title" ||
+                jsonData[0].sheetId?.toLowerCase() === "sheet id")
+                ? 1
+                : 0;
+
+            const processedList = [];
+            for (let i = startIndex; i < jsonData.length; i++) {
+              const row = jsonData[i];
+              // Validate: Ensure both title and sheetId exist and sheetId looks like an ID
+              if (row && row.title && row.sheetId && row.sheetId.length > 20) {
+                processedList.push({
+                  title: row.title.trim(),
+                  sheetId: row.sheetId.trim(),
+                });
+              } else {
+                console.warn("Skipping invalid row in master list:", row);
               }
+            }
 
-              // Skip header row if present (simple check)
-              const startIndex = jsonData[0] && (jsonData[0].title?.toLowerCase() === "title" || jsonData[0].sheetId?.toLowerCase() === "sheet id") ? 1 : 0;
-
-              const processedList = [];
-              for (let i = startIndex; i < jsonData.length; i++) {
-                  const row = jsonData[i];
-                  // Validate: Ensure both title and sheetId exist and sheetId looks like an ID
-                  if (row && row.title && row.sheetId && row.sheetId.length > 20) {
-                      processedList.push({
-                          title: row.title.trim(),
-                          sheetId: row.sheetId.trim()
-                      });
-                  } else {
-                       console.warn("Skipping invalid row in master list:", row);
-                  }
-              }
-
-              if (processedList.length === 0) {
-                  showError("No valid built-in exercises found in the master list sheet.");
-                  return false;
-              }
-
-              builtInExercises = processedList; // Store globally
-              populateBuiltInSelector(); // Populate the dropdown
-              return true;
-
-          } catch (error) {
-              showError(`Error processing master list (${format}): ${error.message}`);
-              console.error(error);
+            if (processedList.length === 0) {
+              showError(
+                "No valid built-in exercises found in the master list sheet."
+              );
               return false;
+            }
+
+            builtInExercises = processedList; // Store globally
+            populateBuiltInSelector(); // Populate the dropdown
+            return true;
+          } catch (error) {
+            showError(
+              `Error processing master list (${format}): ${error.message}`
+            );
+            console.error(error);
+            return false;
           }
-      }
+        }
 
-
-      // *** NEW Function: Populate Built-in Exercise Selector ***
-      function populateBuiltInSelector() {
+        // *** NEW Function: Populate Built-in Exercise Selector ***
+        function populateBuiltInSelector() {
           // Clear existing options except the first default one
           while (elements.builtInExerciseSelect.options.length > 1) {
-              elements.builtInExerciseSelect.remove(1);
+            elements.builtInExerciseSelect.remove(1);
           }
 
           // Add options from the fetched list
-          builtInExercises.forEach(exercise => {
-              const option = document.createElement("option");
-              option.value = exercise.sheetId;
-              option.textContent = exercise.title;
-              elements.builtInExerciseSelect.appendChild(option);
+          builtInExercises.forEach((exercise) => {
+            const option = document.createElement("option");
+            option.value = exercise.sheetId;
+            option.textContent = exercise.title;
+            elements.builtInExerciseSelect.appendChild(option);
           });
-      }
+        }
 
-
-      // *** NEW Function: Fetch Master List ***
-      function fetchMasterList() {
-          if (!MASTER_SHEET_ID || MASTER_SHEET_ID === "YOUR_MASTER_SHEET_ID_HERE") {
-              console.warn("Master Sheet ID is not set. Built-in exercises disabled.");
-              // Optionally disable the built-in section
-              elements.loadBuiltInButton.disabled = true;
-              elements.builtInExerciseSelect.disabled = true;
-              elements.builtInExerciseSelect.options[0].textContent = "-- Built-in N/A --";
-              return;
+        // *** NEW Function: Fetch Master List ***
+        function fetchMasterList() {
+          if (
+            !MASTER_SHEET_ID ||
+            MASTER_SHEET_ID === "YOUR_MASTER_SHEET_ID_HERE"
+          ) {
+            console.warn(
+              "Master Sheet ID is not set. Built-in exercises disabled."
+            );
+            // Optionally disable the built-in section
+            elements.loadBuiltInButton.disabled = true;
+            elements.builtInExerciseSelect.disabled = true;
+            elements.builtInExerciseSelect.options[0].textContent =
+              "-- Built-in N/A --";
+            return;
           }
 
           console.log("Fetching master list from Sheet ID:", MASTER_SHEET_ID);
@@ -1806,47 +1848,62 @@
 
           // Try XLSX first
           fetch(xlsxUrl)
-              .then(response => {
-                  if (!response.ok) throw new Error(`Failed to fetch master list as XLSX (Status: ${response.status}). Check sharing permissions.`);
-                  return response.arrayBuffer();
-              })
-              .then(data => {
-                  console.log("Successfully fetched master list as XLSX.");
-                  processMasterListData(data, 'xlsx');
-              })
-              .catch(xlsxError => {
-                  console.warn("XLSX fetch for master list failed, trying CSV:", xlsxError.message);
-                  // Fallback to CSV
-                  fetch(csvUrl)
-                      .then(response => {
-                          if (!response.ok) throw new Error(`Failed to fetch master list as CSV (Status: ${response.status}). Check sharing permissions.`);
-                          return response.text();
-                      })
-                      .then(csvData => {
-                           console.log("Successfully fetched master list as CSV.");
-                           processMasterListData(csvData, 'csv');
-                      })
-                      .catch(csvError => {
-                          showError(`Failed to fetch master list: ${csvError.message}`);
-                          console.error("Both XLSX and CSV fetch failed for master list.");
-                           elements.loadBuiltInButton.disabled = true;
-                           elements.builtInExerciseSelect.disabled = true;
-                           elements.builtInExerciseSelect.options[0].textContent = "-- Error Loading List --";
-                      });
-              });
-      }
+            .then((response) => {
+              if (!response.ok)
+                throw new Error(
+                  `Failed to fetch master list as XLSX (Status: ${response.status}). Check sharing permissions.`
+                );
+              return response.arrayBuffer();
+            })
+            .then((data) => {
+              console.log("Successfully fetched master list as XLSX.");
+              processMasterListData(data, "xlsx");
+            })
+            .catch((xlsxError) => {
+              console.warn(
+                "XLSX fetch for master list failed, trying CSV:",
+                xlsxError.message
+              );
+              // Fallback to CSV
+              fetch(csvUrl)
+                .then((response) => {
+                  if (!response.ok)
+                    throw new Error(
+                      `Failed to fetch master list as CSV (Status: ${response.status}). Check sharing permissions.`
+                    );
+                  return response.text();
+                })
+                .then((csvData) => {
+                  console.log("Successfully fetched master list as CSV.");
+                  processMasterListData(csvData, "csv");
+                })
+                .catch((csvError) => {
+                  showError(`Failed to fetch master list: ${csvError.message}`);
+                  console.error(
+                    "Both XLSX and CSV fetch failed for master list."
+                  );
+                  elements.loadBuiltInButton.disabled = true;
+                  elements.builtInExerciseSelect.disabled = true;
+                  elements.builtInExerciseSelect.options[0].textContent =
+                    "-- Error Loading List --";
+                });
+            });
+        }
 
-
-      // *** NEW Function: Load Sheet Data by ID ***
-      // This function contains the core logic for fetching and processing ANY sheet (master or exercise)
-      function loadSheetDataById(sheetId, indicatorElement, isMasterList = false) {
+        // *** NEW Function: Load Sheet Data by ID ***
+        // This function contains the core logic for fetching and processing ANY sheet (master or exercise)
+        function loadSheetDataById(
+          sheetId,
+          indicatorElement,
+          isMasterList = false
+        ) {
           if (!sheetId) {
-              showError("Invalid Sheet ID provided.");
-              if (indicatorElement) indicatorElement.style.display = 'none';
-              return;
+            showError("Invalid Sheet ID provided.");
+            if (indicatorElement) indicatorElement.style.display = "none";
+            return;
           }
 
-          if (indicatorElement) indicatorElement.style.display = 'inline-block';
+          if (indicatorElement) indicatorElement.style.display = "inline-block";
           console.log(`Attempting to load data from Sheet ID: ${sheetId}`);
 
           const xlsxExportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=xlsx`;
@@ -1854,61 +1911,59 @@
 
           // Try XLSX
           fetch(xlsxExportUrl)
-              .then((response) => {
+            .then((response) => {
+              if (!response.ok) {
+                throw new Error(
+                  `Could not access sheet ${sheetId} as XLSX (Status: ${response.status}). Make sure it's shared publicly.`
+                );
+              }
+              return response.arrayBuffer();
+            })
+            .then((data) => {
+              console.log(`Successfully loaded Sheet ${sheetId} as XLSX.`);
+              if (indicatorElement) indicatorElement.style.display = "none";
+              if (isMasterList) {
+                processMasterListData(data, "xlsx");
+              } else {
+                processXLSXData(data); // Process as regular exercise data
+              }
+            })
+            .catch((error) => {
+              console.warn(
+                `XLSX import for ${sheetId} failed, falling back to CSV:`,
+                error.message
+              );
+              // Fallback to CSV
+              fetch(csvExportUrl)
+                .then((response) => {
                   if (!response.ok) {
-                      throw new Error(
-                          `Could not access sheet ${sheetId} as XLSX (Status: ${response.status}). Make sure it's shared publicly.`
-                      );
+                    throw new Error(
+                      `Could not access sheet ${sheetId} as CSV (Status: ${response.status}). Make sure it's shared publicly.`
+                    );
                   }
-                  return response.arrayBuffer();
-              })
-              .then((data) => {
-                  console.log(`Successfully loaded Sheet ${sheetId} as XLSX.`);
-                  if (indicatorElement) indicatorElement.style.display = 'none';
+                  return response.text();
+                })
+                .then((csvData) => {
+                  console.log(`Successfully loaded Sheet ${sheetId} as CSV.`);
+                  if (indicatorElement) indicatorElement.style.display = "none";
                   if (isMasterList) {
-                      processMasterListData(data, 'xlsx');
+                    processMasterListData(csvData, "csv");
                   } else {
-                      processXLSXData(data); // Process as regular exercise data
+                    processCSVData(csvData); // Process as regular exercise data
                   }
-              })
-              .catch((error) => {
-                  console.warn(`XLSX import for ${sheetId} failed, falling back to CSV:`, error.message);
-                  // Fallback to CSV
-                  fetch(csvExportUrl)
-                      .then((response) => {
-                          if (!response.ok) {
-                              throw new Error(
-                                  `Could not access sheet ${sheetId} as CSV (Status: ${response.status}). Make sure it's shared publicly.`
-                              );
-                          }
-                          return response.text();
-                      })
-                      .then((csvData) => {
-                          console.log(`Successfully loaded Sheet ${sheetId} as CSV.`);
-                           if (indicatorElement) indicatorElement.style.display = 'none';
-                           if (isMasterList) {
-                               processMasterListData(csvData, 'csv');
-                           } else {
-                               processCSVData(csvData); // Process as regular exercise data
-                           }
-                      })
-                      .catch((finalError) => {
-                          if (indicatorElement) indicatorElement.style.display = 'none';
-                          showError(
-                              `Error importing from Sheet ${sheetId}: ${finalError.message}`
-                          );
-                          console.error(`Failed to import ${sheetId} using both XLSX and CSV.`);
-                      });
-              });
-      }
+                })
+                .catch((finalError) => {
+                  if (indicatorElement) indicatorElement.style.display = "none";
+                  showError(
+                    `Error importing from Sheet ${sheetId}: ${finalError.message}`
+                  );
+                  console.error(
+                    `Failed to import ${sheetId} using both XLSX and CSV.`
+                  );
+                });
+            });
+        }
 
-
-          
-
-
-
-
-          
         function loadExercise(exercise) {
           if (!exercise || !exercise.text) {
             showError("Invalid exercise data");
@@ -2501,8 +2556,10 @@ Copied!
 
           // Optional: Basic validation for sheet ID format (length, no slashes)
           if (sheetId.length < 20 || sheetId.includes("/")) {
-              showError("Invalid Google Sheet ID format. It should be a long string without slashes, typically found in the URL.");
-              return;
+            showError(
+              "Invalid Google Sheet ID format. It should be a long string without slashes, typically found in the URL."
+            );
+            return;
           }
 
           elements.loadingIndicator.style.display = "inline-block";
@@ -2687,44 +2744,45 @@ Copied!
         });
 
         // Pageviews counter
-          const pv = document.getElementById('pageviews');
-            
-          if (pv !== null) {
-              // Get the pathname. If it's "/" leave it intact; if it ends with "/" (and isn’t just "/"), remove it.
-             let uri = location.pathname;
-             if (uri !== "/" && uri.endsWith("/")) {
-                  uri = uri.slice(0, -1);
-              }
-              // If on the homepage (empty or "/"), use "/" as the key.
-              if (!uri) {
-                  uri = "/";
-              }
-              // Build the JSON endpoint URL
-              const url = `https://linsnotes.goatcounter.com/counter/${encodeURIComponent(uri)}.json`;
-              
-              fetch(url)
-                  .then((response) => {
-                      if (!response.ok) {
-                          // If a 404 or any other error, return a default count of 0 (or another fallback)
-                          return { count: "0" };
-                      }
-                      return response.json();
-                  })
-                  .then((data) => {
-                      // Remove any whitespace from data.count
-                      const count = data.count.replace(/\s/g, '');
-                      // Format and display the count
-                      pv.innerText = new Intl.NumberFormat().format(count);
-                      pv.classList.remove('loading');
-                  })
-                  .catch((error) => {
-                      // Fallback if something goes wrong
-                      pv.innerText = '0';
-                      pv.classList.remove('loading');
-                  });
+        const pv = document.getElementById("pageviews");
+
+        if (pv !== null) {
+          // Get the pathname. If it's "/" leave it intact; if it ends with "/" (and isn’t just "/"), remove it.
+          let uri = location.pathname;
+          if (uri !== "/" && uri.endsWith("/")) {
+            uri = uri.slice(0, -1);
           }
+          // If on the homepage (empty or "/"), use "/" as the key.
+          if (!uri) {
+            uri = "/";
+          }
+          // Build the JSON endpoint URL
+          const url = `https://linsnotes.goatcounter.com/counter/${encodeURIComponent(
+            uri
+          )}.json`;
+
+          fetch(url)
+            .then((response) => {
+              if (!response.ok) {
+                // If a 404 or any other error, return a default count of 0 (or another fallback)
+                return { count: "0" };
+              }
+              return response.json();
+            })
+            .then((data) => {
+              // Remove any whitespace from data.count
+              const count = data.count.replace(/\s/g, "");
+              // Format and display the count
+              pv.innerText = new Intl.NumberFormat().format(count);
+              pv.classList.remove("loading");
+            })
+            .catch((error) => {
+              // Fallback if something goes wrong
+              pv.innerText = "0";
+              pv.classList.remove("loading");
+            });
+        }
       });
-      
     </script>
   </body>
 </html>
