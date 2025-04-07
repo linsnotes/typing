@@ -1,31 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="referrer" content="no-referrer">
+    <script data-goatcounter="https://linsnotes.goatcounter.com/count" async src="https://gc.zgo.at/count.js" integrity="sha512-JAlHYZ7sDXF98EQK5HABwb2k1jplfFP93BqY4B6fdHSh0XiAqIjO4gyXe8tdNFdHPYrg75grUX853FHYCzw3Dg==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.26.0/dist/index.min.js" integrity="sha512-59m22Tdj5NpJr4WpRAJl+HXy96LWKmG2f3drO7abM5kW6WaI7nMHVx7cwJON1z6OdCH0HaZVMnXnRsdFeHQtDA==" crossorigin="anonymous"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js" integrity="sha512-AXreDm/maQt99+BKeuV5VUY8x0xBAZPX6OYenHRlRwG/C35PKcZ7GQXITTR8Zf3cLHeTfwVDLEMBBPf7laKtAA==" crossorigin="anonymous"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous"></script>
     <title>弹指之间</title>
     <style>
+      :root {
+        /* Color variables */
+        --primary-color: #0a84ff;
+        --primary-hover: #007aff;
+        --success-color: #34c759;
+        --success-hover: #2cc543;
+        --warning-color: #ff9f0a;
+        --warning-hover: #f08800;
+        --danger-color: #dc3545;
+
+        /* Background colors */
+        --light-bg: #fff;
+        --light-bg-secondary: #f8f9fa;
+        --light-bg-tertiary: #e9ecef;
+        --dark-bg: #1c1c1e;
+        --dark-bg-secondary: #2c2c2e;
+        --dark-bg-tertiary: #3a3a3c;
+
+        /* Text colors */
+        --light-text: #333;
+        --light-text-secondary: #6c757d;
+        --dark-text: #f2f2f7;
+        --dark-text-secondary: #bbb;
+
+        /* Border colors */
+        --light-border: #ced4da;
+        --dark-border: #555;
+
+        /* UI elements */
+        --border-radius: 10px;
+        --border-radius-sm: 8px;
+        --border-radius-lg: 12px;
+        --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        --dark-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+
+        /* Transitions */
+        --transition-speed: 0.3s;
+        --transition-function: ease;
+      }
+
       /* Apple-inspired base styles */
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Tahoma,
           Geneva, Verdana, Helvetica, Arial, sans-serif;
-        background-color: #fff;
+        background-color: var(--light-bg);
         margin: 0;
         padding: 0;
         text-align: center;
-        color: #333;
+        color: var(--light-text);
         line-height: 1.6;
-        transition: background-color 0.3s ease, color 0.3s ease;
+        transition: background-color var(--transition-speed)
+            var(--transition-function),
+          color var(--transition-speed) var(--transition-function);
       }
+
       body.dark-mode {
-        background-color: #1c1c1e;
-        color: #f2f2f7;
+        background-color: var(--dark-bg);
+        color: var(--dark-text);
       }
+
       .container {
         max-width: 800px;
         margin: 0 auto;
         padding: 20px;
-        transition: max-width 0.3s ease;
+        transition: max-width var(--transition-speed) var(--transition-function);
       }
 
       /* Exercise mode container width adjustment */
@@ -34,23 +86,14 @@
       }
 
       /* Element visibility in exercise mode */
-      .exercise-mode h1 {
-        display: none;
-      }
-
-      .exercise-mode #titleDisplay {
-        display: none;
-      }
-
+      .exercise-mode h1,
+      .exercise-mode #titleDisplay,
       .exercise-mode #visitor-counter {
         display: none;
       }
 
       /* Results mode visibility adjustments */
-      .results-mode h1 {
-        display: none;
-      }
-
+      .results-mode h1,
       .results-mode #visitor-counter {
         display: none;
       }
@@ -59,24 +102,29 @@
       #uploadSection,
       #exerciseSection,
       #resultsSection {
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        background-color: var(--light-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        transition: background-color var(--transition-speed)
+            var(--transition-function),
+          box-shadow var(--transition-speed) var(--transition-function);
       }
+
       body.dark-mode #uploadSection,
       body.dark-mode #exerciseSection,
       body.dark-mode #resultsSection {
-        background-color: #2c2c2e;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+        background-color: var(--dark-bg-secondary);
+        box-shadow: var(--dark-box-shadow);
       }
+
       h1 {
         margin-bottom: 30px;
         color: #000;
-        transition: color 0.3s ease;
+        transition: color var(--transition-speed) var(--transition-function);
       }
+
       body.dark-mode h1 {
-        color: #fff;
+        color: var(--dark-text);
       }
 
       .mode-toggle {
@@ -98,21 +146,25 @@
         margin-bottom: 20px;
         flex-wrap: wrap;
       }
+
       .toggle-label {
         margin-left: 8px;
         font-size: 14px;
       }
+
       .switch {
         position: relative;
         display: inline-block;
         width: 50px;
         height: 28px;
       }
+
       .switch input {
         opacity: 0;
         width: 0;
         height: 0;
       }
+
       #visitor-counter {
         margin-right: auto;
         text-align: left;
@@ -147,9 +199,10 @@
         right: 0;
         bottom: 0;
         background-color: #ccc;
-        transition: background-color 0.3s;
+        transition: background-color var(--transition-speed);
         border-radius: 34px;
       }
+
       .slider:before {
         position: absolute;
         content: "";
@@ -158,48 +211,57 @@
         left: 3px;
         bottom: 3px;
         background-color: white;
-        transition: transform 0.3s;
+        transition: transform var(--transition-speed);
         border-radius: 50%;
       }
+
       input:checked + .slider {
-        background-color: #34c759;
+        background-color: var(--success-color);
       }
+
       input:checked + .slider:before {
         transform: translateX(22px);
       }
+
       /* Upload Section */
       #uploadSection {
         margin-top: 30px;
         padding: 20px;
       }
+
       .upload-option {
         margin-bottom: 30px;
         padding: 20px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        border: 1px solid #e9ecef;
-        transition: background-color 0.3s ease, border 0.3s ease;
+        background-color: var(--light-bg-secondary);
+        border-radius: var(--border-radius-sm);
+        border: 1px solid var(--light-bg-tertiary);
+        transition: background-color var(--transition-speed)
+            var(--transition-function),
+          border var(--transition-speed) var(--transition-function);
       }
+
       body.dark-mode .upload-option {
-        background-color: #3a3a3c;
-        border: 1px solid #555;
+        background-color: var(--dark-bg-tertiary);
+        border: 1px solid var(--dark-border);
       }
+
       .upload-option h3 {
         margin-top: 0;
         color: #000;
-        transition: color 0.3s ease;
+        transition: color var(--transition-speed) var(--transition-function);
       }
+
       body.dark-mode .upload-option h3 {
-        color: #f2f2f7;
+        color: var(--dark-text);
       }
 
       /* Updated file upload label (Apple-styled button) */
       #file-upload-label {
         display: inline-block;
         padding: 12px 24px;
-        background-color: #34c759;
-        color: #fff;
-        border-radius: 10px;
+        background-color: var(--success-color);
+        color: var(--light-bg);
+        border-radius: var(--border-radius);
         cursor: pointer;
         margin-top: 10px;
         font-weight: 500;
@@ -208,46 +270,52 @@
         transition: all 0.2s ease;
         box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       }
+
       #file-upload-label:hover {
-        background-color: #2cc543;
+        background-color: var(--success-hover);
         transform: translateY(-1px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
       }
+
       body.dark-mode #file-upload-label {
-        background-color: #34c759;
-        color: #fff;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: var(--success-color);
+        color: var(--light-bg);
+        box-shadow: var(--dark-box-shadow);
       }
+
       body.dark-mode #file-upload-label:hover {
-        background-color: #2cc543;
+        background-color: var(--success-hover);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
       }
 
       #xlsxFileInput {
         display: none;
       }
+
       #sheetsUrlInput {
         width: 70%;
         padding: 12px;
         margin: 10px auto;
-        border: 1px solid #ced4da;
-        border-radius: 8px;
+        border: 1px solid var(--light-border);
+        border-radius: var(--border-radius-sm);
         font-size: 16px;
-        transition: border-color 0.3s ease;
+        transition: border-color var(--transition-speed)
+          var(--transition-function);
       }
+
       #sheetsUrlInput:focus {
         outline: none;
-        border-color: #0a84ff;
+        border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
       }
 
       /* Updated load sheet button (Apple-styled) */
       #loadSheetButton {
         padding: 12px 24px;
-        background-color: #0a84ff;
-        color: #fff;
+        background-color: var(--primary-color);
+        color: var(--light-bg);
         border: none;
-        border-radius: 10px;
+        border-radius: var(--border-radius);
         cursor: pointer;
         font-weight: 500;
         margin-top: 10px;
@@ -255,14 +323,17 @@
         transition: all 0.2s ease;
         box-shadow: 0 2px 6px rgba(10, 132, 255, 0.3);
       }
+
       #loadSheetButton:hover {
-        background-color: #007aff;
+        background-color: var(--primary-hover);
         transform: translateY(-1px);
         box-shadow: 0 4px 10px rgba(10, 132, 255, 0.4);
       }
+
       body.dark-mode #loadSheetButton {
         box-shadow: 0 2px 6px rgba(10, 132, 255, 0.5);
       }
+
       body.dark-mode #loadSheetButton:hover {
         box-shadow: 0 4px 10px rgba(10, 132, 255, 0.7);
       }
@@ -273,60 +344,73 @@
         margin: 20px 0;
         padding: 30px;
       }
+
       #progressDisplay {
         font-size: 18px;
         margin-bottom: 15px;
         color: #555;
-        transition: color 0.3s ease;
+        transition: color var(--transition-speed) var(--transition-function);
       }
+
       body.dark-mode #progressDisplay {
         color: #ccc;
       }
+
       #titleDisplay {
         font-size: 24px;
         margin-bottom: 20px;
         font-weight: bold;
         color: #000;
-        transition: color 0.3s ease;
+        transition: color var(--transition-speed) var(--transition-function);
       }
+
       body.dark-mode #titleDisplay {
-        color: #fff;
+        color: var(--dark-text);
       }
+
       #exerciseSelector {
         margin-bottom: 20px;
         padding: 10px;
         font-size: 16px;
-        border-radius: 8px;
+        border-radius: var(--border-radius-sm);
         width: 80%;
         max-width: 300px;
-        background-color: #f8f9fa;
-        border: 1px solid #ced4da;
-        transition: background-color 0.3s ease, border-color 0.3s ease;
+        background-color: var(--light-bg-secondary);
+        border: 1px solid var(--light-border);
+        transition: background-color var(--transition-speed)
+            var(--transition-function),
+          border-color var(--transition-speed) var(--transition-function);
       }
+
       body.dark-mode #exerciseSelector {
-        background-color: #3a3a3c;
-        border-color: #555;
-        color: #f2f2f7;
+        background-color: var(--dark-bg-tertiary);
+        border-color: var(--dark-border);
+        color: var(--dark-text);
       }
+
       #exerciseSelector:focus {
         outline: none;
-        border-color: #0a84ff;
+        border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
       }
+
       #scrollWrapper {
         position: relative;
         width: 100%;
         height: 140px;
         margin: 30px 0 10px 0;
-        background-color: #f8f9fa;
-        border-radius: 8px 8px 0 0;
+        background-color: var(--light-bg-secondary);
+        border-radius: var(--border-radius-sm) var(--border-radius-sm) 0 0;
         padding: 10px 0;
         overflow: hidden;
-        transition: background-color 0.3s ease;
+        transition: background-color var(--transition-speed)
+          var(--transition-function);
       }
+
       body.dark-mode #scrollWrapper {
-        background-color: #3a3a3c;
+        background-color: var(--dark-bg-tertiary);
       }
+
       #scrollContainer {
         position: absolute;
         left: 0;
@@ -335,78 +419,94 @@
         transition: transform 0.3s ease-out;
         padding: 10px;
       }
+
       #scrollbarContainer {
         position: relative;
         width: 100%;
         height: 20px;
-        background-color: #e9ecef;
-        border-radius: 0 0 8px 8px;
+        background-color: var(--light-bg-tertiary);
+        border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
         overflow: hidden;
         margin-bottom: 20px;
-        transition: background-color 0.3s ease;
+        transition: background-color var(--transition-speed)
+          var(--transition-function);
       }
+
       body.dark-mode #scrollbarContainer {
-        background-color: #555;
+        background-color: var(--dark-border);
       }
+
       #scrollbar {
         position: absolute;
         height: 100%;
         background-color: #adb5bd;
-        border-radius: 0 0 8px 8px;
+        border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
         cursor: pointer;
         transition: background-color 0.2s;
       }
+
       #scrollbar:hover {
         background-color: #6c757d;
       }
+
       #scrollbar:active {
         background-color: #495057;
       }
+
       .pinyin-box,
       .char-box {
         display: inline-block;
         width: 60px;
         margin: 0 8px;
         font-size: 26px;
-        transition: all 0.3s;
+        transition: all var(--transition-speed);
       }
+
       .char-box {
         border-bottom: 2px solid #ddd;
         height: 50px;
         line-height: 50px;
       }
+
       .current-char {
-        border-bottom-color: #0a84ff;
+        border-bottom-color: var(--primary-color);
         background-color: rgba(10, 132, 255, 0.1);
         border-radius: 4px;
         transform: scale(1.1);
       }
+
       .correct-pinyin {
-        color: #0a84ff;
+        color: var(--primary-color);
         font-weight: bold;
       }
+
       .completed-char {
-        color: #6c757d;
+        color: var(--light-text-secondary);
       }
+
       #hiddenInput {
         width: 80%;
         max-width: 300px;
         font-size: 24px;
         margin: 20px auto;
         padding: 12px;
-        border: 2px solid #0a84ff;
-        border-radius: 8px;
+        border: 2px solid var(--primary-color);
+        border-radius: var(--border-radius-sm);
         outline: none;
-        background-color: #f8f9fa;
+        background-color: var(--light-bg-secondary);
         text-align: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        transition: background-color 0.3s ease, border-color 0.3s ease;
+        box-shadow: var(--box-shadow);
+        transition: background-color var(--transition-speed)
+            var(--transition-function),
+          border-color var(--transition-speed) var(--transition-function);
       }
+
       body.dark-mode #hiddenInput {
-        background-color: #3a3a3c;
-        border-color: #0a84ff;
-        color: #f2f2f7;
+        background-color: var(--dark-bg-tertiary);
+        border-color: var(--primary-color);
+        color: var(--dark-text);
       }
+
       #feedbackMessage {
         font-size: 20px;
         height: 30px;
@@ -420,46 +520,51 @@
         padding: 12px 24px;
         font-size: 16px;
         border: none;
-        border-radius: 10px;
+        border-radius: var(--border-radius);
         cursor: pointer;
         transition: all 0.2s ease;
         font-weight: 500;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        box-shadow: var(--box-shadow);
       }
+
       .btn:hover {
         transform: translateY(-1px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
       }
+
       .btn:active {
         transform: translateY(1px);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
       }
 
       .btn-primary {
-        background-color: #0a84ff;
-        color: #fff;
+        background-color: var(--primary-color);
+        color: var(--light-bg);
         box-shadow: 0 2px 6px rgba(10, 132, 255, 0.3);
       }
+
       .btn-primary:hover {
-        background-color: #007aff;
+        background-color: var(--primary-hover);
         box-shadow: 0 4px 10px rgba(10, 132, 255, 0.4);
       }
 
       .btn-warning {
-        background-color: #ff9f0a;
-        color: #fff;
+        background-color: var(--warning-color);
+        color: var(--light-bg);
         box-shadow: 0 2px 6px rgba(255, 159, 10, 0.3);
       }
+
       .btn-warning:hover {
-        background-color: #f08800;
+        background-color: var(--warning-hover);
         box-shadow: 0 4px 10px rgba(255, 159, 10, 0.4);
       }
 
       /* Dark mode button adjustments */
       body.dark-mode .btn-primary,
       body.dark-mode .btn-warning {
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        box-shadow: var(--dark-box-shadow);
       }
+
       body.dark-mode .btn-primary:hover,
       body.dark-mode .btn-warning:hover {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
@@ -468,45 +573,52 @@
       .instruction {
         margin: 20px 0;
         font-size: 16px;
-        color: #6c757d;
-        transition: color 0.3s ease;
+        color: var(--light-text-secondary);
+        transition: color var(--transition-speed) var(--transition-function);
       }
+
       body.dark-mode .instruction {
-        color: #bbb;
+        color: var(--dark-text-secondary);
       }
+
       .file-name {
         margin-top: 15px;
         font-size: 14px;
-        color: #6c757d;
-        transition: color 0.3s ease;
+        color: var(--light-text-secondary);
+        transition: color var(--transition-speed) var(--transition-function);
       }
+
       body.dark-mode .file-name {
         color: #ccc;
       }
+
       .error {
         animation: shake 0.5s;
       }
+
       .loading {
         display: inline-block;
         width: 20px;
         height: 20px;
         border: 3px solid rgba(10, 132, 255, 0.3);
         border-radius: 50%;
-        border-top-color: #0a84ff;
+        border-top-color: var(--primary-color);
         animation: spin 1s ease-in-out infinite;
         margin-left: 10px;
         vertical-align: middle;
       }
+
       .keyboard-shortcut {
         display: inline-block;
         padding: 2px 8px;
-        background-color: #e9ecef;
+        background-color: var(--light-bg-tertiary);
         border-radius: 4px;
         font-size: 14px;
         margin: 0 4px;
         color: #495057;
-        border: 1px solid #ced4da;
+        border: 1px solid var(--light-border);
       }
+
       /* Speed Meter Styles */
       #speedMeterContainer {
         margin: 15px auto;
@@ -518,32 +630,38 @@
         justify-content: center;
         flex-wrap: wrap;
       }
+
       .speed-stat {
         flex: 1;
         min-width: 120px;
         margin: 5px;
         padding: 10px;
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-        transition: background-color 0.3s ease;
+        background-color: var(--light-bg-secondary);
+        border-radius: var(--border-radius-sm);
+        box-shadow: var(--box-shadow);
+        transition: background-color var(--transition-speed)
+          var(--transition-function);
       }
+
       body.dark-mode .speed-stat {
-        background-color: #3a3a3c;
+        background-color: var(--dark-bg-tertiary);
       }
+
       .speed-value {
         font-size: 24px;
         font-weight: bold;
-        color: #0a84ff;
+        color: var(--primary-color);
         margin: 5px 0;
       }
+
       .speed-label {
         font-size: 14px;
-        color: #6c757d;
+        color: var(--light-text-secondary);
         margin: 0;
       }
+
       body.dark-mode .speed-label {
-        color: #bbb;
+        color: var(--dark-text-secondary);
       }
 
       /* Results Section Styles */
@@ -552,65 +670,77 @@
         margin: 20px 0;
         padding: 30px;
       }
+
       .results-title {
         font-size: 24px;
         margin-bottom: 20px;
-        color: #0a84ff;
+        color: var(--primary-color);
         font-weight: bold;
       }
+
       .results-card {
-        background-color: #f8f9fa;
-        border-radius: 12px;
+        background-color: var(--light-bg-secondary);
+        border-radius: var(--border-radius-lg);
         padding: 20px;
         margin: 20px auto;
         max-width: 600px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--box-shadow);
         position: relative;
-        transition: background-color 0.3s ease;
+        transition: background-color var(--transition-speed)
+          var(--transition-function);
       }
+
       body.dark-mode .results-card {
-        background-color: #3a3a3c;
+        background-color: var(--dark-bg-tertiary);
       }
+
       .results-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 15px;
         margin: 20px 0;
       }
+
       .result-item {
         text-align: center;
       }
+
       .result-value {
         font-size: 28px;
         font-weight: bold;
-        color: #0a84ff;
+        color: var(--primary-color);
         margin: 5px 0;
       }
+
       .result-label {
         font-size: 14px;
-        color: #6c757d;
+        color: var(--light-text-secondary);
       }
+
       body.dark-mode .result-label {
-        color: #bbb;
+        color: var(--dark-text-secondary);
       }
+
       .result-grade {
         font-size: 36px;
         font-weight: bold;
         margin: 15px 0;
-        color: #34c759;
+        color: var(--success-color);
       }
+
       .share-options {
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         margin-top: 20px;
       }
+
       .share-btn {
         margin: 5px;
         padding: 10px 15px;
         font-size: 16px;
         border: none;
-        border-radius: 8px;
+        border-radius: var(--border-radius-sm);
         cursor: pointer;
         background-color: #f0f0f0;
         color: #333;
@@ -618,13 +748,16 @@
         align-items: center;
         transition: all 0.2s;
       }
+
       .share-btn:hover {
         background-color: #e0e0e0;
         transform: translateY(-2px);
       }
+
       .share-btn i {
         margin-right: 8px;
       }
+
       #screenshot-area {
         position: relative;
         overflow: hidden;
@@ -634,19 +767,22 @@
       .progress-container {
         width: 100%;
         height: 6px;
-        background-color: #e9ecef;
+        background-color: var(--light-bg-tertiary);
         border-radius: 3px;
         margin: 15px 0;
         overflow: hidden;
-        transition: background-color 0.3s ease;
+        transition: background-color var(--transition-speed)
+          var(--transition-function);
       }
+
       body.dark-mode .progress-container {
-        background-color: #555;
+        background-color: var(--dark-border);
       }
+
       .progress-bar {
         height: 100%;
-        background-color: #0a84ff;
-        transition: width 0.3s ease;
+        background-color: var(--primary-color);
+        transition: width var(--transition-speed) var(--transition-function);
       }
 
       @keyframes shake {
@@ -661,13 +797,35 @@
           transform: translateX(5px);
         }
       }
+
       @keyframes spin {
         to {
           transform: rotate(360deg);
         }
       }
 
-      /* Responsive styles */
+      /* Add print styles */
+      @media print {
+        .theme-toggle,
+        .btn,
+        #uploadSection,
+        #exerciseControls,
+        #hiddenInput {
+          display: none !important;
+        }
+
+        body {
+          background-color: white !important;
+          color: black !important;
+        }
+
+        .results-card {
+          box-shadow: none !important;
+          border: 1px solid #ddd !important;
+        }
+      }
+
+      /* Group all related media queries */
       @media (max-width: 768px) {
         .theme-toggle {
           justify-content: center;
@@ -686,6 +844,7 @@
           width: 50px;
           font-size: 22px;
         }
+
         .char-box {
           height: 40px;
           line-height: 40px;
@@ -697,6 +856,7 @@
           font-size: 14px;
           margin: 10px 5px;
         }
+
         #loadSheetButton,
         #file-upload-label {
           padding: 10px 20px;
@@ -706,25 +866,30 @@
         #sheetsUrlInput {
           width: 90%;
         }
+
         .results-grid {
           grid-template-columns: 1fr;
         }
+
         .speed-stat {
           min-width: 100px;
         }
       }
 
-      /* Fix for mobile vertical layout */
+      /* Mobile-specific styles */
       @media (max-width: 480px) {
         .container {
           padding: 10px;
         }
+
         #scrollWrapper {
           height: 120px;
         }
+
         .share-options {
           flex-direction: column;
         }
+
         .share-btn {
           width: 100%;
           margin: 5px 0;
@@ -745,6 +910,65 @@
           font-size: 13px;
           width: 80%;
           margin: 8px auto;
+        }
+
+        /* Mobile-specific exercise mode adjustments */
+        body.exercise-mode .container {
+          /* Changed padding for better space usage */
+          padding: 10px 10px 120px 10px;
+        }
+
+        /* Reposition the critical exercise elements */
+        body.exercise-mode #scrollWrapper {
+          height: 110px;
+          margin-bottom: 5px;
+        }
+
+        body.exercise-mode #scrollbarContainer {
+          margin-bottom: 10px;
+        }
+
+        /* Position the input higher on mobile screens */
+        body.exercise-mode #hiddenInput {
+          position: sticky;
+          bottom: 20px;
+          margin: 10px auto;
+          width: 90%;
+          z-index: 10;
+          /* Improve visibility */
+          box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Make feedback message more compact */
+        body.exercise-mode #feedbackMessage {
+          height: 25px;
+          margin: 5px 0;
+          font-size: 18px;
+        }
+
+        /* Reduce size of instruction text */
+        body.exercise-mode .instruction {
+          margin: 10px 0;
+          font-size: 14px;
+        }
+
+        /* Compact speed meter on mobile */
+        body.exercise-mode #speedMeterContainer {
+          margin: 10px auto;
+        }
+
+        body.exercise-mode .speed-stat {
+          padding: 5px;
+          min-width: 80px;
+        }
+
+        body.exercise-mode .speed-value {
+          font-size: 20px;
+          margin: 2px 0;
+        }
+
+        body.exercise-mode .speed-label {
+          font-size: 12px;
         }
       }
     </style>
@@ -972,10 +1196,6 @@
         </div>
       </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.13.2/dist/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script>
       // Add these variables to your existing variables section
       let isPinyinMode = false; // Default to character input mode
@@ -1426,6 +1646,9 @@
           resetTypingStats();
           loadExercise(exercises[currentExerciseIndex]);
           setTimeout(() => elements.hiddenInput.focus(), 100);
+
+          // Add this line at the end of the startExercise function
+          setupMobileKeyboardBehavior();
         }
 
         function restartCurrentExercise() {
@@ -1984,6 +2207,19 @@ Copied!
 
         // Event Listeners
 
+        function setupMobileKeyboardBehavior() {
+          if (window.innerWidth <= 480) {
+            // On mobile focus
+            elements.hiddenInput.addEventListener("focus", function () {
+              // Short delay to let keyboard open
+              setTimeout(() => {
+                // Scroll to make sure input is visible
+                this.scrollIntoView({ behavior: "smooth", block: "center" });
+              }, 300);
+            });
+          }
+        }
+
         // Dark Mode Toggle
         elements.themeToggle.addEventListener("change", function () {
           document.body.classList.toggle("dark-mode", this.checked);
@@ -2196,30 +2432,44 @@ Copied!
         });
 
         // Pageviews counter
-        const pv = document.getElementById("pageviews");
-        if (pv !== null) {
-          // Strip trailing slash (if any) so the path matches GoatCounter
-          const uri = location.pathname.replace(/\/$/, "");
-          // Build the JSON endpoint URL for your domain
-          const url = `https://linsnotes.goatcounter.com/counter/${encodeURIComponent(
-            uri
-          )}.json`;
-
-          fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-              // 'data.count' comes back as a string with possible whitespace
-              const count = data.count.replace(/\s/g, "");
-              // Format it with commas, etc.
-              pv.innerText = new Intl.NumberFormat().format(count);
-            })
-            .catch((error) => {
-              // Fallback if something goes wrong
-              console.error("Error fetching pageviews:", error);
-              pv.innerText = "1";
-            });
-        }
+          const pv = document.getElementById('pageviews');
+            
+          if (pv !== null) {
+              // Get the pathname. If it's "/" leave it intact; if it ends with "/" (and isn’t just "/"), remove it.
+             let uri = location.pathname;
+             if (uri !== "/" && uri.endsWith("/")) {
+                  uri = uri.slice(0, -1);
+              }
+              // If on the homepage (empty or "/"), use "/" as the key.
+              if (!uri) {
+                  uri = "/";
+              }
+              // Build the JSON endpoint URL
+              const url = `https://linsnotes.goatcounter.com/counter/${encodeURIComponent(uri)}.json`;
+              
+              fetch(url)
+                  .then((response) => {
+                      if (!response.ok) {
+                          // If a 404 or any other error, return a default count of 0 (or another fallback)
+                          return { count: "0" };
+                      }
+                      return response.json();
+                  })
+                  .then((data) => {
+                      // Remove any whitespace from data.count
+                      const count = data.count.replace(/\s/g, '');
+                      // Format and display the count
+                      pv.innerText = new Intl.NumberFormat().format(count);
+                      pv.classList.remove('loading');
+                  })
+                  .catch((error) => {
+                      // Fallback if something goes wrong
+                      pv.innerText = '0';
+                      pv.classList.remove('loading');
+                  });
+          }
       });
+      
     </script>
   </body>
 </html>
