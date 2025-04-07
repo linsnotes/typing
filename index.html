@@ -346,7 +346,7 @@
         display: none;
       }
 
-      #sheetsUrlInput {
+      #sheetIdInput {
         width: 70%;
         padding: 12px;
         margin: 10px auto;
@@ -357,7 +357,7 @@
           var(--transition-function);
       }
 
-      #sheetsUrlInput:focus {
+      #sheetIdInput:focus {
         outline: none;
         border-color: var(--primary-color);
         box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
@@ -928,7 +928,7 @@
           font-size: 14px;
         }
 
-        #sheetsUrlInput {
+        #sheetIdInput {
           width: 90%;
         }
 
@@ -1101,20 +1101,15 @@
         <h2>Import Exercise Data</h2>
 
         <div class="upload-option">
-          <h3>Option 1: Import from Google Sheets</h3>
+          <h3>Option 1: Import Sheet ID</h3>
           <p class="instruction">
-            Paste your Google Sheets URL below. The default sample link is
-            already pasted. You can click the button to try it out or copy the
-            URL and paste it into your browser to see how to structure your
-            Google Sheet data. Make sure the sheet is public or shared with
-            anyone with the link.
+            Paste your Sheet ID below.
           </p>
 
           <input
             type="text"
-            id="sheetsUrlInput"
-            value="https://docs.google.com/spreadsheets/d/13U28NBgg5YvoYXho-JIWteiuogk8jnqvqKB1t_ODjk0/edit?gid=0#gid=0"
-            placeholder="https://docs.google.com/spreadsheets/d/.../edit?gid=0#gid=0"
+            id="sheetIdInput"
+            placeholder="Key in your Sheet ID"
           />
           <div id="loadingIndicator" style="display: none">
             <span class="loading"></span> Loading...
@@ -1343,7 +1338,7 @@
           modeToggle: document.getElementById("modeToggle"),
           themeToggle: document.getElementById("themeToggle"),
           xlsxFileInput: document.getElementById("xlsxFileInput"),
-          sheetsUrlInput: document.getElementById("sheetsUrlInput"),
+          sheetIdInput: document.getElementById("sheetIdInput"),
           loadSheetButton: document.getElementById("loadSheetButton"),
           loadingIndicator: document.getElementById("loadingIndicator"),
           uploadSection: document.getElementById("uploadSection"),
@@ -1512,27 +1507,6 @@
             return false;
           }
         }
-
-        function extractGoogleSheetId(url) {
-          // Extract the sheet ID from different Google Sheets URL formats
-          const regex = /\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/;
-          const match = url.match(regex);
-          return match ? match[1] : null;
-        }
-
-      // *** UPDATED Function ***
-      function importFromGoogleSheets(url) {
-          const sheetId = extractGoogleSheetId(url);
-
-          if (!sheetId) {
-              showError("Invalid Google Sheets URL. Please check and try again.");
-              elements.loadingIndicator.style.display = "none"; // Hide indicator for manual input section
-              return;
-          }
-
-          // Use the new core function, passing the indicator for the manual URL section
-          loadSheetDataById(sheetId, elements.loadingIndicator, false); // false = not master list
-      }
 
         // Process CSV data as fallback
         function processCSVData(text) {
@@ -2518,15 +2492,22 @@ Copied!
 
         // Google Sheets import
         elements.loadSheetButton.addEventListener("click", function () {
-          const url = elements.sheetsUrlInput.value.trim();
+          const sheetId = elements.sheetIdInput.value.trim();
 
-          if (!url) {
-            showError("Please enter a Google Sheets URL");
+          if (!sheetId) {
+            showError("Please enter a Sheet ID");
             return;
           }
 
+          // Optional: Basic validation for sheet ID format (length, no slashes)
+          if (sheetId.length < 20 || sheetId.includes("/")) {
+              showError("Invalid Google Sheet ID format. It should be a long string without slashes, typically found in the URL.");
+              return;
+          }
+
           elements.loadingIndicator.style.display = "inline-block";
-          importFromGoogleSheets(url);
+          // Call the core function directly with the ID
+          loadSheetDataById(sheetId, elements.loadingIndicator, false); // false = not master list
         });
 
         // Exercise selector change
