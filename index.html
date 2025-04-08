@@ -2480,6 +2480,7 @@ Copied!
 
               if (inputChar === expected) {
                 // Correct character input
+                charBoxes[currentCharIndex].textContent = expected; // Display the character
                 // Style the existing character box instead of changing textContent
                 charBoxes[currentCharIndex].style.color = "#0a84ff"; // Apply correct style
                 // charBoxes[currentCharIndex].classList.add('correct-char'); // Alternative: use a class
