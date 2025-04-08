@@ -1484,12 +1484,8 @@
               header: ["title", "text"],
             });
 
-            // Skip header row if it exists
-            const startIndex =
-              jsonData[0] &&
-              (jsonData[0].title === "Title" || jsonData[0].title === "title")
-                ? 1
-                : 0;
+            // Simply set startIndex to 1 to ignore the first row regardless of content.
+            const startIndex = 1;
 
             // Process data into exercises format
             const processedExercises = [];
@@ -1544,8 +1540,8 @@
               let fields = [];
               let currentField = "";
               let inQuotes = false;
-
-              for (let i = 0; i < line.length; i++) {
+              // set i to 1 to skip the first row
+              for (let i = 1; i < line.length; i++) {
                 const char = line[i];
 
                 if (char === '"' && (i === 0 || line[i - 1] !== "\\")) {
