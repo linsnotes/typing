@@ -1522,67 +1522,6 @@
           }
         }
 
-        // Process CSV data as fallback
-        function processCSVData(text) {
-          try {
-            // Remove BOM and handle different line endings (CRLF, LF)
-            const cleanedText = text
-              .replace(/^\uFEFF/, "")
-              .replace(/\r\n/g, "\n");
-            const lines = cleanedText
-              .split("\n")
-              .map((line) => line.trim())
-              .filter((line) => line !== "");
-
-            // Parse CSV lines - handling quoted fields correctly
-            const parsedExercises = [];
-            for (const line of lines) {
-              let fields = [];
-              let currentField = "";
-              let inQuotes = false;
-              // set i to 1 to skip the first row
-              for (let i = 1; i < line.length; i++) {
-                const char = line[i];
-
-                if (char === '"' && (i === 0 || line[i - 1] !== "\\")) {
-                  inQuotes = !inQuotes;
-                } else if (char === "," && !inQuotes) {
-                  fields.push(currentField.replace(/^"(.*)"$/, "$1").trim());
-                  currentField = "";
-                } else {
-                  currentField += char;
-                }
-              }
-
-              // Add the last field
-              fields.push(currentField.replace(/^"(.*)"$/, "$1").trim());
-
-              if (fields.length >= 2 && fields[1].length > 0) {
-                parsedExercises.push({
-                  title: fields[0] || "Exercise",
-                  text: fields[1],
-                });
-              }
-            }
-
-            if (parsedExercises.length === 0) {
-              showError(
-                "No valid exercises found in CSV. Ensure second column contains Chinese text."
-              );
-              return false;
-            }
-
-            exercises = parsedExercises;
-            populateExerciseSelector();
-            startExercise();
-            return true;
-          } catch (error) {
-            showError("Error parsing CSV data: " + error.message);
-            console.error(error);
-            return false;
-          }
-        }
-
         function populateExerciseSelector() {
           // Clear the selector
           elements.exerciseSelector.innerHTML = "";
@@ -1903,7 +1842,6 @@
           console.log(`Attempting to load data from Sheet ID: ${sheetId}`);
 
           const xlsxExportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=xlsx`;
-          const csvExportUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
 
           // Try XLSX
           fetch(xlsxExportUrl)
@@ -1926,37 +1864,13 @@
             })
             .catch((error) => {
               console.warn(
-                `XLSX import for ${sheetId} failed, falling back to CSV:`,
+                `XLSX import for ${sheetId} failed.`,
                 error.message
               );
-              // Fallback to CSV
-              fetch(csvExportUrl)
-                .then((response) => {
-                  if (!response.ok) {
-                    throw new Error(
-                      `Could not access sheet ${sheetId} as CSV (Status: ${response.status}). Make sure it's shared publicly.`
-                    );
-                  }
-                  return response.text();
-                })
-                .then((csvData) => {
-                  console.log(`Successfully loaded Sheet ${sheetId} as CSV.`);
-                  if (indicatorElement) indicatorElement.style.display = "none";
-                  if (isMasterList) {
-                    processMasterListData(csvData, "csv");
-                  } else {
-                    processCSVData(csvData); // Process as regular exercise data
-                  }
-                })
-                .catch((finalError) => {
-                  if (indicatorElement) indicatorElement.style.display = "none";
-                  showError(
-                    `Error importing from Sheet ${sheetId}: ${finalError.message}`
-                  );
-                  console.error(
-                    `Failed to import ${sheetId} using both XLSX and CSV.`
-                  );
-                });
+              if (indicatorElement) indicatorElement.style.display = "none";
+              showError(
+                `Error importing from Sheet ${sheetId}: ${error.message}`
+              );
             });
         }
 
