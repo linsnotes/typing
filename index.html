@@ -1863,10 +1863,7 @@
               }
             })
             .catch((error) => {
-              console.warn(
-                `XLSX import for ${sheetId} failed.`,
-                error.message
-              );
+              console.warn(`XLSX import for ${sheetId} failed.`, error.message);
               if (indicatorElement) indicatorElement.style.display = "none";
               showError(
                 `Error importing from Sheet ${sheetId}: ${error.message}`
