@@ -205,8 +205,7 @@
         margin-right: 15px;
       }
 
-      /* Only show Pinyin Mode toggle during exercise */
-      .exercise-mode .mode-toggle {
+      body.exercise-mode.chinese-exercise .mode-toggle {
         display: flex;
       }
 
@@ -1468,60 +1467,123 @@
           ); // false = not master list
         });
 
-        // Process XLSX data from ArrayBuffer
+
+
+      /**
+       * Checks if a string is predominantly composed of Chinese characters.
+       * @param {string} text The text to analyze.
+       * @param {number} threshold The minimum ratio (0 to 1) of Chinese characters required. Default is 0.3 (30%).
+       * @returns {boolean} True if Chinese characters meet or exceed the threshold, false otherwise.
+       */
+      function isChineseDominant(text, threshold = 0.3) {
+        if (!text || typeof text !== 'string') return false;
+
+        // Regex for CJK Unified Ideographs (common ranges)
+        const chineseCharRegex = /[\u4E00-\u9FFF\u3400-\u4DBF\uF900-\uFAFF]/;
+        let chineseCount = 0;
+        let relevantCharCount = 0;
+
+        for (let i = 0; i < text.length; i++) {
+          const char = text[i];
+          // Count non-whitespace/basic punctuation characters for the total
+          if (char.trim() !== '' && !/[\s\.,!?;:"'(){}\[\]\-]/.test(char)) {
+              relevantCharCount++;
+              if (chineseCharRegex.test(char)) {
+                  chineseCount++;
+              }
+          }
+        }
+        if (relevantCharCount === 0) return false; // Avoid division by zero
+        const ratio = chineseCount / relevantCharCount;
+        return ratio >= threshold;
+      }
+
+        // Processes data loaded from an XLSX file (ArrayBuffer)
         function processXLSXData(arrayBuffer) {
           try {
-            // Parse the Excel file
+            // Parse the Excel file using SheetJS library
             const data = new Uint8Array(arrayBuffer);
             const workbook = XLSX.read(data, { type: "array" });
 
-            // Get the first sheet
+            // Get the first sheet from the workbook
             const firstSheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[firstSheetName];
 
-            // Convert to JSON
+            // Convert the sheet data to JSON format.
+            // Assumes the Excel file has columns that should map to 'title' and 'text'.
+            // If the Excel file has its *own* headers in the first row (like "Title", "Content"),
+            // SheetJS might parse it differently. This setup assumes either no header row
+            // in Excel OR headers that match 'title'/'text', or forces mapping based on column order.
+            // The { header: ["title", "text"] } forces the first column to be 'title' and the second to be 'text'.
             const jsonData = XLSX.utils.sheet_to_json(worksheet, {
               header: ["title", "text"],
             });
 
-            // Simply set startIndex to 1 to ignore the first row regardless of content.
+            // Define the starting index for processing rows.
+            // We set it to 1 to typically skip the first row (index 0) of the *data*,
+            // assuming it might contain headers from the original Excel sheet itself.
             const startIndex = 1;
 
-            // Process data into exercises format
-            const processedExercises = [];
+            // Array to hold the processed exercise objects
+            let processedExercises = []; // Use 'let' as we are adding to it
+
+            // Loop through the JSON data, starting from the specified index
             for (let i = startIndex; i < jsonData.length; i++) {
               const row = jsonData[i];
+
+              // Validate the row: ensure it exists, has a 'text' property,
+              // 'text' is a string, and it's not just empty spaces.
               if (
                 row &&
                 row.text &&
-                typeof row.text === "string" &&
+                typeof row.text === 'string' &&
                 row.text.trim() !== ""
               ) {
+                // Trim leading/trailing whitespace from the text
+                const trimmedText = row.text.trim();
+
+                // Create an exercise object for this row
                 processedExercises.push({
+                  // Use the 'title' from the data, or generate a default title
                   title: row.title || `Exercise ${i + 1 - startIndex}`,
-                  text: row.text,
+                  // Store the trimmed text content
+                  text: trimmedText,
+                  // *** NEW: Determine and store if the text is predominantly Chinese ***
+                  isChinese: isChineseDominant(trimmedText)
                 });
               }
+              // Rows that don't meet the criteria are skipped
             }
 
+            // Check if any valid exercises were successfully processed
             if (processedExercises.length === 0) {
               showError(
-                "No valid exercises found in the Excel file. Ensure the second column contains Chinese text."
+                "No valid exercises found in the data. Ensure the second column contains text."
               );
-              return false;
+              return false; // Indicate failure
             }
 
+            // Assign the processed exercises to the global 'exercises' variable
             exercises = processedExercises;
+
+            // Populate the dropdown selector with the new exercises
             populateExerciseSelector();
+
+            // Start the first exercise from the newly loaded set
             startExercise();
-            return true;
+
+            return true; // Indicate successful processing
+
           } catch (error) {
-            showError("Error processing Excel file: " + error.message);
-            console.error(error);
-            return false;
+            // Handle any errors during the file reading or processing
+            showError("Error processing exercise data: " + error.message);
+            console.error("Error in processXLSXData:", error);
+            return false; // Indicate failure
           }
         }
 
+        
+       
         function populateExerciseSelector() {
           // Clear the selector
           elements.exerciseSelector.innerHTML = "";
@@ -1882,67 +1944,108 @@
             currentExerciseIndex + 1
           } of ${exercises.length}`;
 
-          try {
-            // Use pinyin library with specific options
-            const pinyinArr = pinyinPro.pinyin(exercise.text, {
-              toneType: "marks",
-              type: "array",
-              nonZh: "retain",
-            });
+          // *** NEW: Determine if current exercise is Chinese ***
+          const isCurrentExerciseChinese = exercise.isChinese;
+          console.log(`Loading exercise "${exercise.title}". Is Chinese: ${isCurrentExerciseChinese}`);
 
-            // Clear previous exercise
-            elements.pinyinRow.innerHTML = "";
-            elements.charRow.innerHTML = "";
+          // *** NEW: Add/Remove body classes for CSS targeting ***
+          document.body.classList.toggle("chinese-exercise", isCurrentExerciseChinese);
+          document.body.classList.toggle("non-chinese-exercise", !isCurrentExerciseChinese);
 
-            // Create DOM elements for each character and its pinyin
-            const fragment1 = document.createDocumentFragment();
-            const fragment2 = document.createDocumentFragment();
+          // Clear previous exercise content and hide/show Pinyin row
+          elements.pinyinRow.innerHTML = "";
+          elements.charRow.innerHTML = "";
+          elements.pinyinRow.style.display = isCurrentExerciseChinese ? 'block' : 'none';
 
-            // Reset charStates array
-            charStates = new Array(exercise.text.length).fill("pending");
+          // Reset charStates array
+          charStates = new Array(exercise.text.length).fill("pending");
 
-            exercise.text.split("").forEach((char, i) => {
+          // Set the total character count for stats
+          typingStats.totalChars = exercise.text.length;
+
+          // Create DOM elements
+          const fragmentPinyin = document.createDocumentFragment();
+          const fragmentChar = document.createDocumentFragment();
+          const exerciseText = exercise.text; // Use the stored text
+
+          let pinyinArr = [];
+          if (isCurrentExerciseChinese) {
+            try {
+                 pinyinArr = pinyinPro.pinyin(exerciseText, {
+                    toneType: "marks", type: "array", nonZh: "retain",
+                 });
+            } catch (pinyinError) {
+                console.error("Pinyin generation failed:", pinyinError);
+                pinyinArr = exerciseText.split(''); // Fallback
+            }
+          }
+
+          exerciseText.split("").forEach((char, i) => {
+            // --- Pinyin Row (Only created for Chinese exercises) ---
+            if (isCurrentExerciseChinese) {
               const pinyinSpan = document.createElement("span");
               pinyinSpan.className = "pinyin-box";
-              pinyinSpan.textContent = isPinyinMode ? "" : pinyinArr[i] || "";
+              pinyinSpan.textContent = !isPinyinMode ? (pinyinArr[i] || "") : "";
               pinyinSpan.dataset.pinyin = pinyinArr[i] || "";
-              fragment1.appendChild(pinyinSpan);
+              fragmentPinyin.appendChild(pinyinSpan);
+            }
 
-              const charSpan = document.createElement("span");
-              charSpan.className = "char-box";
+            // --- Character/Text Row (Always created) ---
+            const charSpan = document.createElement("span");
+            charSpan.className = "char-box";
+
+            if (isCurrentExerciseChinese) {
+              // Chinese: Determine expected input and initial display based on mode
               charSpan.dataset.expected = isPinyinMode
-                ? pinyinPro.pinyin(char, {
-                    toneType: "none",
-                    type: "string",
-                  }) || char
+                ? pinyinPro.pinyin(char, { toneType: "none", type: "string" }) || char
                 : char;
-              charSpan.textContent = isPinyinMode ? char : "";
-              fragment2.appendChild(charSpan);
-            });
+              charSpan.textContent = isPinyinMode ? char : ""; // Show char only in Pinyin mode initially
+            } else {
+              // Non-Chinese: Expected input is the char, display it immediately
+              charSpan.dataset.expected = char;
+              // *** CORRECTION APPLIED HERE ***
+              charSpan.textContent = char; // Display the character from the start
+            }
+            fragmentChar.appendChild(charSpan);
+          });
 
-            elements.pinyinRow.appendChild(fragment1);
-            elements.charRow.appendChild(fragment2);
-
-            // Set the total character count for stats
-            typingStats.totalChars = exercise.text.length;
-
-            // Update instruction text based on mode - FIXED: Use specific element reference
-            const instructionText = isPinyinMode
-              ? 'Type the pinyin for each character without tone. Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input.'
-              : 'Type the Chinese characters or press <span class="keyboard-shortcut">Space</span> to skip a character. Use <span class="keyboard-shortcut">Backspace</span> to correct previous input. Use the scrollbar to navigate.';
-
-            elements.exerciseInstruction.innerHTML = instructionText;
-
-            // Calculate total content width for scrollbar
-            setTimeout(() => {
-              updateScrollbarDimensions();
-              updateInterface();
-            }, 0);
-          } catch (error) {
-            showError("Error loading exercise: " + error.message);
-            console.error(error);
+          // Append fragments to the DOM
+          if (isCurrentExerciseChinese) {
+             elements.pinyinRow.appendChild(fragmentPinyin);
           }
+          elements.charRow.appendChild(fragmentChar);
+
+          // *** NEW: Update instruction text based on language and mode ***
+          let instructionText = "";
+          if (isCurrentExerciseChinese) {
+                instructionText = isPinyinMode
+                    ? 'Type the pinyin (no tone). Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct.'
+                    : 'Type the Chinese characters. Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct. Use the scrollbar.';
+          } else {
+                 instructionText = 'Type the characters shown. Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct. Use the scrollbar.';
+          }
+          elements.exerciseInstruction.innerHTML = instructionText;
+
+          // *** NEW: Force character mode internally if not Chinese ***
+          if (!isCurrentExerciseChinese) {
+             currentInputMode = 'character';
+             isPinyinMode = false;
+             elements.modeToggle.checked = false; // Ensure toggle reflects state (though hidden)
+             updatePlaceholder(); // Update placeholder for character mode
+          } else {
+             // For Chinese exercises, respect the toggle state
+             isPinyinMode = elements.modeToggle.checked;
+             currentInputMode = isPinyinMode ? 'pinyin' : 'character';
+             updatePlaceholder(); // Update placeholder based on toggle
+          }
+
+          // Calculate dimensions and update UI after elements are rendered
+          setTimeout(() => {
+            updateScrollbarDimensions();
+            updateInterface();
+          }, 0);
         }
+
 
         function updateScrollbarDimensions() {
           // Calculate dimensions for scrollbar
@@ -2051,83 +2154,115 @@
           return newLeft;
         }
 
-        function handleSkip() {
+       function handleSkip() {
+          // Ensure exercise is loaded and not already finished
+          if (!exercises[currentExerciseIndex] || currentCharIndex >= exercises[currentExerciseIndex].text.length) return;
+
           const charBoxes = document.querySelectorAll(".char-box");
           const pinyinBoxes = document.querySelectorAll(".pinyin-box");
+          const isCurrentExerciseChinese = exercises[currentExerciseIndex].isChinese;
+          const currentExerciseText = exercises[currentExerciseIndex].text;
 
-          if (currentCharIndex >= charBoxes.length) return;
+          const currentExpected = charBoxes[currentCharIndex].dataset.expected; // Could be char or pinyin
+          const currentActualChar = currentExerciseText[currentCharIndex];
+          const currentPinyinWithTone = (isCurrentExerciseChinese && pinyinBoxes[currentCharIndex]) ? pinyinBoxes[currentCharIndex].dataset.pinyin : '';
 
-          if (isPinyinMode) {
-            // In pinyin mode, show the pinyin with tone when skipped
-            pinyinBoxes[currentCharIndex].textContent =
-              pinyinBoxes[currentCharIndex].dataset.pinyin;
-            pinyinBoxes[currentCharIndex].style.color = "#ffc107"; // Yellow for skipped
+          // --- Update Display for Skipped Character ---
+          if (isCurrentExerciseChinese) {
+             // Chinese Exercise
+             if (isPinyinMode) {
+                // Pinyin Input Mode: Show full pinyin & original char, both marked yellow
+                if(pinyinBoxes[currentCharIndex]) {
+                    pinyinBoxes[currentCharIndex].textContent = currentPinyinWithTone;
+                    pinyinBoxes[currentCharIndex].style.color = "#ffc107";
+                }
+                charBoxes[currentCharIndex].textContent = currentActualChar; // Ensure char is visible
+                charBoxes[currentCharIndex].style.color = "#ffc107";
+             } else {
+                // Character Input Mode: Show the character, marked yellow
+                 charBoxes[currentCharIndex].textContent = currentActualChar;
+                 charBoxes[currentCharIndex].style.color = "#ffc107";
+                 // Pinyin box remains as it was (showing pinyin) but not styled specially
+             }
           } else {
-            // In character mode, show the character
-            charBoxes[currentCharIndex].textContent =
-              charBoxes[currentCharIndex].dataset.expected;
-            charBoxes[currentCharIndex].style.color = "#ffc107"; // Yellow for skipped
+              // Non-Chinese Exercise: Show the character, marked yellow
+              charBoxes[currentCharIndex].textContent = currentActualChar; // Already displayed, just color it
+              charBoxes[currentCharIndex].style.color = "#ffc107";
           }
 
-          // Update stats
+          // --- Update Stats and State ---
           typingStats.skippedChars++;
-
-          // Update character state
           charStates[currentCharIndex] = "skipped";
-
           currentCharIndex++;
 
+          // --- Check Completion or Update UI ---
           if (currentCharIndex === charBoxes.length) {
             completeExercise();
           } else {
             updateInterface();
-            elements.hiddenInput.focus();
+            elements.hiddenInput.focus(); // Keep focus
           }
         }
-
+        
         function handleBackspace() {
-          if (currentCharIndex <= 0) return; // Can't go back if at the beginning
+          // Ensure exercise is loaded
+          if (!exercises[currentExerciseIndex]) return;
 
-          if (isPinyinMode) {
-            // First try to clear the buffer if there's anything in it
-            if (pinyinInputBuffer.length > 0) {
-              pinyinInputBuffer = "";
-              showFeedback("Buffer Cleared", "#0a84ff");
-              return;
-            }
+          const isCurrentExerciseChinese = exercises[currentExerciseIndex].isChinese;
+          const effectiveModeIsPinyin = isCurrentExerciseChinese && isPinyinMode;
+
+          // 1. Clear pinyin buffer first if applicable
+          if (effectiveModeIsPinyin && pinyinInputBuffer.length > 0) {
+            pinyinInputBuffer = "";
+            showFeedback("Buffer Cleared", "#0a84ff");
+            elements.hiddenInput.focus(); // Keep focus
+            return; // Don't move back character index yet
           }
+
+          // 2. Check if we can move back
+          if (currentCharIndex <= 0) return;
 
           const prevIndex = currentCharIndex - 1;
           const charBoxes = document.querySelectorAll(".char-box");
           const pinyinBoxes = document.querySelectorAll(".pinyin-box");
+          const prevExerciseChar = exercises[currentExerciseIndex].text[prevIndex];
 
-          // Update stats based on the previous character's state
+          // 3. Update stats based on the state we are leaving
           if (charStates[prevIndex] === "correct") {
             typingStats.correctChars--;
           } else if (charStates[prevIndex] === "skipped") {
             typingStats.skippedChars--;
           }
 
-          // Reset the previous character's appearance
-          if (isPinyinMode) {
-            // In pinyin mode, clear the pinyin display
-            pinyinBoxes[prevIndex].textContent = "";
-            pinyinBoxes[prevIndex].classList.remove("correct-pinyin");
-            pinyinBoxes[prevIndex].style.color = ""; // Reset color
-          } else {
-            // In character mode, clear the character display
-            charBoxes[prevIndex].textContent = "";
-            charBoxes[prevIndex].style.color = ""; // Reset color
-            pinyinBoxes[prevIndex].classList.remove("correct-pinyin");
+          // 4. Reset the visual appearance of the previous character box
+           charBoxes[prevIndex].style.color = ""; // Reset color (removes correct blue or skipped yellow)
+           charBoxes[prevIndex].classList.remove('completed-char', 'error'); // Remove status classes
+
+           // Set textContent based on mode and language
+           if(isCurrentExerciseChinese) {
+              // Chinese: Show char in Pinyin mode, clear in Character mode
+              charBoxes[prevIndex].textContent = effectiveModeIsPinyin ? prevExerciseChar : "";
+           } else {
+              // Non-Chinese: Always shows the character, so just reset style above
+              // No need to change textContent here as it should remain the original character
+           }
+
+
+          // 5. Reset the pinyin display if applicable (only for Chinese)
+          if (isCurrentExerciseChinese && pinyinBoxes[prevIndex]) {
+             // Show pinyin in Character mode, clear in Pinyin mode
+             pinyinBoxes[prevIndex].textContent = !isPinyinMode ? pinyinBoxes[prevIndex].dataset.pinyin : "";
+             pinyinBoxes[prevIndex].classList.remove("correct-pinyin");
+             pinyinBoxes[prevIndex].style.color = ""; // Reset color
           }
 
-          // Reset the character state
+          // 6. Reset the character state
           charStates[prevIndex] = "pending";
 
-          // Move back to the previous character
+          // 7. Move back to the previous character index
           currentCharIndex = prevIndex;
 
-          // Update the interface
+          // 8. Update UI, provide feedback, and focus input
           updateInterface();
           showFeedback("◀ Backspace", "#0a84ff");
           elements.hiddenInput.focus();
@@ -2295,114 +2430,101 @@ Copied!
           return cleanInput === cleanExpected;
         }
 
+
         function checkInput(inputStr) {
-          if (!inputStr) return;
+           // Basic validation and prevent checking if exercise not loaded or completed
+           if (!inputStr || !exercises[currentExerciseIndex] || currentCharIndex >= exercises[currentExerciseIndex].text.length) return;
 
           const charBoxes = document.querySelectorAll(".char-box");
           const pinyinBoxes = document.querySelectorAll(".pinyin-box");
+          const isCurrentExerciseChinese = exercises[currentExerciseIndex].isChinese;
 
-          if (isPinyinMode) {
-            // Pinyin mode: accumulate input in buffer
+          // Determine the effective mode for checking
+          const effectiveModeIsPinyin = isCurrentExerciseChinese && isPinyinMode;
+
+          if (effectiveModeIsPinyin) {
+            // --- Pinyin Mode Logic ---
             pinyinInputBuffer += inputStr;
+            const expected = charBoxes[currentCharIndex].dataset.expected; // Expected pinyin (no tone)
 
-            // Get expected pinyin for current character
-            if (currentCharIndex < charBoxes.length) {
-              const expected = charBoxes[currentCharIndex].dataset.expected;
-
-              // Check if accumulated pinyin matches expected
-              if (checkPinyinMatch(pinyinInputBuffer, expected)) {
-                // Match found
-                pinyinBoxes[currentCharIndex].textContent =
-                  pinyinBoxes[currentCharIndex].dataset.pinyin;
-                pinyinBoxes[currentCharIndex].classList.add("correct-pinyin");
-
-                // Update stats
-                typingStats.correctChars++;
-                typingStats.recentCorrectChars++;
-
-                // Update character state
-                charStates[currentCharIndex] = "correct";
-
-                // Reset buffer for next character
-                pinyinInputBuffer = "";
-
-                // Move to next character
-                currentCharIndex++;
-
-                if (currentCharIndex === charBoxes.length) {
-                  completeExercise();
-                } else {
-                  showFeedback("✓ Correct", "#0a84ff");
-                }
-              } else {
-                // Check if accumulated input is longer than expected pinyin
-                // This helps determine if we should mark it as incorrect
-                if (pinyinInputBuffer.length >= expected.length + 2) {
-                  showFeedback("✗ Try Again", "#dc3545");
-                  elements.hiddenInput.classList.add("error");
-
-                  // Update stats
-                  typingStats.errorCount++;
-                  typingStats.totalChars++; // Count errors as additional characters attempted
-
-                  // Clear buffer after showing error
-                  pinyinInputBuffer = "";
-
-                  setTimeout(
-                    () => elements.hiddenInput.classList.remove("error"),
-                    500
-                  );
-                }
+            if (checkPinyinMatch(pinyinInputBuffer, expected)) {
+              // Correct pinyin match
+              typingStats.correctChars++;
+              typingStats.recentCorrectChars++;
+              charStates[currentCharIndex] = "correct";
+              if (pinyinBoxes[currentCharIndex]) { // Check if pinyinBox exists
+                 pinyinBoxes[currentCharIndex].textContent = pinyinBoxes[currentCharIndex].dataset.pinyin; // Show pinyin with tone
+                 pinyinBoxes[currentCharIndex].classList.add("correct-pinyin");
               }
+              pinyinInputBuffer = ""; // Reset buffer
+              currentCharIndex++;
+              showFeedback("✓ Correct", "#0a84ff");
+
+            } else if (pinyinInputBuffer.length >= expected.length + 2) {
+              // Incorrect pinyin (buffer too long)
+              showFeedback("✗ Try Again", "#dc3545");
+              elements.hiddenInput.classList.add("error");
+              typingStats.errorCount++;
+              pinyinInputBuffer = ""; // Clear buffer on definite error
+              setTimeout(() => elements.hiddenInput.classList.remove("error"), 500);
             }
+            // else: buffer is accumulating, wait for more input or backspace/skip
+
           } else {
-            // Character mode: process each character individually (original behavior)
+            // --- Character Mode Logic (Handles both Chinese & Non-Chinese) ---
             for (let i = 0; i < inputStr.length; i++) {
-              if (currentCharIndex >= charBoxes.length) break;
+              if (currentCharIndex >= charBoxes.length) break; // Extra safety check
 
               const inputChar = inputStr[i];
-              const expected = charBoxes[currentCharIndex].dataset.expected;
+              const expected = charBoxes[currentCharIndex].dataset.expected; // Expected character
 
               if (inputChar === expected) {
-                // Correct input
-                charBoxes[currentCharIndex].textContent = expected;
-                charBoxes[currentCharIndex].style.color = "#0a84ff";
-                pinyinBoxes[currentCharIndex].classList.add("correct-pinyin");
+                // Correct character input
+                // Style the existing character box instead of changing textContent
+                charBoxes[currentCharIndex].style.color = "#0a84ff"; // Apply correct style
+                // charBoxes[currentCharIndex].classList.add('correct-char'); // Alternative: use a class
 
-                // Update stats
+                // Highlight pinyin only if it's a Chinese exercise
+                if (isCurrentExerciseChinese && pinyinBoxes[currentCharIndex]) {
+                  pinyinBoxes[currentCharIndex].classList.add("correct-pinyin");
+                }
+
+                // Update stats and move to next char
                 typingStats.correctChars++;
                 typingStats.recentCorrectChars++;
-
-                // Update character state
                 charStates[currentCharIndex] = "correct";
-
                 currentCharIndex++;
+                showFeedback("✓ Correct", "#0a84ff");
 
-                if (currentCharIndex === charBoxes.length) {
-                  completeExercise();
-                  break;
-                } else {
-                  showFeedback("✓ Correct", "#0a84ff");
-                }
               } else {
-                // Incorrect input
+                // Incorrect character input
                 showFeedback("✗ Try Again", "#dc3545");
                 elements.hiddenInput.classList.add("error");
-
-                // Update stats
+                 // Flash the character box itself for visual feedback
+                 if (charBoxes[currentCharIndex]) {
+                    charBoxes[currentCharIndex].classList.add('error'); // You might need a CSS rule for .char-box.error
+                    setTimeout(() => charBoxes[currentCharIndex]?.classList.remove('error'), 500);
+                 }
                 typingStats.errorCount++;
-                typingStats.totalChars++; // Count errors as additional characters attempted
-
-                setTimeout(
-                  () => elements.hiddenInput.classList.remove("error"),
-                  500
-                );
+                setTimeout(() => elements.hiddenInput.classList.remove("error"), 500);
+                break; // Stop processing this input string on error
               }
             }
           }
 
-          updateInterface();
+          // Clear input field AFTER processing the input
+          elements.hiddenInput.value = '';
+
+          // Check for exercise completion AFTER potential index increment
+          if (currentCharIndex === charBoxes.length) {
+             completeExercise();
+          } else {
+            // Update UI (like scroll position) only if not completed
+            updateInterface();
+          }
         }
+        
+        
 
         function showFeedback(message, color) {
           elements.feedbackMessage.textContent = message;
