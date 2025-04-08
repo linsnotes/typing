@@ -2069,11 +2069,11 @@
           let instructionText = "";
           if (isCurrentExerciseChinese) {
             instructionText = isPinyinMode
-              ? 'Type the pinyin (no tone). Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct.'
-              : 'Type the Chinese characters. Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct.';
+              ? 'Type the pinyin (no tone). Press <span class="keyboard-shortcut">→</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct.'
+              : 'Type the Chinese characters. Press <span class="keyboard-shortcut">→</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct.';
           } else {
             instructionText =
-              'Type the characters shown above. Press <span class="keyboard-shortcut">Space</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct.';
+              'Type the characters shown above. Press <span class="keyboard-shortcut">→</span> to skip. Use <span class="keyboard-shortcut">Backspace</span> to correct.';
           }
           elements.exerciseInstruction.innerHTML =
             instructionText + " Use the scrollbar to navigate.";
@@ -2858,7 +2858,7 @@ Time: ${elements.resultTime.textContent} | Speed: ${elements.resultSpeed.textCon
           }
         });
         elements.hiddenInput.addEventListener("keydown", function (e) {
-          if (e.code === "Space" || e.key === " ") {
+          if (e.code === "ArrowRight" || e.key === "ArrowRight") {
             // Check key too for broader compatibility
             e.preventDefault();
             handleSkip();
