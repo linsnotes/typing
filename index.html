@@ -43,6 +43,7 @@
         --warning-color: #ff9f0a;
         --warning-hover: #f08800;
         --danger-color: #dc3545;
+        --accent-color: #8b5cf6;
 
         /* Background colors */
         --light-bg: #fff;
@@ -271,10 +272,34 @@
 
       h1 {
         margin-bottom: 30px;
+        font-size: 2em;
+        font-weight: bold;
         color: #000;
-        transition: color var(--transition-speed) var(--transition-function);
+        color: var(--light-text);
       }
 
+      .fill-text {
+        display: inline-block;
+        /* Use variables from THIS app's :root */
+        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        background-size: 200% 100%; /* Required for animation */
+        -webkit-background-clip: text;
+        background-clip: text; /* Standard property */
+        color: transparent; /* Makes the text area transparent to show gradient */
+        animation: fillText 5s ease infinite;
+        vertical-align: middle; /* Align text better with icon */
+      }
+
+      @keyframes fillText {
+        /* Animate background position for a looping gradient effect */
+        0%   { background-position: 100% 0; }
+        50%  { background-position: 0 0; }
+        100% { background-position: 100% 0; }
+      /* Alternative smooth loop:
+      from { background-position: 0% 0; }
+      to { background-position: -200% 0; } */
+      }
+    
       html.dark-mode h1 {
         color: var(--dark-text);
       }
@@ -1335,7 +1360,8 @@
         </label>
         <span class="toggle-label">Dark Mode</span>
       </div>
-      <h1>Alamak, Type Leh~快点！</h1>
+      <h1><span class="fill-text">Alamak, Type Leh~快点！</span></h1>
+
 
       <div id="uploadSection">
         <h2>Import Exercise Data</h2>
