@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+\<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -112,9 +112,9 @@
         box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
       }
 
-
       html {
-        transition: background-color var(--transition-speed) var(--transition-function);
+        transition: background-color var(--transition-speed)
+          var(--transition-function);
       }
 
       html.dark-mode {
@@ -125,7 +125,7 @@
         background-color: var(--dark-bg); /* Keep body background consistent */
         color: var(--dark-text);
       }
-      
+
       html.dark-mode #builtInExerciseSelect {
         background-color: var(--dark-bg-tertiary);
         border-color: var(--dark-border);
@@ -140,8 +140,9 @@
         background-color: var(--light-bg);
         border-radius: var(--border-radius);
         box-shadow: var(--box-shadow);
-        transition: background-color var(--transition-speed) var(--transition-function),
-                    box-shadow var(--transition-speed) var(--transition-function);
+        transition: background-color var(--transition-speed)
+            var(--transition-function),
+          box-shadow var(--transition-speed) var(--transition-function);
         /* display: none; /* You can set initial display here or inline */
       }
 
@@ -166,7 +167,9 @@
         overflow: hidden;
         max-width: 100%;
         background: #000; /* Optional: black background while loading */
-        border-radius: var(--border-radius-sm); /* Optional: slightly rounded corners */
+        border-radius: var(
+          --border-radius-sm
+        ); /* Optional: slightly rounded corners */
       }
 
       .video-wrapper iframe {
@@ -177,12 +180,6 @@
         height: 100%;
         border: 0; /* Remove iframe border */
       }
-
-
-
-
-
-      
 
       #loadBuiltInButton {
         padding: 12px 24px;
@@ -276,12 +273,17 @@
         font-weight: bold;
         color: #000;
         color: var(--light-text);
+        font-style: italic;
       }
 
       .fill-text {
         display: inline-block;
         /* Use variables from THIS app's :root */
-        background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--accent-color)
+        );
         background-size: 200% 100%; /* Required for animation */
         -webkit-background-clip: text;
         background-clip: text; /* Standard property */
@@ -292,14 +294,20 @@
 
       @keyframes fillText {
         /* Animate background position for a looping gradient effect */
-        0%   { background-position: 100% 0; }
-        50%  { background-position: 0 0; }
-        100% { background-position: 100% 0; }
-      /* Alternative smooth loop:
+        0% {
+          background-position: 100% 0;
+        }
+        50% {
+          background-position: 0 0;
+        }
+        100% {
+          background-position: 100% 0;
+        }
+        /* Alternative smooth loop:
       from { background-position: 0% 0; }
       to { background-position: -200% 0; } */
       }
-    
+
       html.dark-mode h1 {
         color: var(--dark-text);
       }
@@ -1176,14 +1184,12 @@
           height: 140px; /* Keep height reasonable */
         }
 
-         #videoSection {
-            padding: 20px;
-         }
-         .video-title {
-           font-size: 18px;
-         }
-
-        
+        #videoSection {
+          padding: 20px;
+        }
+        .video-title {
+          font-size: 18px;
+        }
       }
 
       /* Mobile-specific styles */
@@ -1304,15 +1310,13 @@
           font-size: 12px;
         }
 
-         #videoSection {
-            padding: 15px;
-         }
-         .video-title {
-           font-size: 16px;
-           margin-bottom: 15px;
-         }
-
-        
+        #videoSection {
+          padding: 15px;
+        }
+        .video-title {
+          font-size: 16px;
+          margin-bottom: 15px;
+        }
       }
     </style>
   </head>
@@ -1361,7 +1365,6 @@
         <span class="toggle-label">Dark Mode</span>
       </div>
       <h1><span class="fill-text">Alamak, Type Leh~快点！</span></h1>
-
 
       <div id="uploadSection">
         <h2>Import Exercise Data</h2>
@@ -1512,8 +1515,6 @@
           <div class="result-grade" id="resultGrade">A</div>
         </div>
 
-        
-
         <div class="share-options">
           <button id="screenshotBtn" class="share-btn">
             <svg
@@ -1554,29 +1555,24 @@
           </button>
         </div>
 
-
-              <!-- NEW Video Section (Initially Hidden) -->
-      <div id="videoSection" style="display: none;">
-        <h3 class="video-title">How To Type Faster</h3>
-        <div class="video-wrapper">
-          <iframe
-            width="560" 
-            height="315"
-            src="https://www.youtube.com/embed/MKT6Uhk5-Iw" 
-            title="How To Type Faster" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            referrerpolicy="strict-origin-when-cross-origin" 
-            allowfullscreen>
-          </iframe>
+        <!-- NEW Video Section (Initially Hidden) -->
+        <div id="videoSection" style="display: none">
+          <h3 class="video-title">How To Type Faster</h3>
+          <div class="video-wrapper">
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/MKT6Uhk5-Iw"
+              title="How To Type Faster"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            >
+            </iframe>
+          </div>
         </div>
-      </div>
-      <!-- END Video Section -->
-
-
-
-
-        
+        <!-- END Video Section -->
       </div>
     </div>
     <script>
@@ -1635,7 +1631,7 @@
           uploadSection: document.getElementById("uploadSection"),
           exerciseSection: document.getElementById("exerciseSection"),
           resultsSection: document.getElementById("resultsSection"),
-          videoSection: document.getElementById('videoSection'),  // video
+          videoSection: document.getElementById("videoSection"), // video
           progressDisplay: document.getElementById("progressDisplay"),
           titleDisplay: document.getElementById("titleDisplay"),
           exerciseSelector: document.getElementById("exerciseSelector"),
@@ -1907,7 +1903,7 @@
           elements.uploadSection.style.display = "none";
           elements.exerciseSection.style.display = "block";
           elements.resultsSection.style.display = "none";
-          elements.videoSection.style.display = 'none';
+          elements.videoSection.style.display = "none";
 
           // Set body class for general exercise mode
           document.body.classList.add("exercise-mode");
@@ -2603,7 +2599,7 @@
           elements.resultsControls.style.display = "flex";
           elements.exerciseSection.style.display = "none";
           elements.resultsSection.style.display = "block";
-          elements.videoSection.style.display = 'block'; 
+          elements.videoSection.style.display = "block";
         }
 
         function completeExercise() {
@@ -2892,7 +2888,7 @@ Time: ${elements.resultTime.textContent} | Speed: ${elements.resultSpeed.textCon
           elements.uploadSection.style.display = "block";
           elements.exerciseSection.style.display = "none";
           elements.resultsSection.style.display = "none";
-          elements.videoSection.style.display = 'none';
+          elements.videoSection.style.display = "none";
           elements.exerciseControls.style.display = "none";
           elements.resultsControls.style.display = "none";
           document.body.classList.remove(
