@@ -131,6 +131,58 @@
         color: var(--dark-text);
       }
 
+      /* NEW Video Section Styles */
+      #videoSection {
+        /* Mimic other sections */
+        margin: 20px 0; /* Add margin top/bottom */
+        padding: 30px;
+        background-color: var(--light-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--box-shadow);
+        transition: background-color var(--transition-speed) var(--transition-function),
+                    box-shadow var(--transition-speed) var(--transition-function);
+        /* display: none; /* You can set initial display here or inline */
+      }
+
+      html.dark-mode #videoSection {
+        background-color: var(--dark-bg-secondary);
+        box-shadow: var(--dark-box-shadow);
+      }
+
+      .video-title {
+        font-size: 20px; /* Slightly smaller than results title */
+        margin-bottom: 20px;
+        color: var(--primary-color);
+        font-weight: bold;
+        text-align: center; /* Center title */
+      }
+
+      /* Responsive Video Wrapper */
+      .video-wrapper {
+        position: relative;
+        padding-bottom: 56.25%; /* 16:9 aspect ratio (height/width) */
+        height: 0;
+        overflow: hidden;
+        max-width: 100%;
+        background: #000; /* Optional: black background while loading */
+        border-radius: var(--border-radius-sm); /* Optional: slightly rounded corners */
+      }
+
+      .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0; /* Remove iframe border */
+      }
+
+
+
+
+
+      
+
       #loadBuiltInButton {
         padding: 12px 24px;
         background-color: var(--primary-color);
@@ -1098,6 +1150,15 @@
         #scrollWrapper {
           height: 140px; /* Keep height reasonable */
         }
+
+         #videoSection {
+            padding: 20px;
+         }
+         .video-title {
+           font-size: 18px;
+         }
+
+        
       }
 
       /* Mobile-specific styles */
@@ -1217,6 +1278,16 @@
         body.exercise-mode .speed-label {
           font-size: 12px;
         }
+
+         #videoSection {
+            padding: 15px;
+         }
+         .video-title {
+           font-size: 16px;
+           margin-bottom: 15px;
+         }
+
+        
       }
     </style>
   </head>
@@ -1538,6 +1609,7 @@
           uploadSection: document.getElementById("uploadSection"),
           exerciseSection: document.getElementById("exerciseSection"),
           resultsSection: document.getElementById("resultsSection"),
+          videoSection: document.getElementById('videoSection'),  // video
           progressDisplay: document.getElementById("progressDisplay"),
           titleDisplay: document.getElementById("titleDisplay"),
           exerciseSelector: document.getElementById("exerciseSelector"),
@@ -1809,6 +1881,7 @@
           elements.uploadSection.style.display = "none";
           elements.exerciseSection.style.display = "block";
           elements.resultsSection.style.display = "none";
+          elements.videoSection.style.display = 'none';
 
           // Set body class for general exercise mode
           document.body.classList.add("exercise-mode");
@@ -2504,6 +2577,7 @@
           elements.resultsControls.style.display = "flex";
           elements.exerciseSection.style.display = "none";
           elements.resultsSection.style.display = "block";
+          elements.videoSection.style.display = 'block'; 
         }
 
         function completeExercise() {
@@ -2792,6 +2866,7 @@ Time: ${elements.resultTime.textContent} | Speed: ${elements.resultSpeed.textCon
           elements.uploadSection.style.display = "block";
           elements.exerciseSection.style.display = "none";
           elements.resultsSection.style.display = "none";
+          elements.videoSection.style.display = 'none';
           elements.exerciseControls.style.display = "none";
           elements.resultsControls.style.display = "none";
           document.body.classList.remove(
