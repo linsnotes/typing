@@ -111,6 +111,20 @@
         box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.3);
       }
 
+
+      html {
+        transition: background-color var(--transition-speed) var(--transition-function);
+      }
+
+      html.dark-mode {
+        background-color: var(--dark-bg);
+      }
+
+      html.dark-mode body {
+        background-color: var(--dark-bg); /* Keep body background consistent */
+        color: var(--dark-text);
+      }
+      
       html.dark-mode #builtInExerciseSelect {
         background-color: var(--dark-bg-tertiary);
         border-color: var(--dark-border);
